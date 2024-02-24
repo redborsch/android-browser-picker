@@ -1,8 +1,7 @@
 package com.github.redborsch.browserpicker.playground
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.github.redborsch.playground.R
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
