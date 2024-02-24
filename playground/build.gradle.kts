@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.github.redborsch.browserpicker"
+    namespace = "com.github.redborsch.playground"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.github.redborsch.browserpicker"
+        applicationId = "com.github.redborsch.browserpicker.playground"
         minSdk = 21
         targetSdk = 34
         versionCode = 1

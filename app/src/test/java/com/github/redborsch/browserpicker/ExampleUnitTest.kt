@@ -1,4 +1,4 @@
-package com.example.browserpicker
+package com.github.redborsch.browserpicker
 
 import org.junit.Test
 
