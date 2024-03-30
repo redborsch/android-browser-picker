@@ -1,20 +1,66 @@
 package com.github.redborsch.browserpicker
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.app.role.RoleManager
+import android.content.Intent
+import android.os.Build
+import android.os.Bundle
+import android.provider.Settings
+import androidx.core.os.bundleOf
+import com.github.redborsch.browserpicker.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : Activity() {
 
-    override fun onStart() {
-        super.onStart()
-        if (hasNoChooserFragment()) {
-            BrowserChooserBottomSheetFragment().show(supportFragmentManager, chooserTag)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.makeDefault.setOnClickListener {
+            makeDefault()
         }
     }
 
-    private fun hasNoChooserFragment(): Boolean =
-        supportFragmentManager.findFragmentByTag(chooserTag) == null
+    // The following code was adapted from Firefox Focus: https://github.com/mozilla-mobile/focus-android
+    private fun makeDefault() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            getSystemService(RoleManager::class.java).also {
+                if (it.isRoleAvailable(RoleManager.ROLE_BROWSER) && !it.isRoleHeld(
+                        RoleManager.ROLE_BROWSER,
+                    )
+                ) {
+                    startActivityForResult(
+                        it.createRequestRoleIntent(RoleManager.ROLE_BROWSER),
+                        REQUEST_CODE_BROWSER_ROLE,
+                    )
+                } else {
+                    navigateToDefaultBrowserAppsSettings()
+                }
+            }
+        } else {
+            navigateToDefaultBrowserAppsSettings()
+        }
+    }
+
+    private fun navigateToDefaultBrowserAppsSettings() {
+        val intent = Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
+        intent.putExtra(
+            SETTINGS_SELECT_OPTION_KEY,
+            DEFAULT_BROWSER_APP_OPTION,
+        )
+        intent.putExtra(
+            SETTINGS_SHOW_FRAGMENT_ARGS,
+            bundleOf(SETTINGS_SELECT_OPTION_KEY to DEFAULT_BROWSER_APP_OPTION),
+        )
+
+        startActivity(intent)
+    }
 
     companion object {
-        private val chooserTag = BrowserChooserBottomSheetFragment::class.qualifiedName
+        private const val REQUEST_CODE_BROWSER_ROLE = 1
+        private const val SETTINGS_SELECT_OPTION_KEY = ":settings:fragment_args_key"
+        private const val SETTINGS_SHOW_FRAGMENT_ARGS = ":settings:show_fragment_args"
+        private const val DEFAULT_BROWSER_APP_OPTION = "default_browser"
     }
 }
