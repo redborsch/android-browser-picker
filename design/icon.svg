@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="24"
+   viewBox="0 -960 960 960"
+   width="24"
+   version="1.1"
+   id="svg89"
+   sodipodi:docname="icon.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs93" />
+  <sodipodi:namedview
+     id="namedview91"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="48.041667"
+     inkscape:cx="7.2437121"
+     inkscape:cy="10.896791"
+     inkscape:window-width="2560"
+     inkscape:window-height="1362"
+     inkscape:window-x="0"
+     inkscape:window-y="120"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg89" />
+  <path
+     d="m 200,-160 c -22,0 -40.83333,-7.83333 -56.5,-23.5 C 127.83333,-199.16667 120,-218 120,-240 c 0,-22 7.83333,-40.83333 23.5,-56.5 15.66667,-15.66667 34.5,-23.5 56.5,-23.5 22,0 40.83333,7.83333 56.5,23.5 15.66667,15.66667 23.5,34.5 23.5,56.5 0,22 -7.83333,40.83333 -23.5,56.5 -15.66667,15.66667 -34.5,23.5 -56.5,23.5 z m 0,-240 c -22,0 -40.83333,-7.83333 -56.5,-23.5 C 127.83333,-439.16667 120,-458 120,-480 c 0,-22 7.83333,-40.83333 23.5,-56.5 15.66667,-15.66667 34.5,-23.5 56.5,-23.5 22,0 40.83333,7.83333 56.5,23.5 15.66667,15.66667 23.5,34.5 23.5,56.5 0,22 -7.83333,40.83333 -23.5,56.5 -15.66667,15.66667 -34.5,23.5 -56.5,23.5 z m 0,-240 c -22,0 -40.83333,-7.83333 -56.5,-23.5 C 127.83333,-679.16667 120,-698 120,-720 c 0,-22 7.83333,-40.83333 23.5,-56.5 15.66667,-15.66667 34.5,-23.5 56.5,-23.5 22,0 40.83333,7.83333 56.5,23.5 15.66667,15.66667 23.5,34.5 23.5,56.5 0,22 -7.83333,40.83333 -23.5,56.5 -15.66667,15.66667 -34.5,23.5 -56.5,23.5 z"
+     id="path87"
+     sodipodi:nodetypes="sssssssssssssssssssssssssss" />
+  <g
+     aria-label="//"
+     transform="matrix(1.1164436,0,0,1.4349613,-65.06862,257.8181)"
+     id="text418"
+     style="font-size:624.62px;stroke-width:52.0517">
+    <path
+       d="M 546.63682,-737.05232 380.4879,-291.07364 H 326.77058 L 492.9195,-737.05232 Z"
+       id="path508" />
+    <path
+       d="M 778.9953,-737.05232 612.84638,-291.07364 H 559.12906 L 725.27798,-737.05232 Z"
+       id="path510" />
+  </g>
+</svg>
