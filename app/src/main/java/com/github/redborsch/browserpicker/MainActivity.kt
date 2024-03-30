@@ -1,11 +1,20 @@
 package com.github.redborsch.browserpicker
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+    override fun onStart() {
+        super.onStart()
+        if (hasNoChooserFragment()) {
+            BrowserChooserBottomSheetFragment().show(supportFragmentManager, chooserTag)
+        }
+    }
+
+    private fun hasNoChooserFragment(): Boolean =
+        supportFragmentManager.findFragmentByTag(chooserTag) == null
+
+    companion object {
+        private val chooserTag = BrowserChooserBottomSheetFragment::class.qualifiedName
     }
 }

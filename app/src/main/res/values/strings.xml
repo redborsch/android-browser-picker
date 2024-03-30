@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Browser Picker</string>
+    <string name="open_with">Open %s with…</string>
 </resources>

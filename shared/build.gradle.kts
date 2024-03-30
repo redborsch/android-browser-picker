@@ -7,6 +7,10 @@ android {
     namespace = "com.github.redborsch.browserpicker.shared"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         minSdk = 21
 

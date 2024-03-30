@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
-
-    <RadioGroup
-        android:id="@+id/repo_selector"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/timing"
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="123 ms" />
+        tools:text="@string/open_with"
+        android:gravity="center_horizontal"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/secondary_text_dark"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/browser_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 </LinearLayout>
