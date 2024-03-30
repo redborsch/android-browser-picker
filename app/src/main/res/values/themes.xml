@@ -19,5 +19,15 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowActivityTransitions">false</item>
         <item name="android:windowEnterTransition">@null</item>
+        <item name="bottomSheetDialogTheme">@style/BrowserBottomSheetDialog</item>
+    </style>
+
+    <style name="BrowserBottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BrowserBottomSheet</item>
+    </style>
+
+    <style name="BrowserBottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="behavior_peekHeight">256dp</item>
+        <item name="android:maxWidth">640dp</item>
     </style>
 </resources>
