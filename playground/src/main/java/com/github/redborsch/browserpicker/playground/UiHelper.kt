@@ -3,7 +3,6 @@ package com.github.redborsch.browserpicker.playground
 import android.content.Intent
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.redborsch.browserpicker.playground.databinding.ActivityMainBinding
@@ -35,10 +34,7 @@ class UiHelper(
             )
             browserList.adapter = adapter
         }
-        coroutineScope.run {
-            listenToBrowserListChanges(adapter)
-            updateFetchTime(binding.timing)
-        }
+        coroutineScope.observeState(binding, adapter)
     }
 
     private fun setUpRepoSelector(radioGroup: RadioGroup) {
@@ -58,21 +54,14 @@ class UiHelper(
         }
     }
 
-    private fun CoroutineScope.listenToBrowserListChanges(
+    private fun CoroutineScope.observeState(
+        binding: ActivityMainBinding,
         adapter: BrowserListAdapter,
     ) = launch {
-        viewModel.installedBrowsers.collect {
-            adapter.browserList = it
-        }
-    }
-
-    private fun CoroutineScope.updateFetchTime(fetchTimeView: TextView) = launch {
-        viewModel.fetchTime.collect {
-            fetchTimeView.text = if (it != null) {
-                "$it ms"
-            } else {
-                ""
-            }
+        viewModel.repoData.collect { state ->
+            binding.timing.text = state.fetchTime?.let { "$it ms" } ?: ""
+            binding.count.text = "${state.browsers.size} browser(s)"
+            adapter.browserList = state.browsers
         }
     }
 }

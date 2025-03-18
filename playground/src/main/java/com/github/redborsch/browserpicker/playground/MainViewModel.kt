@@ -2,14 +2,13 @@ package com.github.redborsch.browserpicker.playground
 
 import android.app.Application
 import android.content.Context
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.redborsch.browserpicker.shared.model.BrowserData
 import com.github.redborsch.browserpicker.shared.repository.BrowserListRepository
 import com.github.redborsch.browserpicker.shared.repository.InstalledBrowserRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,11 +17,8 @@ import kotlin.system.measureTimeMillis
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _installedBrowsers = MutableStateFlow(emptyList<BrowserData>())
-    val installedBrowsers: Flow<List<BrowserData>> = _installedBrowsers.asStateFlow()
-
-    private val _fetchTime = MutableStateFlow<Long?>(null)
-    val fetchTime: StateFlow<Long?> = _fetchTime.asStateFlow()
+    private val _repoData = MutableStateFlow(RepoData())
+    val repoData: StateFlow<RepoData> = _repoData.asStateFlow()
 
     var repoType: BrowserListRepoType = BrowserListRepoType.Installed
         set(value) {
@@ -37,20 +33,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun updateBrowserList() {
-        _fetchTime.value = measureTimeMillis {
+        measureTimeMillis {
             viewModelScope.fetchBrowserList()
         }
     }
 
     private fun CoroutineScope.fetchBrowserList() = launch {
         val repo = repoType.createInstance(getApplication())
-        _installedBrowsers.value = repo.queryBrowserList(uri)
+        val browsers: List<BrowserData>
+        val fetchTime = measureTimeMillis {
+            browsers = repo.queryBrowserList(uri)
+        }
+        _repoData.value = RepoData(fetchTime, browsers)
     }
 
     companion object {
-        val uri = Uri.parse("https://www.mozilla.org/")
+        val uri = "https://x.com/Buggy__Bugler/status/1880678237887713773".toUri()
     }
 }
+
+class RepoData(
+    val fetchTime: Long? = null,
+    val browsers: List<BrowserData> = emptyList(),
+)
 
 enum class BrowserListRepoType {
     Fake {
