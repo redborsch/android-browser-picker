@@ -2,4 +2,9 @@
     <string name="app_name">Browser Picker</string>
     <string name="open_with">Open %s with…</string>
     <string name="welcome">Welcome!</string>
+    <string name="try_it_out">Try it out!</string>
+    <string name="welcome_message">This simple application allows you to choose a web browser from the installed ones when opening links - something that was made impossible in recent Android versions.</string>
+    <string name="default_browser_motivation">To work properly it needs to be made the default browser. This would allow to open links from other apps in the same way.</string>
+    <string name="make_default_browser">Make default browser</string>
+    <string name="privacy_remarks">There is no tracking or analysis of your interaction with this app, it doesn\'t send any information to any third-parties (doesn\'t even use internet permission). On top of that the full source code is available online.</string>
 </resources>

@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.github.redborsch.browserpicker.databinding.FragmentBrowserChooserBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import androidx.core.net.toUri
 
 class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment() {
 
@@ -34,5 +35,5 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment() {
     private fun retrieveUri(): Uri =
         requireActivity().intent.data
             // Should not happen!
-            ?: Uri.parse("https://mozilla.org")
+            ?: "https://mozilla.org".toUri()
 }

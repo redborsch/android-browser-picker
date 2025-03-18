@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
     <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -16,48 +15,52 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
             android:text="@string/welcome"
             android:textColor="@color/browser_name"
-            android:textSize="24sp"
-            android:fontFamily="sans-serif-medium"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="24sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This simple application allows you to choose a web browser from the installed ones when opening links - something that was disabled by default in recent Android versions. To work properly it needs to be made default browser."
-            android:textColor="@color/browser_name"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:fontFamily="sans-serif"
+            android:text="@string/welcome_message"
+            android:textColor="@color/browser_name"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/try_it_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/try_it_out" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/default_browser_motivation"
+            android:textColor="@color/browser_name"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/make_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Make default browser" />
+            android:text="@string/make_default_browser" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="There is no tracking or analysis of your interaction with this app, it doesn't send any information to any third-parties (doesn't even use internet permission). On top of that the full source code is available online."
-            android:textColor="@color/browser_name"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:fontFamily="sans-serif"
+            android:text="@string/privacy_remarks"
+            android:textColor="@color/browser_name"
+            android:textSize="18sp" />
 
     </LinearLayout>
 </FrameLayout>

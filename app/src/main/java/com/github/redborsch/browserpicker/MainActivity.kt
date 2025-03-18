@@ -3,9 +3,11 @@ package com.github.redborsch.browserpicker
 import android.app.Activity
 import android.app.role.RoleManager
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import com.github.redborsch.browserpicker.databinding.ActivityMainBinding
 
@@ -17,8 +19,21 @@ class MainActivity : Activity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tryItOut.setOnClickListener {
+            openChooser("https://play.google.com/store/apps/details?id=com.github.redborsch.browserpicker".toUri())
+        }
+
         binding.makeDefault.setOnClickListener {
             makeDefault()
+        }
+    }
+
+    private fun openChooser(url: Uri) {
+        Intent(this, ChooserActivity::class.java).apply {
+            action = Intent.ACTION_VIEW
+            data = url
+        }.let {
+            startActivity(it)
         }
     }
 

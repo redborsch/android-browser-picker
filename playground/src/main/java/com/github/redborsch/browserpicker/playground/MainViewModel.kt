@@ -48,7 +48,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     companion object {
-        val uri = "https://x.com/Buggy__Bugler/status/1880678237887713773".toUri()
+        val uri = "https://play.google.com/store/apps/details?id=com.github.redborsch.browserpicker".toUri()
     }
 }
 
