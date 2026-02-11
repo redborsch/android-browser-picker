@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        tools:context=".MainActivity">
+        android:padding="@dimen/standard_padding">
 
         <TextView
+            style="@style/BigText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="@string/welcome"
-            android:textColor="@color/browser_name"
-            android:textSize="24sp" />
+            android:text="@string/welcome" />
 
         <TextView
+            style="@style/StandardText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="sans-serif"
-            android:text="@string/welcome_message"
-            android:textColor="@color/browser_name"
-            android:textSize="18sp" />
+            android:text="@string/welcome_message" />
 
         <Button
             android:id="@+id/try_it_out"
@@ -36,31 +35,27 @@
             android:layout_height="wrap_content"
             android:text="@string/try_it_out" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="sans-serif"
-            android:text="@string/default_browser_motivation"
-            android:textColor="@color/browser_name"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/make_default"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/system_check"
+            android:name="com.github.redborsch.browserpicker.system.SystemCheckFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/make_default_browser" />
+            android:layout_marginTop="24dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <TextView
+            android:id="@+id/privacy_notes"
+            style="@style/StandardText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="sans-serif"
-            android:text="@string/privacy_remarks"
-            android:textColor="@color/browser_name"
-            android:textSize="18sp" />
+            android:text="@string/privacy_remarks" />
 
     </LinearLayout>
-</FrameLayout>
+</ScrollView>

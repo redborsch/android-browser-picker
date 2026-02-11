@@ -7,13 +7,17 @@ import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Build
 import com.github.redborsch.browserpicker.shared.model.BrowserData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class InstalledBrowserRepository(
     private val context: Context,
     private val packageToFilterOut: String? = null,
 ) : BrowserListRepository {
 
-    override suspend fun queryBrowserList(uri: Uri): List<BrowserData> {
+    override suspend fun queryBrowserList(uri: Uri): List<BrowserData> = withContext(
+        Dispatchers.Default
+    ) {
         val intent = Intent().apply {
             action = Intent.ACTION_VIEW
             data = uri
@@ -24,7 +28,7 @@ class InstalledBrowserRepository(
             0
         }
         val packageManager = context.packageManager
-        return packageManager.queryIntentActivities(intent, flags)
+        packageManager.queryIntentActivities(intent, flags)
             .asSequence()
             .maybeFilterOutPackage()
             .map {

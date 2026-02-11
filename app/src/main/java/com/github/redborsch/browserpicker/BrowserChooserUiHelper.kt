@@ -3,6 +3,7 @@ package com.github.redborsch.browserpicker
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.redborsch.browserpicker.databinding.FragmentBrowserChooserBinding
@@ -50,8 +51,13 @@ class BrowserChooserUiHelper(
     }
 
     private fun Activity.launchAndClose(intent: Intent) {
-        overridePendingTransition(0, 0)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            overrideActivityTransition(Activity.OVERRIDE_TRANSITION_OPEN, 0, 0)
+            overrideActivityTransition(Activity.OVERRIDE_TRANSITION_CLOSE, 0, 0)
+        } else {
+            overridePendingTransition(0, 0)
+        }
         startActivity(intent)
-        finish()
+        finishAndRemoveTask()
     }
 }

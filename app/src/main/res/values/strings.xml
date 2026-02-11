@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">Browser Picker</string>
+
+    <!-- Chooser Fragment -->
     <string name="open_with">Open %s with…</string>
+
+    <!-- Main screen -->
     <string name="welcome">Welcome!</string>
     <string name="try_it_out">Try it out!</string>
     <string name="welcome_message">This simple application allows you to choose a web browser from the installed ones when opening links - something that was made impossible in recent Android versions.</string>
-    <string name="default_browser_motivation">To work properly it needs to be made the default browser. This would allow to open links from other apps in the same way.</string>
+    <string name="default_browser_motivation">If you want to be able to choose a browser when opening links - make this applications your default browser. Then next time you click on links in non-browser applications, you\'ll see the similar picker.</string>
     <string name="make_default_browser">Make default browser</string>
-    <string name="privacy_remarks">There is no tracking or analysis of your interaction with this app, it doesn\'t send any information to any third-parties (doesn\'t even use internet permission). On top of that the full source code is available online.</string>
+    <string name="all_set_message">You are all set!</string>
+    <string name="enjoy_message">Enjoy using Browser Picker!</string>
+    <string name="privacy_remarks">This app does not track your interactions, doesn\'t send any information to any third-parties (doesn\'t even use internet permission). On top of that the <a href="https://github.com/redborsch/android-browser-picker">full source code</a> is available online.</string>
 </resources>

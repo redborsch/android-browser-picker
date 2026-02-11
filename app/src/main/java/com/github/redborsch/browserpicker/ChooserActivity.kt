@@ -1,8 +1,8 @@
 package com.github.redborsch.browserpicker
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 
-class ChooserActivity : AppCompatActivity() {
+class ChooserActivity : FragmentActivity() {
 
     override fun onStart() {
         super.onStart()
