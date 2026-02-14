@@ -15,7 +15,6 @@ import androidx.fragment.app.activityViewModels
 import com.github.redborsch.browserpicker.databinding.FragmentActionRequiredBinding
 import com.github.redborsch.browserpicker.shared.fragment.ViewBindingFragment
 import com.github.redborsch.browserpicker.shared.fragment.attachBinding
-import kotlin.getValue
 
 class MakeDefaultFragment : Fragment(), ViewBindingFragment<FragmentActionRequiredBinding> {
 
@@ -40,6 +39,7 @@ class MakeDefaultFragment : Fragment(), ViewBindingFragment<FragmentActionRequir
         if (requestCode == REQUEST_CODE_BROWSER_ROLE) {
             viewModel.refreshDefaultState()
         } else {
+            @Suppress("DEPRECATION")
             super.onActivityResult(requestCode, resultCode, data)
         }
     }
@@ -52,6 +52,7 @@ class MakeDefaultFragment : Fragment(), ViewBindingFragment<FragmentActionRequir
                         RoleManager.ROLE_BROWSER,
                     )
                 ) {
+                    @Suppress("DEPRECATION")
                     startActivityForResult(
                         it.createRequestRoleIntent(RoleManager.ROLE_BROWSER),
                         REQUEST_CODE_BROWSER_ROLE,

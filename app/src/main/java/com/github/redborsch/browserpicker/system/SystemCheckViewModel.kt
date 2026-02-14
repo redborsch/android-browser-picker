@@ -35,9 +35,11 @@ class SystemCheckViewModel(application: Application) : AndroidViewModel(applicat
 
     private fun queryDefaultBrowserPackageName(): String {
         val intent = Intent(Intent.ACTION_VIEW, "http://".toUri())
-        val resolveInfo = context.packageManager.resolveActivity(intent,
-            PackageManager.MATCH_DEFAULT_ONLY)
-        return resolveInfo?.run { activityInfo.packageName } ?: ""
+        val resolveInfo = context.packageManager.resolveActivity(
+            intent,
+            PackageManager.MATCH_DEFAULT_ONLY
+        )
+        return resolveInfo?.run { activityInfo.packageName } ?: "unknown"
     }
 
     private fun isDefaultBrowser(): Boolean =

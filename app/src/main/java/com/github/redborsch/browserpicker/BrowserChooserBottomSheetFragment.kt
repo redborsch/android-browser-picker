@@ -14,7 +14,9 @@ import com.github.redborsch.browserpicker.shared.fragment.ViewBindingFragment
 import com.github.redborsch.browserpicker.shared.fragment.attachBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment(), ViewBindingFragment<FragmentBrowserChooserBinding> {
+class BrowserChooserBottomSheetFragment :
+    BottomSheetDialogFragment(),
+    ViewBindingFragment<FragmentBrowserChooserBinding> {
 
     private val viewModel: BrowserChooserViewModel by activityViewModels()
 

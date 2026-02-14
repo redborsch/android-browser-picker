@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.BrowserPicker" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -7,7 +7,7 @@
 
     <style name="Theme.BrowserPicker" parent="Base.Theme.BrowserPicker" />
 
-    <style name="Theme.BrowserPicker.Transparent" parent="Base.Theme.BrowserPicker" >
+    <style name="Theme.BrowserPicker.Transparent" parent="Base.Theme.BrowserPicker">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowContentOverlay">@null</item>
