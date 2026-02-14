@@ -25,6 +25,6 @@
         android:layout_gravity="center_vertical"
         android:paddingStart="4dp"
         android:textSize="18sp"
-        android:textColor="@color/browser_name"
+        android:textColor="@color/normal_text"
         tools:text="Browser Name" />
 </LinearLayout>

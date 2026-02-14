@@ -2,7 +2,7 @@
 <resources>
 
     <style name="StandardText">
-        <item name="android:textColor">@color/browser_name</item>
+        <item name="android:textColor">@color/normal_text</item>
         <item name="android:textSize">18sp</item>
     </style>
 
