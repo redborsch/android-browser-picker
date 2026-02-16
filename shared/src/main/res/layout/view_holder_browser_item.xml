@@ -18,12 +18,11 @@
         android:importantForAccessibility="no" />
 
     <TextView
+        style="@style/BrowserNameText"
         android:id="@+id/browser_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:paddingStart="4dp"
-        android:textSize="18sp"
-        android:textColor="@color/normal_text"
         tools:text="Browser Name" />
 </LinearLayout>

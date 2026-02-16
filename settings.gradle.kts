@@ -15,5 +15,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Browser Picker"
 include(":app")
+include(":common")
 include(":playground")
 include(":shared")

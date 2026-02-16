@@ -1,6 +1,7 @@
 package com.github.redborsch.browserpicker
 
 import androidx.fragment.app.FragmentActivity
+import com.github.redborsch.browserpicker.chooser.BrowserChooserBottomSheetFragment
 
 class ChooserActivity : FragmentActivity() {
 

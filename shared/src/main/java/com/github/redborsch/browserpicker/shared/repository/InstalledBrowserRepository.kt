@@ -1,11 +1,11 @@
 package com.github.redborsch.browserpicker.shared.repository
 
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Build
+import com.github.redborsch.browserpicker.shared.system.createViewIntent
 import com.github.redborsch.browserpicker.shared.model.BrowserData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,10 +18,7 @@ class InstalledBrowserRepository(
     override suspend fun queryBrowserList(uri: Uri): List<BrowserData> = withContext(
         Dispatchers.Default
     ) {
-        val intent = Intent().apply {
-            action = Intent.ACTION_VIEW
-            data = uri
-        }
+        val intent = createViewIntent(uri)
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PackageManager.MATCH_ALL
         } else {

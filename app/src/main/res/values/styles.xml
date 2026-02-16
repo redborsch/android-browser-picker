@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="StandardText" parent="TextAppearance.AppCompat.Menu" />
 
-    <style name="StandardText">
-        <item name="android:textColor">@color/normal_text</item>
-        <item name="android:textSize">18sp</item>
+    <style name="LightText" parent="StandardText">
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
-    <style name="BigText" parent="StandardText">
-        <item name="android:textSize">24sp</item>
+    <style name="MediumText" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 </resources>

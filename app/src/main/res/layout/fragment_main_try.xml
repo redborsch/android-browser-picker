@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/standard_padding">
+
+    <TextView
+        style="@style/StandardText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/welcome_message" />
+
+    <Button
+        android:id="@+id/try_it_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/try_it_out" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
+        android:name="com.github.redborsch.browserpicker.setup.SetupFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/setup_into"
+        style="@style/StandardText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/setup_intro"
+        android:drawablePadding="4dp"
+        app:drawableStartCompat="@drawable/arrow_upward_24" />
+
+    <com.github.redborsch.widget.LinkTextView
+        android:id="@+id/privacy_notes"
+        style="@style/LightText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/privacy_remarks" />
+</LinearLayout>
+

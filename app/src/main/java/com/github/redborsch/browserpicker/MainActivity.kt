@@ -1,39 +1,30 @@
 package com.github.redborsch.browserpicker
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import androidx.core.net.toUri
-import androidx.core.text.method.LinkMovementMethodCompat
-import androidx.fragment.app.FragmentActivity
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.github.redborsch.browserpicker.databinding.ActivityMainBinding
-import com.github.redborsch.browserpicker.shared.utils.fragment.setContentView
+import com.github.redborsch.browserpicker.main.NavigationHandler
+import com.github.redborsch.browserpicker.model.SetupViewModel
+import com.github.redborsch.binding.setContentView
 
-class MainActivity : FragmentActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val setupViewModel = viewModels<SetupViewModel>().value
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding)
 
         binding.setUp()
+        NavigationHandler(this, binding, setupViewModel).setUp(savedInstanceState)
+
+        lifecycle.addObserver(setupViewModel.createRefresher())
     }
 
-    fun ActivityMainBinding.setUp() {
-        tryItOut.setOnClickListener {
-            openChooser("https://redborsch.github.io/android-browser-picker/".toUri())
-        }
-
-        privacyNotes.movementMethod = LinkMovementMethodCompat.getInstance()
-    }
-
-    private fun openChooser(url: Uri) {
-        Intent(this, ChooserActivity::class.java).apply {
-            action = Intent.ACTION_VIEW
-            data = url
-        }.let {
-            startActivity(it)
-        }
+    private fun ActivityMainBinding.setUp() {
+        setSupportActionBar(toolbar)
     }
 }
