@@ -4,6 +4,6 @@ The truth is, Browser Picker might not even launch for certain links. For exampl
 
 The good news is that it can be easily disabled - please see the video below.
 
-
+https://github.com/user-attachments/assets/ab4fed21-9ea1-44a2-9412-8a7e9b5110c4
 
 Please note that you'd need to do this for each application that handles certain link types.
