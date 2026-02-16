@@ -7,3 +7,7 @@ Benefits:
 - Support for the latest Android versions
 
 Published on [Google Play](https://play.google.com/store/apps/details?id=com.github.redborsch.browserpicker).
+
+### Troubleshooting
+
+[Browser Picker doesn't show the browser menu when clicking on some links](troubleshooting/verified-links.md)
