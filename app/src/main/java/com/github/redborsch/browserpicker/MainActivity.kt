@@ -7,7 +7,7 @@ import androidx.core.net.toUri
 import androidx.core.text.method.LinkMovementMethodCompat
 import androidx.fragment.app.FragmentActivity
 import com.github.redborsch.browserpicker.databinding.ActivityMainBinding
-import com.github.redborsch.browserpicker.shared.fragment.setContentView
+import com.github.redborsch.browserpicker.shared.utils.fragment.setContentView
 
 class MainActivity : FragmentActivity() {
 

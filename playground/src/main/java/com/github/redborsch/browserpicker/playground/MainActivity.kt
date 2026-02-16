@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.github.redborsch.browserpicker.playground.databinding.ActivityMainBinding
-import com.github.redborsch.browserpicker.shared.fragment.setContentView
+import com.github.redborsch.browserpicker.shared.utils.fragment.setContentView
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +17,6 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding)
 
-        UiHelper(viewModel).setUp(binding, lifecycleScope)
+        UiHelper(viewModel).setUp(binding, this)
     }
 }

@@ -3,13 +3,13 @@ package com.github.redborsch.browserpicker.shared.ui
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.github.redborsch.browserpicker.shared.databinding.ViewHolderBrowserItemBinding
 import com.github.redborsch.browserpicker.shared.model.BrowserData
-import kotlinx.coroutines.CoroutineScope
 
 class BrowserListAdapter(
-    private val coroutineScope: CoroutineScope,
+    private val lifecycleOwner: LifecycleOwner,
     private val onBrowserSelectedListener: OnBrowserSelectedListener,
 ) : RecyclerView.Adapter<BrowserItemViewHolder>() {
 
@@ -29,7 +29,7 @@ class BrowserListAdapter(
     override fun getItemCount(): Int = browserList.size
 
     override fun onBindViewHolder(holder: BrowserItemViewHolder, position: Int) =
-        holder.update(browserList[position], coroutineScope)
+        holder.update(browserList[position], lifecycleOwner)
 
     override fun onViewRecycled(holder: BrowserItemViewHolder) {
         holder.recycle()

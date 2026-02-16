@@ -13,8 +13,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.redborsch.browserpicker.databinding.FragmentActionRequiredBinding
-import com.github.redborsch.browserpicker.shared.fragment.ViewBindingFragment
-import com.github.redborsch.browserpicker.shared.fragment.attachBinding
+import com.github.redborsch.browserpicker.shared.utils.fragment.ViewBindingFragment
+import com.github.redborsch.browserpicker.shared.utils.fragment.attachBinding
 
 class MakeDefaultFragment : Fragment(), ViewBindingFragment<FragmentActionRequiredBinding> {
 

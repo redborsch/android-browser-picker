@@ -1,14 +1,15 @@
 package com.github.redborsch.browserpicker.playground
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.redborsch.browserpicker.playground.databinding.ActivityMainBinding
 import com.github.redborsch.browserpicker.shared.ui.BrowserListAdapter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import com.github.redborsch.browserpicker.shared.utils.lifecycle.launchOnEachStart
 
 class UiHelper(
     private val viewModel: MainViewModel,
@@ -16,9 +17,9 @@ class UiHelper(
 
     fun setUp(
         binding: ActivityMainBinding,
-        coroutineScope: CoroutineScope,
+        lifecycleOwner: LifecycleOwner,
     ) {
-        val adapter = BrowserListAdapter(coroutineScope) {
+        val adapter = BrowserListAdapter(lifecycleOwner) {
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = MainViewModel.uri
                 setPackage(it.packageName)
@@ -34,7 +35,7 @@ class UiHelper(
             )
             browserList.adapter = adapter
         }
-        coroutineScope.observeState(binding, adapter)
+        lifecycleOwner.observeState(binding, adapter)
     }
 
     private fun setUpRepoSelector(radioGroup: RadioGroup) {
@@ -54,10 +55,11 @@ class UiHelper(
         }
     }
 
-    private fun CoroutineScope.observeState(
+    @SuppressLint("SetTextI18n")
+    private fun LifecycleOwner.observeState(
         binding: ActivityMainBinding,
         adapter: BrowserListAdapter,
-    ) = launch {
+    ) = launchOnEachStart {
         viewModel.repoData.collect { state ->
             binding.timing.text = state.fetchTime?.let { "$it ms" } ?: ""
             binding.count.text = "${state.browsers.size} browser(s)"

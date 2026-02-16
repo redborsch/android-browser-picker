@@ -2,7 +2,7 @@
     <string name="app_name">Browser Picker</string>
 
     <!-- Chooser Fragment -->
-    <string name="open_with">Open %s with…</string>
+    <string name="open">Open</string>
 
     <!-- Main screen -->
     <string name="welcome">Welcome!</string>

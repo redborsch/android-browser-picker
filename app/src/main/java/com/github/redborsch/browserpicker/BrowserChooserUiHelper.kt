@@ -4,12 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.redborsch.browserpicker.databinding.FragmentBrowserChooserBinding
 import com.github.redborsch.browserpicker.shared.ui.BrowserListAdapter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import com.github.redborsch.browserpicker.shared.utils.lifecycle.launchOnEachStart
 
 class BrowserChooserUiHelper(
     private val viewModel: BrowserChooserViewModel,
@@ -18,12 +18,12 @@ class BrowserChooserUiHelper(
     fun setUp(
         activity: Activity,
         binding: FragmentBrowserChooserBinding,
-        coroutineScope: CoroutineScope,
+        lifecycleOwner: LifecycleOwner,
         uri: Uri,
     ) {
         viewModel.updateBrowserList(uri)
 
-        val adapter = BrowserListAdapter(coroutineScope) {
+        val adapter = BrowserListAdapter(lifecycleOwner) {
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = uri
                 setPackage(it.packageName)
@@ -31,7 +31,7 @@ class BrowserChooserUiHelper(
             activity.launchAndClose(intent)
         }
         with(binding) {
-            header.text = activity.getString(R.string.open_with, uri.toString())
+            link.text = uri.toString()
             browserList.layoutManager = LinearLayoutManager(
                 activity,
                 RecyclerView.VERTICAL,
@@ -39,12 +39,12 @@ class BrowserChooserUiHelper(
             )
             browserList.adapter = adapter
         }
-        coroutineScope.listenToBrowserListChanges(adapter)
+        lifecycleOwner.listenToBrowserListChanges(adapter)
     }
 
-    private fun CoroutineScope.listenToBrowserListChanges(
+    private fun LifecycleOwner.listenToBrowserListChanges(
         adapter: BrowserListAdapter,
-    ) = launch {
+    ) = launchOnEachStart {
         viewModel.installedBrowsers.collect {
             adapter.browserList = it
         }
@@ -59,6 +59,8 @@ class BrowserChooserUiHelper(
             overridePendingTransition(0, 0)
         }
         startActivity(intent)
-        finishAndRemoveTask()
+        finish()
+        // TODO make optional
+        // finishAndRemoveTask()
     }
 }

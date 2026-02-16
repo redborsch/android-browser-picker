@@ -1,11 +1,11 @@
 package com.github.redborsch.browserpicker.shared.ui
 
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.github.redborsch.browserpicker.shared.databinding.ViewHolderBrowserItemBinding
 import com.github.redborsch.browserpicker.shared.model.BrowserData
-import kotlinx.coroutines.CoroutineScope
+import com.github.redborsch.browserpicker.shared.utils.lifecycle.launchOnEachStart
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 class BrowserItemViewHolder(
     private val binding: ViewHolderBrowserItemBinding,
@@ -28,12 +28,12 @@ class BrowserItemViewHolder(
         }
     }
 
-    fun update(browserData: BrowserData, coroutineScope: CoroutineScope) {
+    fun update(browserData: BrowserData, lifecycleOwner: LifecycleOwner) {
         this.browserData = browserData
 
         binding.browserName.text = browserData.name
         binding.browserIcon.setImageDrawable(null)
-        lastJob = coroutineScope.launch {
+        lastJob = lifecycleOwner.launchOnEachStart {
             browserData.icon.collect {
                 binding.browserIcon.setImageDrawable(it)
             }

@@ -7,13 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commitNow
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.github.redborsch.browserpicker.databinding.FragmentSystemCheckBinding
-import com.github.redborsch.browserpicker.shared.fragment.ViewBindingFragment
-import com.github.redborsch.browserpicker.shared.fragment.attachBinding
-import kotlinx.coroutines.launch
+import com.github.redborsch.browserpicker.shared.utils.fragment.ViewBindingFragment
+import com.github.redborsch.browserpicker.shared.utils.fragment.attachBinding
+import com.github.redborsch.browserpicker.shared.utils.lifecycle.launchOnEachStart
 import kotlin.reflect.KClass
 
 class SystemCheckFragment : Fragment(), ViewBindingFragment<FragmentSystemCheckBinding> {
@@ -29,16 +26,14 @@ class SystemCheckFragment : Fragment(), ViewBindingFragment<FragmentSystemCheckB
     )
 
     override fun FragmentSystemCheckBinding.setUp() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isDefault.collect {
-                    val fragmentClass = when (it) {
-                        null -> ProgressFragment::class
-                        false -> MakeDefaultFragment::class
-                        true -> AllSetFragment::class
-                    }
-                    replaceCurrentFragment(fragmentClass, fragmentHost)
+        viewLifecycleOwner.launchOnEachStart {
+            viewModel.isDefault.collect {
+                val fragmentClass = when (it) {
+                    null -> ProgressFragment::class
+                    false -> MakeDefaultFragment::class
+                    true -> AllSetFragment::class
                 }
+                replaceCurrentFragment(fragmentClass, fragmentHost)
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.github.redborsch.browserpicker.shared.fragment
+package com.github.redborsch.browserpicker.shared.utils.fragment
 
 import android.app.Activity
 import android.view.View
