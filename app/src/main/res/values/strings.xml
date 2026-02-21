@@ -17,12 +17,15 @@
     <string name="all_set_message">You are all set!</string>
     <string name="enjoy_message">Enjoy using Browser Picker!</string>
     <string name="setup_note">Experiencing issues? Please check <a href="https://redborsch.github.io/android-browser-picker/#troubleshooting">the troubleshooting page</a>.</string>
-    <string name="error_title">Cannot open settings</string>
-    <string name="error_explanation">Unfortunately, your device might have non-standard settings or has default apps settings disabled.\n\nYou can still try making Browser Picker default browser yourself.</string>
+    <string name="setup_error_title">Cannot open settings</string>
+    <string name="setup_error_explanation">Unfortunately, your device might have non-standard settings or has default apps settings disabled.\n\nYou can still try making Browser Picker default browser yourself.</string>
 
+    <!-- Settings -->
+    <string name="settings_reset_warning_title">Reset settings?</string>
+    <string name="settings_reset_warning_explanation">Settings will be reset to their default values, all customizations will be lost.</string>
     <!-- Settings menu -->
     <string name="menu_try">Test it!</string>
-    <string name="menu_reset_preferences">Reset preferences…</string>
+    <string name="menu_reset_settings">Reset settings…</string>
 
     <!-- Navigation -->
     <string name="menu_setup">Setup</string>

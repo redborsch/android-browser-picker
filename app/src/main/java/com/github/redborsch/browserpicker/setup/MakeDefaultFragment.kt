@@ -20,7 +20,7 @@ class MakeDefaultFragment : ViewBindingFragment<FragmentSetupActionRequiredBindi
         }
         onSettingsLaunchFailed {
             childFragmentManager.showDialog(defaultFragmentTag) {
-                SettingsErrorDialogFragment()
+                OpenSettingsErrorDialogFragment()
             }
         }
     }

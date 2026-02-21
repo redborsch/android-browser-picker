@@ -1,4 +1,4 @@
-package com.github.redborsch.browserpicker.main
+package com.github.redborsch.browserpicker.settings
 
 import android.content.Context
 import android.os.Bundle
@@ -59,11 +59,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun resetPreferences() {
-        val context = context ?: return
-        // TODO show dialog
-        Settings.getInstance(context).clear()
-
-        (activity as? Host)?.onSettingsReset()
+        childFragmentManager.showDialog(defaultFragmentTag) {
+            ClearSettingsWarningDialogFragment()
+        }
     }
 
     override fun onPreferenceDisplayDialog(
@@ -87,6 +85,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     interface Host {
+        /**
+         * We cannot simply reload [PreferenceFragmentCompat], so need Activity to replace it
+         * with a new instance.
+         */
         fun onSettingsReset()
     }
 }

@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.redborsch.binding.setContentView
 import com.github.redborsch.browserpicker.databinding.ActivityMainBinding
 import com.github.redborsch.browserpicker.main.NavigationHandler
-import com.github.redborsch.browserpicker.main.SettingsFragment
+import com.github.redborsch.browserpicker.settings.SettingsFragment
 import com.github.redborsch.browserpicker.model.SetupViewModel
 
 class MainActivity : AppCompatActivity(), SettingsFragment.Host {

@@ -3,6 +3,7 @@ package com.github.redborsch.browserpicker.main
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.github.redborsch.browserpicker.R
+import com.github.redborsch.browserpicker.settings.SettingsFragment
 import kotlin.reflect.KClass
 
 class NavigationItem(

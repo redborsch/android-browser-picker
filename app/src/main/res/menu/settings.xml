@@ -7,6 +7,6 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_reset_preferences"
-        android:title="@string/menu_reset_preferences"
+        android:title="@string/menu_reset_settings"
         app:showAsAction="never" />
 </menu>
