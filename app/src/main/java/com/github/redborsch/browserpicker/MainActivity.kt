@@ -3,12 +3,15 @@ package com.github.redborsch.browserpicker
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.github.redborsch.binding.setContentView
 import com.github.redborsch.browserpicker.databinding.ActivityMainBinding
 import com.github.redborsch.browserpicker.main.NavigationHandler
+import com.github.redborsch.browserpicker.main.SettingsFragment
 import com.github.redborsch.browserpicker.model.SetupViewModel
-import com.github.redborsch.binding.setContentView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SettingsFragment.Host {
+
+    private lateinit var navigationHandler: NavigationHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,12 +22,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding)
 
         binding.setUp()
-        NavigationHandler(this, binding, setupViewModel).setUp(savedInstanceState)
+        navigationHandler = NavigationHandler(this, binding, setupViewModel).apply {
+            setUp(savedInstanceState)
+        }
 
         lifecycle.addObserver(setupViewModel.createRefresher())
     }
 
     private fun ActivityMainBinding.setUp() {
         setSupportActionBar(toolbar)
+    }
+
+    override fun onSettingsReset() {
+        navigationHandler.resetCurrentFragment()
     }
 }

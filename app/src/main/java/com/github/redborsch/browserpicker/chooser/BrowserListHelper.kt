@@ -16,10 +16,13 @@ import com.github.redborsch.browserpicker.shared.model.BrowserData
 import com.github.redborsch.browserpicker.shared.system.createViewIntent
 import com.github.redborsch.browserpicker.shared.ui.BrowserListAdapter
 import com.github.redborsch.lifecycle.launchOnEachStart
+import com.github.redborsch.log.getLogger
 
 class BrowserListHelper(
     private val viewModel: BrowserChooserViewModel,
 ) {
+
+    private val log = getLogger()
 
     fun setUp(
         fragment: Fragment,
@@ -60,7 +63,8 @@ class BrowserListHelper(
         activity.disablePendingTransitions()
         try {
             activity.startActivity(intent)
-        } catch (_: ActivityNotFoundException) {
+        } catch (e: ActivityNotFoundException) {
+            log.e(e) { "Error opening $intent, browser $browserData" }
             Toast.makeText(
                 activity,
                 getString(R.string.open_error, browserData.name),

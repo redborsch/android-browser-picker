@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings Keys -->
+    <string name="pref_key_keep_in_recents">KeepInRecents</string>
+    <string name="pref_key_test_url">TestURL</string>
+</resources>

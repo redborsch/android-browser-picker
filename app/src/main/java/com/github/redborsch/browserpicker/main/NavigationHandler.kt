@@ -8,7 +8,9 @@ import androidx.fragment.app.FragmentActivity
 import com.github.redborsch.browserpicker.R
 import com.github.redborsch.browserpicker.databinding.ActivityMainBinding
 import com.github.redborsch.browserpicker.model.SetupViewModel
+import com.github.redborsch.fragment.defaultFragmentTag
 import com.github.redborsch.fragment.replaceCurrentFragment
+import com.github.redborsch.fragment.resetCurrentFragment
 import com.github.redborsch.lifecycle.launchOnEachStart
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -27,9 +29,16 @@ class NavigationHandler(
         binding.bottomNavigation.setUp(savedInstanceState)
     }
 
+    fun resetCurrentFragment() {
+        activity.supportFragmentManager.resetCurrentFragment(
+            activity.defaultFragmentTag, binding.fragmentHost
+        )
+    }
+
     private fun navigateTo(@IdRes itemId: Int): Boolean {
         val item = navigationModel.findItem(itemId) ?: return false
         activity.supportFragmentManager.replaceCurrentFragment(
+            activity.defaultFragmentTag,
             item.fragmentClass,
             binding.fragmentHost,
         )

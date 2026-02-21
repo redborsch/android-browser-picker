@@ -22,8 +22,14 @@
 
     <!-- Settings menu -->
     <string name="menu_try">Test it!</string>
+    <string name="menu_reset_preferences">Reset preferences…</string>
 
     <!-- Navigation -->
     <string name="menu_setup">Setup</string>
     <string name="menu_settings">Settings</string>
+
+    <!-- URL validation -->
+    <string name="url_validation_error_empty">URL cannot be empty</string>
+    <string name="url_validation_error_scheme">URL must start with http:// or https://</string>
+    <string name="url_validation_error_general">Invalid URL</string>
 </resources>

@@ -5,6 +5,8 @@ import com.github.redborsch.browserpicker.databinding.FragmentSetupActionRequire
 import com.github.redborsch.browserpicker.model.SetupViewModel
 import com.github.redborsch.browserpicker.shared.system.DefaultBrowserAction
 import com.github.redborsch.binding.ViewBindingFragment
+import com.github.redborsch.fragment.defaultFragmentTag
+import com.github.redborsch.fragment.showDialog
 
 class MakeDefaultFragment : ViewBindingFragment<FragmentSetupActionRequiredBinding>(
     FragmentSetupActionRequiredBinding::inflate
@@ -17,7 +19,9 @@ class MakeDefaultFragment : ViewBindingFragment<FragmentSetupActionRequiredBindi
             viewModel.refreshDefaultState()
         }
         onSettingsLaunchFailed {
-            SettingsErrorDialogFragment().show(childFragmentManager, null)
+            childFragmentManager.showDialog(defaultFragmentTag) {
+                SettingsErrorDialogFragment()
+            }
         }
     }
 

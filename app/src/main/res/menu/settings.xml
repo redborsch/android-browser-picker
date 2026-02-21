@@ -5,4 +5,8 @@
         android:id="@+id/menu_test_it"
         android:title="@string/menu_try"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_reset_preferences"
+        android:title="@string/menu_reset_preferences"
+        app:showAsAction="never" />
 </menu>

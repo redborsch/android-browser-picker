@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import com.github.redborsch.log.getLogger
 
 class DefaultBrowserAction(
     strategy: DefaultBrowserActionStrategy,
@@ -39,6 +40,8 @@ private class DefaultStrategy(
     private val fragment: Fragment,
 ) : DefaultBrowserActionStrategy {
 
+    private val log = getLogger()
+
     private var onSettingsLaunchFailed: OnSettingsLaunchFailed? = null
 
     override fun launchDefaultBrowserSettings() {
@@ -58,6 +61,7 @@ private class DefaultStrategy(
         try {
             fragment.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
+            log.e(e) { "Error opening settings" }
             onSettingsLaunchFailed?.invoke(e)
         }
     }
@@ -83,7 +87,10 @@ private class RoleManagerStrategy(
     private val backupStrategy: DefaultBrowserActionStrategy,
 ) : DefaultBrowserActionStrategy {
 
+    private val log = getLogger()
+
     private val defaultBrowserRequest = fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        log.v { "Activity result: $it" }
         if (it.resultCode == Activity.RESULT_CANCELED) {
             val hasAppeared = appearanceMonitor.consumeHasAppeared()
             if (!hasAppeared) {
@@ -105,6 +112,7 @@ private class RoleManagerStrategy(
         val context = fragment.context ?: return
         appearanceMonitor.startMonitoring()
         defaultBrowserRequest.launch(context.roleManager.createBrowserRoleIntent())
+        log.v { "Requested browser role" }
     }
 
     override fun onBrowserRequestSucceeded(block: () -> Unit) {

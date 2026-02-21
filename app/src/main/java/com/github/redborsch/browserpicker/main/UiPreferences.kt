@@ -3,28 +3,20 @@ package com.github.redborsch.browserpicker.main
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import androidx.core.content.edit
+import com.github.redborsch.preferences.AbstractPreferences
 
 class UiPreferences(
-    private val context: Context,
+    context: Context,
     private val nameSuffix: String,
-) {
+) : AbstractPreferences() {
 
-    private val prefs: SharedPreferences
+    override val appContext: Context = context.applicationContext
+
+    override val sharedPreferences: SharedPreferences
         get() {
-            val name = "${context.packageName}$nameSuffix"
-            return context.getSharedPreferences(name, MODE_PRIVATE)
+            val name = "${appContext.packageName}$nameSuffix"
+            return appContext.getSharedPreferences(name, MODE_PRIVATE)
         }
 
-    var defaultScreen: String?
-        get() = prefs.getString(KEY_DEFAULT_SCREEN, null)
-        set(value) {
-            prefs.edit {
-                putString(KEY_DEFAULT_SCREEN, value)
-            }
-        }
-
-    companion object {
-        private const val KEY_DEFAULT_SCREEN = "defaultScreen"
-    }
+    var defaultScreen: String? by stringOrNullPref("DefaultScreen")
 }
