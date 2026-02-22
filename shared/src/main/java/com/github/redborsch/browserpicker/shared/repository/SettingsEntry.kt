@@ -1,39 +1,52 @@
 package com.github.redborsch.browserpicker.shared.repository
 
-data class SettingsEntry(
+import kotlin.math.abs
+
+class SettingsEntry(
     val appPackage: String,
     val visible: Boolean,
     val order: Int,
 ) {
+
+    init {
+        require(order >= 0) {
+            "The order cannot be negative as it will break the serialization logic"
+        }
+        require(order < Int.MAX_VALUE) {
+            "The order cannot exceed ${Int.MAX_VALUE - 1}"
+        }
+    }
+
     fun serialize(): String = buildString {
         append(appPackage)
         append(PACKAGE_SEPARATOR)
-        append(visible.serialize())
-        append(DATA_SEPARATOR)
-        append(order)
+        // Avoid 0, which is unsigned
+        val orderToSerializer = order + 1
+        if (visible) {
+            append(orderToSerializer)
+        } else {
+            append(-orderToSerializer)
+        }
     }
 
     companion object {
         private const val PACKAGE_SEPARATOR = '|'
-        private const val DATA_SEPARATOR = ','
 
-        private const val INDEX_VISIBILITY = 0
-        private const val INDEX_ORDER = 1
-
-        fun deserialize(serialized: String): SettingsEntry {
+        fun deserialize(serialized: String): SettingsEntry? {
             val packageSeparatorIndex = serialized.indexOf(PACKAGE_SEPARATOR)
-            val appPackage = serialized.substring(0, packageSeparatorIndex)
-
-            var visible = false
-            var order = 0
-
-            parseData(serialized, packageSeparatorIndex + 1) { index, value ->
-                when (index) {
-                    INDEX_VISIBILITY -> visible = value.deserializeBoolean()
-                    INDEX_ORDER -> order = value.deserializeIntSafe()
-                    else -> return@parseData
-                }
+            // Also ignore empty package
+            if (packageSeparatorIndex <= 0) {
+                return null
             }
+            val appPackage = serialized.substring(0, packageSeparatorIndex)
+            if (appPackage.isBlank()) {
+                return null
+            }
+            val orderAndVisibility = serialized.substring(packageSeparatorIndex + 1)
+
+            val deserializedOrder = orderAndVisibility.deserializeIntSafe()
+            val visible = deserializedOrder >= 0
+            val order = abs(deserializedOrder) - 1
 
             return SettingsEntry(
                 appPackage,
@@ -42,23 +55,11 @@ data class SettingsEntry(
             )
         }
 
-        private fun Boolean.serialize(): Char = if (this) '1' else '0'
-        private fun String.deserializeBoolean(): Boolean = this == "1"
         private fun String.deserializeIntSafe(): Int = runCatching {
             toInt()
-        }.getOrElse { 0 }
-
-        private inline fun parseData(serialized: String, start: Int, onData: (index: Int, value: String) -> Unit) {
-            var index = 0
-            var lastDataStart = start
-            val length = serialized.length
-            for (i in start..length) {
-                if (i == length || serialized[i] == DATA_SEPARATOR) {
-                    val value = serialized.substring(lastDataStart, i)
-                    onData(index++, value)
-                    lastDataStart = i + 1
-                }
-            }
+        }.getOrElse {
+            // Note: should not be 0 as it will be decreased by 1
+            1
         }
     }
 }
