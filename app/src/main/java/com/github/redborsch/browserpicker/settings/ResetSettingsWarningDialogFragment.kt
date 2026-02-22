@@ -7,7 +7,7 @@ import androidx.fragment.app.DialogFragment
 import com.github.redborsch.browserpicker.R
 import com.github.redborsch.browserpicker.common.Settings
 
-class ClearSettingsWarningDialogFragment : DialogFragment() {
+class ResetSettingsWarningDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         AlertDialog.Builder(requireContext())

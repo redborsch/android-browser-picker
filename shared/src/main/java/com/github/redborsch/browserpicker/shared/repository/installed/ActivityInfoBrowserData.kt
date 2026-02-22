@@ -1,4 +1,4 @@
-package com.github.redborsch.browserpicker.shared.repository
+package com.github.redborsch.browserpicker.shared.repository.installed
 
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager

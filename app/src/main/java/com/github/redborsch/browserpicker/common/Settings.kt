@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.github.redborsch.browserpicker.R
+import com.github.redborsch.browserpicker.shared.repository.BrowserListSettings
+import com.github.redborsch.preferences.AbstractPreference
 import com.github.redborsch.preferences.AbstractPreferences
 
 class Settings(
@@ -24,6 +26,8 @@ class Settings(
         R.bool.pref_default_keep_in_recents
     )
 
+    var browserList: BrowserListSettings by BrowserListPreference("BrowserList")
+
     companion object {
 
         private var instance: Settings? = null
@@ -37,3 +41,35 @@ class Settings(
         }
     }
 }
+
+class BrowserListPreference(override val key: String) : AbstractPreference<BrowserListSettings>() {
+
+    override val defaultValue: BrowserListSettings
+        get() = BrowserListSettings(0)
+
+    override fun SharedPreferences.read(): BrowserListSettings {
+        return getStringSet(key, null)?.let {
+            BrowserListSettings.deserialize(it)
+        } ?: defaultValue
+    }
+
+    override fun SharedPreferences.Editor.write(
+        value: BrowserListSettings
+    ) {
+        putStringSet(key, value.serialize())
+    }
+}
+
+/*
+
+package=visible,order
+
+my.package|1,0
+
+com.github.redborsch.browserpicker.internal.copy
+com.github.redborsch.browserpicker.internal.share
+com.github.redborsch.browserpicker.internal.unknown-browsers
+
+new browsers?
+
+ */

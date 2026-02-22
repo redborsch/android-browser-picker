@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <SwitchPreferenceCompat
-        android:defaultValue="@bool/pref_default_keep_in_recents"
-        android:key="@string/pref_key_keep_in_recents"
-        android:summary="@string/pref_summary_keep_in_recents"
-        android:title="@string/pref_title_keep_in_recents" />
-    <EditTextPreference
-        android:defaultValue="@string/pref_default_test_url"
-        android:dialogLayout="@layout/preference_dialog_edittext_with_errors"
-        android:dialogMessage="@string/pref_dialog_message_test_url"
-        android:dialogTitle="@string/pref_dialog_title_test_url"
-        android:key="@string/pref_key_test_url"
-        android:title="@string/pref_title_test_url"
-        app:useSimpleSummaryProvider="true" />
+
+    <Preference
+        android:key="@string/pref_key_browser_list_launcher"
+        android:title="@string/pref_title_customize_browser_list"
+        android:persistent="false" />
+
+    <PreferenceCategory
+        android:title="@string/settings_category_behavior">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="@bool/pref_default_keep_in_recents"
+            android:key="@string/pref_key_keep_in_recents"
+            android:summary="@string/pref_summary_keep_in_recents"
+            android:title="@string/pref_title_keep_in_recents" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_category_testing">
+
+        <EditTextPreference
+            android:defaultValue="@string/pref_default_test_url"
+            android:dialogLayout="@layout/preference_dialog_edittext_with_errors"
+            android:dialogMessage="@string/pref_dialog_message_test_url"
+            android:dialogTitle="@string/pref_dialog_title_test_url"
+            android:key="@string/pref_key_test_url"
+            android:title="@string/pref_title_test_url"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
 </androidx.preference.PreferenceScreen>

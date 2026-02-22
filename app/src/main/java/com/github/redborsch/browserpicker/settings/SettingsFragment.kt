@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.core.view.MenuProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.github.redborsch.browserpicker.R
-import com.github.redborsch.browserpicker.common.Settings
 import com.github.redborsch.browserpicker.common.createChooserIntent
 import com.github.redborsch.preferences.EditTextPreferenceDialogWithValidation
 import com.github.redborsch.fragment.defaultFragmentTag
@@ -20,8 +20,11 @@ import androidx.core.net.toUri
 import com.github.redborsch.log.getLogger
 import kotlinx.parcelize.IgnoredOnParcel
 
-class SettingsFragment : PreferenceFragmentCompat(),
+class SettingsFragment :
+    PreferenceFragmentCompat(),
     PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback {
+
+    private val log = getLogger()
 
     private val menuProvider = object : MenuProvider {
         override fun onCreateMenu(
@@ -51,6 +54,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
         rootKey: String?
     ) {
         addPreferencesFromResource(R.xml.settings)
+
+        handleBrowserListCustomization()
     }
 
     private fun openChooser() {
@@ -60,7 +65,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     private fun resetPreferences() {
         childFragmentManager.showDialog(defaultFragmentTag) {
-            ClearSettingsWarningDialogFragment()
+            ResetSettingsWarningDialogFragment()
         }
     }
 
@@ -68,20 +73,42 @@ class SettingsFragment : PreferenceFragmentCompat(),
         caller: PreferenceFragmentCompat,
         pref: Preference
     ): Boolean {
-        if (pref.key == getString(R.string.pref_key_test_url)) {
-            parentFragmentManager.showDialog(defaultFragmentTag) {
-                EditTextPreferenceDialogWithValidation.newInstance(
-                    pref.key,
-                    UrlValidationStrategy(),
-                ).also {
-                    // Used internally by the AndroidX preference library
-                    @Suppress("DEPRECATION")
-                    it.setTargetFragment(this, 0)
-                }
-            }
-            return true
+        when (pref.key) {
+            getString(R.string.pref_key_test_url) -> showUrlEditor(pref)
+            else -> return false
         }
-        return false
+        return true
+    }
+
+    private fun handleBrowserListCustomization() {
+        val preference = findPreference<Preference>(
+            getString(R.string.pref_key_browser_list_launcher)
+        ) ?: run {
+            log.e { "Cannot find browser list preference" }
+            return
+        }
+
+        preference.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            launchBrowserListCustomizer()
+            true
+        }
+    }
+
+    private fun launchBrowserListCustomizer() {
+        Toast.makeText(requireContext(), "Show browser list customizations", Toast.LENGTH_LONG).show()
+    }
+
+    private fun showUrlEditor(pref: Preference) {
+        parentFragmentManager.showDialog(defaultFragmentTag) {
+            EditTextPreferenceDialogWithValidation.newInstance(
+                pref.key,
+                UrlValidationStrategy(),
+            ).also {
+                // Used internally by the AndroidX preference library
+                @Suppress("DEPRECATION")
+                it.setTargetFragment(this, 0)
+            }
+        }
     }
 
     interface Host {

@@ -44,18 +44,18 @@ abstract class AbstractPreferences {
 
     internal fun <T> readPreference(preference: AbstractPreference<T>): T =
         preference.run {
-            sharedPreferences.read(key, defaultValue)
+            sharedPreferences.read()
         }
 
     internal fun <T> writePreference(preference: AbstractPreference<T>, value: T) {
         preference.run {
             sharedPreferences.edit {
-                write(key, value)
+                write(value)
             }
         }
     }
 
-    private abstract inner class AbstractXmlPreferenceData<T> : SharedPreferenceData<T> {
+    protected abstract inner class AbstractXmlPreferenceData<T> : SharedPreferenceData<T> {
 
         override val key: String
             get() = appContext.getString(keyResId)
@@ -69,7 +69,7 @@ abstract class AbstractPreferences {
         protected abstract fun Resources.retrieveDefaultValue(resId: Int): T
     }
 
-    private inner class BooleanXmlPreference(
+    protected inner class BooleanXmlPreference(
         override val keyResId: Int,
         @param:BoolRes
         override val defaultValueResId: Int
@@ -77,7 +77,7 @@ abstract class AbstractPreferences {
         override fun Resources.retrieveDefaultValue(resId: Int) = getBoolean(resId)
     }
 
-    private inner class StringXmlPreference(
+    protected inner class StringXmlPreference(
         override val keyResId: Int,
         @param:StringRes
         override val defaultValueResId: Int

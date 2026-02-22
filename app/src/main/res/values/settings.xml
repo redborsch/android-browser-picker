@@ -5,5 +5,10 @@
 
     <string name="pref_title_test_url">Customize test URL (used to test Browser Picker functionality across the app)</string>
     <string name="pref_dialog_title_test_url">Customize test URL</string>
-    <string name="pref_dialog_message_test_url">It is used to test Browser Picker functionality across the app</string>
+    <string name="pref_dialog_message_test_url">It is used to test Browser Picker functionality across the app, not when opening links </string>
+
+    <string name="pref_title_customize_browser_list">Customize browser list and URL actions</string>
+
+    <string name="settings_category_behavior">Behavior</string>
+    <string name="settings_category_testing">Testing</string>
 </resources>

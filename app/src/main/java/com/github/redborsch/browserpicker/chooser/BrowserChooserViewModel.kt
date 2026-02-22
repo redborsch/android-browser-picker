@@ -6,7 +6,7 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.redborsch.browserpicker.shared.model.BrowserData
-import com.github.redborsch.browserpicker.shared.repository.InstalledBrowserRepository
+import com.github.redborsch.browserpicker.shared.repository.installed.InstalledBrowserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

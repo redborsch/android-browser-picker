@@ -3,4 +3,5 @@
     <!-- Settings Keys -->
     <string name="pref_key_keep_in_recents">KeepInRecents</string>
     <string name="pref_key_test_url">TestURL</string>
+    <string name="pref_key_browser_list_launcher">BrowserListLauncher</string>
 </resources>
