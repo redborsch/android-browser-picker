@@ -22,7 +22,6 @@
         android:layout_height="wrap_content"
         tools:text="https://redborsch.github.io/android-browser-picker/"
         android:gravity="center_horizontal"
-        android:maxLines="3"
         android:ellipsize="end"
         android:paddingStart="@dimen/standard_padding"
         android:paddingEnd="@dimen/standard_padding"
