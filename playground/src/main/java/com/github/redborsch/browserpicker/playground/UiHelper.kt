@@ -4,12 +4,11 @@ import android.annotation.SuppressLint
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.lifecycle.LifecycleOwner
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.github.redborsch.browserpicker.playground.databinding.ActivityMainBinding
 import com.github.redborsch.browserpicker.shared.system.createViewIntent
 import com.github.redborsch.browserpicker.shared.ui.BrowserListAdapter
 import com.github.redborsch.lifecycle.launchOnEachStart
+import com.github.redborsch.recyclerview.setVerticalLinearLayoutManager
 
 class UiHelper(
     private val viewModel: MainViewModel,
@@ -25,11 +24,7 @@ class UiHelper(
         }
         with(binding) {
             setUpRepoSelector(repoSelector)
-            browserList.layoutManager = LinearLayoutManager(
-                binding.root.context,
-                RecyclerView.VERTICAL,
-                false,
-            )
+            browserList.setVerticalLinearLayoutManager()
             browserList.adapter = adapter
         }
         lifecycleOwner.observeState(binding, adapter)

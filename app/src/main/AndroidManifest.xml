@@ -36,6 +36,9 @@
                 <data android:scheme="https" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".customizer.CustomizerActivity"
+            android:label="@string/activity_label_customizer" />
     </application>
 
 </manifest>

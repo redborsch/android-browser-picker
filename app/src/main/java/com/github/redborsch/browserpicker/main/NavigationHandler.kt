@@ -42,6 +42,13 @@ class NavigationHandler(
             item.fragmentClass,
             binding.fragmentHost,
         )
+        binding.fabTryIt.run {
+            if (item.showTryFab) {
+                show()
+            } else {
+                hide()
+            }
+        }
         uiPreferences.defaultScreen = item.settingsId
         return true
     }

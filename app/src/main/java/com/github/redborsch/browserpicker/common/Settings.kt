@@ -45,7 +45,7 @@ class Settings(
 class BrowserListPreference(override val key: String) : AbstractPreference<BrowserListSettings>() {
 
     override val defaultValue: BrowserListSettings
-        get() = BrowserListSettings(0)
+        get() = BrowserListSettings.empty()
 
     override fun SharedPreferences.read(): BrowserListSettings {
         return getStringSet(key, null)?.let {

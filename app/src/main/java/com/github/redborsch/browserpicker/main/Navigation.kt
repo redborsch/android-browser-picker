@@ -10,6 +10,7 @@ class NavigationItem(
     val fragmentClass: KClass<out Fragment>,
     @field:IdRes val menuItemId: Int,
     val settingsId: String,
+    val showTryFab: Boolean,
 )
 
 class NavigationModel {
@@ -18,7 +19,7 @@ class NavigationModel {
 
     private val items: List<NavigationItem> = buildList(2) {
         add(setupItem)
-        add(NavigationItem<SettingsFragment>(R.id.menu_settings, "settings"))
+        add(NavigationItem<SettingsFragment>(R.id.menu_settings, "settings", showTryFab = true))
     }
 
     fun findItem(@IdRes itemId: Int): NavigationItem? = items.find {
@@ -33,4 +34,5 @@ class NavigationModel {
 private inline fun <reified F : Fragment> NavigationItem(
     @IdRes menuItemId: Int,
     settingsId: String,
-) = NavigationItem(F::class, menuItemId, settingsId)
+    showTryFab: Boolean = false,
+) = NavigationItem(F::class, menuItemId, settingsId, showTryFab)

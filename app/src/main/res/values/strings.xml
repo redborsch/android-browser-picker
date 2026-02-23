@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Browser Picker</string>
 
+    <!-- Screen labels -->
+    <string name="activity_label_customizer">List &amp; Action Customization</string>
+
     <!-- Chooser Fragment -->
     <string name="open">Open</string>
     <string name="open_error">Opening %s failed. Maybe try another app?</string>
@@ -35,4 +38,7 @@
     <string name="url_validation_error_empty">URL cannot be empty</string>
     <string name="url_validation_error_scheme">URL must start with http:// or https://</string>
     <string name="url_validation_error_general">Invalid URL</string>
+
+    <!-- Customizer -->
+    <string name="customizer_confirm">Confirm customizations</string>
 </resources>

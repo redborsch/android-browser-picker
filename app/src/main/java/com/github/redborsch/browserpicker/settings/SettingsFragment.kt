@@ -1,24 +1,24 @@
 package com.github.redborsch.browserpicker.settings
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.core.view.MenuProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.github.redborsch.browserpicker.R
-import com.github.redborsch.browserpicker.common.createChooserIntent
-import com.github.redborsch.preferences.EditTextPreferenceDialogWithValidation
+import com.github.redborsch.browserpicker.customizer.CustomizerActivity
 import com.github.redborsch.fragment.defaultFragmentTag
 import com.github.redborsch.fragment.showDialog
-import com.github.redborsch.preferences.ValidationStrategy
-import kotlinx.parcelize.Parcelize
-import androidx.core.net.toUri
 import com.github.redborsch.log.getLogger
+import com.github.redborsch.preferences.EditTextPreferenceDialogWithValidation
+import com.github.redborsch.preferences.ValidationStrategy
 import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 
 class SettingsFragment :
     PreferenceFragmentCompat(),
@@ -36,8 +36,8 @@ class SettingsFragment :
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             when (menuItem.itemId) {
-                R.id.menu_test_it -> openChooser()
                 R.id.menu_reset_preferences -> resetPreferences()
+                else -> return false
             }
             return true
         }
@@ -56,11 +56,6 @@ class SettingsFragment :
         addPreferencesFromResource(R.xml.settings)
 
         handleBrowserListCustomization()
-    }
-
-    private fun openChooser() {
-        val context = context ?: return
-        startActivity(createChooserIntent(context))
     }
 
     private fun resetPreferences() {
@@ -95,7 +90,8 @@ class SettingsFragment :
     }
 
     private fun launchBrowserListCustomizer() {
-        Toast.makeText(requireContext(), "Show browser list customizations", Toast.LENGTH_LONG).show()
+        val context = context ?: return
+        startActivity(Intent(context, CustomizerActivity::class.java))
     }
 
     private fun showUrlEditor(pref: Preference) {

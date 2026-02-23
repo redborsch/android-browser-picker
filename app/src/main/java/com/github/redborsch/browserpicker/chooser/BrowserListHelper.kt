@@ -17,6 +17,7 @@ import com.github.redborsch.browserpicker.shared.system.createViewIntent
 import com.github.redborsch.browserpicker.shared.ui.BrowserListAdapter
 import com.github.redborsch.lifecycle.launchOnEachStart
 import com.github.redborsch.log.getLogger
+import com.github.redborsch.recyclerview.setVerticalLinearLayoutManager
 
 class BrowserListHelper(
     private val viewModel: BrowserChooserViewModel,
@@ -36,18 +37,10 @@ class BrowserListHelper(
             val intent = createViewIntent(uri, it.packageName)
             fragment.launchAndClose(intent, it)
         }
-        browserList.setUp()
+        browserList.setVerticalLinearLayoutManager()
         browserList.adapter = adapter
 
         lifecycleOwner.updateBrowserList(adapter)
-    }
-
-    private fun RecyclerView.setUp() {
-        layoutManager = LinearLayoutManager(
-            context,
-            RecyclerView.VERTICAL,
-            false,
-        )
     }
 
     private fun LifecycleOwner.updateBrowserList(
