@@ -1,5 +1,6 @@
 package com.github.redborsch.browserpicker.customizer
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
@@ -8,20 +9,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.redborsch.browserpicker.R
 import com.github.redborsch.browserpicker.databinding.ItemCustomizerEntryBinding
 import com.github.redborsch.browserpicker.shared.ui.BrowserEntryViewHolder
+import com.github.redborsch.recyclerview.DragController
+import com.github.redborsch.recyclerview.DragHandlerTouchListener
+import com.github.redborsch.recyclerview.DragKeyListener
+import com.github.redborsch.recyclerview.DraggableViewHolder
 
+@SuppressLint("ClickableViewAccessibility")
 class CustomizerViewHolder(
     private val binding: ItemCustomizerEntryBinding,
-) : RecyclerView.ViewHolder(binding.root) {
+    dragController: DragController,
+) : RecyclerView.ViewHolder(binding.root), DraggableViewHolder {
 
     private val wrappedViewHolder = BrowserEntryViewHolder(binding.browserEntry, null)
 
     private var data: CustomizerData? = null
 
     init {
-        binding.browserEntry.root.background = null
-        binding.visibility.setOnClickListener {
-            toggleVisibility()
-        }
+        binding.setUp()
+
+        binding.dragHandle.setOnTouchListener(
+            DragHandlerTouchListener(this, dragController)
+        )
+
+        binding.cardView.setOnKeyListener(DragKeyListener(this, dragController))
     }
 
     fun bind(data: CustomizerData, lifecycleOwner: LifecycleOwner) {
@@ -33,6 +43,13 @@ class CustomizerViewHolder(
     fun recycle() {
         data = null
         wrappedViewHolder.recycle()
+    }
+
+    fun ItemCustomizerEntryBinding.setUp() {
+        browserEntry.root.background = null
+        visibilityIndicator.setOnClickListener {
+            toggleVisibility()
+        }
     }
 
     private fun bindVisibility(data: CustomizerData) {
@@ -48,8 +65,7 @@ class CustomizerViewHolder(
             contentDescriptionResId = R.string.customizer_entry_show
             alpha = 0.25f
         }
-        val context = binding.root.context
-        with(binding.visibility) {
+        with(binding.visibilityIndicator) {
             setImageDrawable(
                 AppCompatResources.getDrawable(context, drawableResId)
             )
@@ -65,5 +81,9 @@ class CustomizerViewHolder(
         val data = data ?: return
         data.toggleVisibility()
         bindVisibility(data)
+    }
+
+    override fun setIsDragged(dragged: Boolean) {
+        binding.cardView.isDragged = dragged
     }
 }

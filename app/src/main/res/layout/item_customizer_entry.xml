@@ -2,14 +2,14 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
-    android:clickable="true"
-    android:focusable="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="4dp"
-    android:layout_marginEnd="4dp"
     android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp">
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="2dp"
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,32 +18,31 @@
 
         <include
             android:id="@+id/browser_entry"
+            layout="@layout/item_browser_entry"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            layout="@layout/item_browser_entry" />
+            android:layout_weight="1" />
 
         <!-- Image & content description are set in runtime -->
         <ImageView
-            android:id="@+id/visibility"
-            android:background="?selectableItemBackgroundBorderless"
+            android:id="@+id/visibility_indicator"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"
-            android:padding="6dp"
-            android:layout_marginEnd="8dp"
-            tools:src="@drawable/outline_visibility_24"
-            tools:ignore="ContentDescription" />
+            android:background="?selectableItemBackgroundBorderless"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/outline_visibility_24" />
 
         <ImageView
             android:id="@+id/drag_handle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
             android:contentDescription="@null"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:src="@drawable/outline_drag_handle_24" />
 
     </LinearLayout>

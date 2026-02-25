@@ -4,25 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
+    android:orientation="horizontal"
     android:paddingStart="4dp"
-    android:paddingEnd="4dp"
     android:paddingTop="4dp"
-    android:paddingBottom="4dp"
-    android:orientation="horizontal">
+    android:paddingEnd="4dp"
+    android:paddingBottom="4dp">
 
     <ImageView
         android:id="@+id/browser_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:padding="8dp"
-        android:importantForAccessibility="no" />
+        android:importantForAccessibility="no"
+        android:padding="8dp" />
 
     <TextView
-        style="@style/BrowserNameText"
         android:id="@+id/browser_name"
+        style="@style/BrowserNameText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:ellipsize="end"
         android:paddingStart="4dp"
         tools:text="Browser Name" />
 </LinearLayout>

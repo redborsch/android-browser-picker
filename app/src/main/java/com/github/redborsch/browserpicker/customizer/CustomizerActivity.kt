@@ -13,12 +13,9 @@ import com.github.redborsch.insets.InsetLocation
 import com.github.redborsch.insets.applyInsetsAsMargins
 import com.github.redborsch.insets.applyInsetsAsPaddings
 import com.github.redborsch.insets.enableEdgeToEdge
-import com.github.redborsch.log.getLogger
 import com.google.android.material.color.DynamicColors
 
 class CustomizerActivity : AppCompatActivity() {
-
-    private val log = getLogger()
 
     private val viewModel: CustomizerViewModel by viewModels()
 
