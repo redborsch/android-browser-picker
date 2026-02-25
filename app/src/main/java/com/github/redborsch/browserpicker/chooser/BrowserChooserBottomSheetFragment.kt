@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.net.Uri
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
+import com.github.redborsch.browserpicker.common.Settings
 import com.github.redborsch.browserpicker.databinding.FragmentBrowserChooserBinding
 import com.github.redborsch.fragment.BottomSheetDialogFragment
 import com.github.redborsch.insets.InsetLocation
@@ -39,6 +40,8 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
     override fun FragmentBrowserChooserBinding.setUp(lifecycleOwner: LifecycleOwner) {
         val uri = retrieveUri() ?: return // Should not happen
 
+        applySettings()
+
         link.text = uri.toString()
 
         BrowserListHelper(viewModel)
@@ -49,6 +52,14 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
                 uri,
             )
         scrolledContent.applyInsetsAsPaddings(InsetLocation { LEFT + RIGHT + BOTTOM })
+    }
+
+    private fun FragmentBrowserChooserBinding.applySettings() {
+        val settings = Settings.getInstance(requireContext())
+
+        if (settings.truncateLink) {
+            link.maxLines = settings.maxLinkLines
+        }
     }
 
     private fun retrieveUri(): Uri? = activity?.run { intent.data }

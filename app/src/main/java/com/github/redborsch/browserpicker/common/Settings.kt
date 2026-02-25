@@ -21,6 +21,16 @@ class Settings(
         R.string.pref_default_test_url
     )
 
+    val truncateLink: Boolean by booleanPref(
+        R.string.pref_key_truncate_link,
+        R.bool.pref_default_truncate_link,
+    )
+
+    val maxLinkLines: Int by intPref(
+        R.string.pref_key_max_link_lines,
+        R.integer.pref_default_max_link_lines,
+    )
+
     val keepInRecents: Boolean by booleanPref(
         R.string.pref_key_keep_in_recents,
         R.bool.pref_default_keep_in_recents
@@ -61,7 +71,7 @@ class BrowserListPreference(override val key: String) : AbstractPreference<Brows
 }
 
 /*
-
+FIXME remove
 package=visible,order
 
 my.package|1,0

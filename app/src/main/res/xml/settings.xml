@@ -2,13 +2,34 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Preference
-        android:key="@string/pref_key_browser_list_launcher"
-        android:title="@string/pref_title_customize_browser_list"
-        android:persistent="false" />
+    <PreferenceCategory
+        android:title="@string/settings_category_look_and_feel"
+        app:initialExpandedChildrenCount="1">
+
+        <Preference
+            android:key="@string/pref_key_browser_list_launcher"
+            android:persistent="false"
+            android:title="@string/pref_title_customize_browser_list" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="@bool/pref_default_truncate_link"
+            android:key="@string/pref_key_truncate_link"
+            android:summary="@string/pref_summary_truncate_link"
+            android:title="@string/pref_title_truncate_link" />
+
+        <SeekBarPreference
+            android:defaultValue="@integer/pref_default_max_link_lines"
+            android:dependency="@string/pref_key_truncate_link"
+            android:key="@string/pref_key_max_link_lines"
+            android:max="10"
+            android:title="@string/pref_title_max_link_lines"
+            app:min="1"
+            app:showSeekBarValue="true" />
+    </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/settings_category_behavior">
+        android:title="@string/settings_category_behavior"
+        app:initialExpandedChildrenCount="1">
 
         <SwitchPreferenceCompat
             android:defaultValue="@bool/pref_default_keep_in_recents"
@@ -17,8 +38,7 @@
             android:title="@string/pref_title_keep_in_recents" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/settings_category_testing">
+    <PreferenceCategory android:title="@string/settings_category_testing">
 
         <EditTextPreference
             android:defaultValue="@string/pref_default_test_url"

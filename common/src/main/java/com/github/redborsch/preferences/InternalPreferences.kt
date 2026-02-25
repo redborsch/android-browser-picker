@@ -71,3 +71,16 @@ class StringPreference(data: SharedPreferenceData<String>) :
         putString(key, value)
     }
 }
+
+class IntegerPreference(data: SharedPreferenceData<Int>) :
+    AbstractPreference<Int>(),
+    SharedPreferenceData<Int> by data {
+
+    override fun SharedPreferences.read(): Int =
+        // According to the contract, when default value is non-null - we should get non-null result
+        getInt(key, defaultValue)
+
+    override fun SharedPreferences.Editor.write(value: Int) {
+        putInt(key, value)
+    }
+}

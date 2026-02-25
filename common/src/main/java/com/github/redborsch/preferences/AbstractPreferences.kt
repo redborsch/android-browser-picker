@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
 import androidx.annotation.BoolRes
+import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
 import androidx.core.content.edit
 import kotlin.properties.ReadWriteProperty
@@ -42,6 +43,12 @@ abstract class AbstractPreferences {
     ): PreferenceDelegate<String> =
         StringPreference(StringXmlPreference(key, defaultValue))
 
+    protected fun intPref(
+        @StringRes key: Int,
+        @IntegerRes defaultValue: Int,
+    ): PreferenceDelegate<Int> =
+        IntegerPreference(IntegerXmlPreference(key, defaultValue))
+
     internal fun <T> readPreference(preference: AbstractPreference<T>): T =
         preference.run {
             sharedPreferences.read()
@@ -55,7 +62,7 @@ abstract class AbstractPreferences {
         }
     }
 
-    protected abstract inner class AbstractXmlPreferenceData<T> : SharedPreferenceData<T> {
+    private abstract inner class AbstractXmlPreferenceData<T> : SharedPreferenceData<T> {
 
         override val key: String
             get() = appContext.getString(keyResId)
@@ -69,7 +76,7 @@ abstract class AbstractPreferences {
         protected abstract fun Resources.retrieveDefaultValue(resId: Int): T
     }
 
-    protected inner class BooleanXmlPreference(
+    private inner class BooleanXmlPreference(
         override val keyResId: Int,
         @param:BoolRes
         override val defaultValueResId: Int
@@ -77,11 +84,19 @@ abstract class AbstractPreferences {
         override fun Resources.retrieveDefaultValue(resId: Int) = getBoolean(resId)
     }
 
-    protected inner class StringXmlPreference(
+    private inner class StringXmlPreference(
         override val keyResId: Int,
         @param:StringRes
         override val defaultValueResId: Int
     ) : AbstractXmlPreferenceData<String>() {
         override fun Resources.retrieveDefaultValue(resId: Int) = getString(resId)
+    }
+
+    private inner class IntegerXmlPreference(
+        override val keyResId: Int,
+        @param:IntegerRes
+        override val defaultValueResId: Int
+    ) : AbstractXmlPreferenceData<Int>() {
+        override fun Resources.retrieveDefaultValue(resId: Int) = getInteger(resId)
     }
 }

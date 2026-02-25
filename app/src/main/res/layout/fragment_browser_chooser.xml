@@ -20,7 +20,6 @@
             android:paddingEnd="@dimen/standard_padding"
             android:text="@string/open" />
 
-
         <TextView
             android:id="@+id/link"
             style="@style/LightText"

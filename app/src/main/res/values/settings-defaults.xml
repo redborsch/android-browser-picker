@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <bool name="pref_default_keep_in_recents">true</bool>
+    <bool name="pref_default_truncate_link">true</bool>
+    <integer name="pref_default_max_link_lines">3</integer>
     <string name="pref_default_test_url" translatable="false">https://redborsch.github.io/android-browser-picker/</string>
 </resources>
