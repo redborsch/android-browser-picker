@@ -9,6 +9,11 @@ import com.github.redborsch.browserpicker.databinding.ActivityMainBinding
 import com.github.redborsch.browserpicker.main.NavigationHandler
 import com.github.redborsch.browserpicker.model.SetupViewModel
 import com.github.redborsch.browserpicker.settings.SettingsFragment
+import com.github.redborsch.insets.InsetLocation
+import com.github.redborsch.insets.applyInsetsAsMargins
+import com.github.redborsch.insets.applyInsetsAsPaddings
+import com.github.redborsch.insets.enableEdgeToEdge
+import com.google.android.material.color.DynamicColors
 
 class MainActivity : AppCompatActivity(), SettingsFragment.Host {
 
@@ -16,6 +21,9 @@ class MainActivity : AppCompatActivity(), SettingsFragment.Host {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
+        DynamicColors.applyToActivityIfAvailable(this)
 
         val setupViewModel = viewModels<SetupViewModel>().value
 
@@ -30,12 +38,22 @@ class MainActivity : AppCompatActivity(), SettingsFragment.Host {
         lifecycle.addObserver(setupViewModel.createRefresher())
     }
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        navigationHandler.onStateRestored()
+    }
+
     override fun onSettingsReset() {
         navigationHandler.resetCurrentFragment()
     }
 
     private fun ActivityMainBinding.setUp() {
         setSupportActionBar(toolbar)
+
+        nestedScrollView.applyInsetsAsPaddings(InsetLocation { LEFT + RIGHT })
+        toolbar.applyInsetsAsMargins(InsetLocation { LEFT + RIGHT + TOP })
+        fabTryIt.applyInsetsAsMargins(InsetLocation.RIGHT, keepExisting = true)
 
         fabTryIt.setOnClickListener {
             tryChooser()

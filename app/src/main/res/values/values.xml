@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="standard_padding">16dp</dimen>
+
+    <bool name="config_materialPreferenceIconSpaceReserved" tools:override="true">false</bool>
 </resources>

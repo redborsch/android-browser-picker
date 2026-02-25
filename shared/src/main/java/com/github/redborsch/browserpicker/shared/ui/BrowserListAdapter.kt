@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.github.redborsch.browserpicker.shared.databinding.ViewHolderBrowserItemBinding
+import com.github.redborsch.browserpicker.shared.databinding.ItemBrowserEntryBinding
 import com.github.redborsch.browserpicker.shared.model.BrowserData
 
 class BrowserListAdapter(
     private val lifecycleOwner: LifecycleOwner,
     private val onBrowserSelectedListener: OnBrowserSelectedListener,
-) : RecyclerView.Adapter<BrowserItemViewHolder>() {
+) : RecyclerView.Adapter<BrowserEntryViewHolder>() {
 
     var browserList: List<BrowserData> = emptyList()
         @SuppressLint("NotifyDataSetChanged")
@@ -20,18 +20,18 @@ class BrowserListAdapter(
             notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrowserItemViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrowserEntryViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ViewHolderBrowserItemBinding.inflate(layoutInflater, parent, false)
-        return BrowserItemViewHolder(binding, onBrowserSelectedListener)
+        val binding = ItemBrowserEntryBinding.inflate(layoutInflater, parent, false)
+        return BrowserEntryViewHolder(binding, onBrowserSelectedListener)
     }
 
     override fun getItemCount(): Int = browserList.size
 
-    override fun onBindViewHolder(holder: BrowserItemViewHolder, position: Int) =
-        holder.update(browserList[position], lifecycleOwner)
+    override fun onBindViewHolder(holder: BrowserEntryViewHolder, position: Int) =
+        holder.bind(browserList[position], lifecycleOwner)
 
-    override fun onViewRecycled(holder: BrowserItemViewHolder) {
+    override fun onViewRecycled(holder: BrowserEntryViewHolder) {
         holder.recycle()
     }
 }

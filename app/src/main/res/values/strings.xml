@@ -41,4 +41,6 @@
 
     <!-- Customizer -->
     <string name="customizer_confirm">Confirm customizations</string>
+    <string name="customizer_entry_hide">Hide entry</string>
+    <string name="customizer_entry_show">Show entry</string>
 </resources>

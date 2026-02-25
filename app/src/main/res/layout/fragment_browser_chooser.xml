@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        style="@style/MediumText"
+    <LinearLayout
+        android:id="@+id/scrolled_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingStart="@dimen/standard_padding"
-        android:paddingEnd="@dimen/standard_padding"
-        android:layout_marginTop="12dp"
-        android:text="@string/open"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        style="@style/LightText"
-        android:id="@+id/link"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="https://redborsch.github.io/android-browser-picker/"
-        android:gravity="center_horizontal"
-        android:ellipsize="end"
-        android:paddingStart="@dimen/standard_padding"
-        android:paddingEnd="@dimen/standard_padding"
-        android:paddingBottom="8dp" />
+        <TextView
+            style="@style/MediumText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_horizontal"
+            android:paddingStart="@dimen/standard_padding"
+            android:paddingEnd="@dimen/standard_padding"
+            android:text="@string/open" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/browser_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+
+        <TextView
+            android:id="@+id/link"
+            style="@style/LightText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:paddingStart="@dimen/standard_padding"
+            android:paddingEnd="@dimen/standard_padding"
+            android:paddingBottom="8dp"
+            tools:text="https://redborsch.github.io/android-browser-picker/" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/browser_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -29,6 +29,10 @@ class NavigationHandler(
         binding.bottomNavigation.setUp(savedInstanceState)
     }
 
+    fun onStateRestored() {
+        navigationModel.findItem(binding.bottomNavigation.selectedItemId)?.applyProperties()
+    }
+
     fun resetCurrentFragment() {
         activity.supportFragmentManager.resetCurrentFragment(
             activity.defaultFragmentTag, binding.fragmentHost
@@ -42,15 +46,19 @@ class NavigationHandler(
             item.fragmentClass,
             binding.fragmentHost,
         )
+        item.applyProperties()
+        uiPreferences.defaultScreen = item.settingsId
+        return true
+    }
+
+    private fun NavigationItem.applyProperties() {
         binding.fabTryIt.run {
-            if (item.showTryFab) {
+            if (showTryFab) {
                 show()
             } else {
                 hide()
             }
         }
-        uiPreferences.defaultScreen = item.settingsId
-        return true
     }
 
     private fun BottomNavigationView.setUp(savedInstanceState: Bundle?) {

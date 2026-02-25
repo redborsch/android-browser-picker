@@ -3,22 +3,36 @@ package com.github.redborsch.browserpicker.customizer
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.redborsch.binding.setContentView
 import com.github.redborsch.browserpicker.R
 import com.github.redborsch.browserpicker.common.tryChooser
 import com.github.redborsch.browserpicker.databinding.ActivityCustomizerBinding
+import com.github.redborsch.insets.InsetLocation
+import com.github.redborsch.insets.applyInsetsAsMargins
+import com.github.redborsch.insets.applyInsetsAsPaddings
+import com.github.redborsch.insets.enableEdgeToEdge
+import com.github.redborsch.log.getLogger
+import com.google.android.material.color.DynamicColors
 
 class CustomizerActivity : AppCompatActivity() {
 
+    private val log = getLogger()
+
+    private val viewModel: CustomizerViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
+        DynamicColors.applyToActivityIfAvailable(this)
 
         val binding = ActivityCustomizerBinding.inflate(layoutInflater)
         setContentView(binding)
         binding.setUp()
 
-        CustomizerListHelper().setUp(binding.recyclerView)
+        CustomizerListHelper(viewModel).setUp(binding.recyclerView, this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -36,6 +50,7 @@ class CustomizerActivity : AppCompatActivity() {
 
     private fun ActivityCustomizerBinding.setUp() {
         setSupportActionBar(toolbar)
+
         toolbar.setNavigationOnClickListener {
             finish()
         }
@@ -43,6 +58,13 @@ class CustomizerActivity : AppCompatActivity() {
         fabTryIt.setOnClickListener {
             tryChooser()
         }
+
+        fabTryIt.applyInsetsAsMargins(
+            InsetLocation { LEFT + RIGHT + BOTTOM },
+            keepExisting = true,
+        )
+        recyclerView.applyInsetsAsPaddings(InsetLocation { LEFT + RIGHT + BOTTOM })
+        toolbar.applyInsetsAsMargins(InsetLocation { LEFT + RIGHT + TOP })
     }
 
     private fun confirmCustomizations() {

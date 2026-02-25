@@ -2,14 +2,14 @@ package com.github.redborsch.browserpicker.shared.ui
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.github.redborsch.browserpicker.shared.databinding.ViewHolderBrowserItemBinding
+import com.github.redborsch.browserpicker.shared.databinding.ItemBrowserEntryBinding
 import com.github.redborsch.browserpicker.shared.model.BrowserData
 import com.github.redborsch.lifecycle.launchOnEachStart
 import kotlinx.coroutines.Job
 
-class BrowserItemViewHolder(
-    private val binding: ViewHolderBrowserItemBinding,
-    private val onBrowserSelectedListener: OnBrowserSelectedListener,
+class BrowserEntryViewHolder(
+    private val binding: ItemBrowserEntryBinding,
+    private val onBrowserSelectedListener: OnBrowserSelectedListener?,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private var lastJob: Job? = null
@@ -21,14 +21,16 @@ class BrowserItemViewHolder(
     private var browserData: BrowserData? = null
 
     init {
-        binding.root.setOnClickListener {
-            browserData?.let {
-                onBrowserSelectedListener.onBrowserSelected(it)
+        if (onBrowserSelectedListener != null) {
+            binding.root.setOnClickListener {
+                browserData?.let {
+                    onBrowserSelectedListener.onBrowserSelected(it)
+                }
             }
         }
     }
 
-    fun update(browserData: BrowserData, lifecycleOwner: LifecycleOwner) {
+    fun bind(browserData: BrowserData, lifecycleOwner: LifecycleOwner) {
         this.browserData = browserData
 
         binding.browserName.text = browserData.name

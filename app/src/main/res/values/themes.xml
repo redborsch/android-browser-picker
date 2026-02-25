@@ -1,16 +1,14 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.BrowserPicker" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
-
-    <style name="Theme.BrowserPicker" parent="Base.Theme.BrowserPicker">
-        <!-- Transparent system bars for edge-to-edge. -->
+    <style name="Base.Theme.BrowserPicker" parent="Theme.Material3Expressive.DayNight.NoActionBar">
+        <!-- Transparent navigation bars for edge-to-edge.
+         Otherwise, navigation bar will have an ugly black background. -->
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
     </style>
+
+    <style name="Theme.BrowserPicker" parent="Base.Theme.BrowserPicker" />
 
     <style name="Theme.BrowserPicker.Transparent" parent="Base.Theme.BrowserPicker">
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -33,8 +31,21 @@
 
     <style name="BrowserBottomSheet" parent="Widget.Material3.BottomSheet.Modal">
         <item name="behavior_peekHeight">256dp</item>
-        <item name="android:maxWidth">640dp</item>
-    </style>
 
-    <bool name="config_materialPreferenceIconSpaceReserved" tools:override="true">false</bool>
+        <!-- Real edge-to-edge support, also cutouts are not handled properly anyway.
+         Note that we still enable top padding in order for bottom sheet to fully expand
+         (even though without real edge-to-edge support, but good enough for now as the fix
+          would require currently patching BottomSheetDialog.EdgeToEdgeCallback). -->
+        <item name="marginLeftSystemWindowInsets">false</item>
+        <item name="marginRightSystemWindowInsets">false</item>
+        <item name="marginTopSystemWindowInsets">false</item>
+        <item name="marginBottomSystemWindowInsets">false</item>
+        <item name="paddingBottomSystemWindowInsets">false</item>
+        <item name="paddingTopSystemWindowInsets">true</item>
+        <item name="paddingLeftSystemWindowInsets">false</item>
+        <item name="paddingRightSystemWindowInsets">false</item>
+
+        <!-- For testing -->
+<!--        <item name="android:maxWidth">1000dp</item>-->
+    </style>
 </resources>

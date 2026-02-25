@@ -6,6 +6,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
 import com.github.redborsch.browserpicker.databinding.FragmentBrowserChooserBinding
 import com.github.redborsch.fragment.BottomSheetDialogFragment
+import com.github.redborsch.insets.InsetLocation
+import com.github.redborsch.insets.applyInsetsAsPaddings
 
 class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrowserChooserBinding>(
     FragmentBrowserChooserBinding::inflate
@@ -46,6 +48,7 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
                 lifecycleOwner,
                 uri,
             )
+        scrolledContent.applyInsetsAsPaddings(InsetLocation { LEFT + RIGHT + BOTTOM })
     }
 
     private fun retrieveUri(): Uri? = activity?.run { intent.data }
