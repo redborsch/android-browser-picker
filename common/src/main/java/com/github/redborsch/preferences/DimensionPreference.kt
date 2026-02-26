@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
 import androidx.preference.SeekBarPreference
+import kotlin.math.roundToInt
 
 /**
  * [SeekBarPreference] that allows to use dimension resources as default values.
@@ -29,6 +30,6 @@ class DimensionPreference : SeekBarPreference {
     constructor(context: Context) : super(context)
 
     override fun onGetDefaultValue(a: TypedArray, index: Int): Any {
-        return a.getDimension(index, 0f)
+        return a.getDimension(index, 0f).roundToInt()
     }
 }
