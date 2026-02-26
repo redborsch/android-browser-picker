@@ -6,6 +6,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commitNow
+import androidx.fragment.app.transaction
+import kotlin.math.exp
 import kotlin.reflect.KClass
 
 /**
@@ -47,11 +49,29 @@ fun FragmentManager.resetCurrentFragment(tag: String, container: View) {
 
 /**
  * Shows the dialog provided by the supplied [factory] unless the dialog with the supplied [tag]
- * already exists.
+ * already exists. When [forceReplace] is true, then it actually removes the previous instance and
+ * shows the new one.
  */
-inline fun <F : DialogFragment> FragmentManager.showDialog(tag: String, factory: () -> F) {
-    if (findFragmentByTag(tag) != null) {
-        return
+inline fun <F : DialogFragment> FragmentManager.showDialog(
+    tag: String,
+    forceReplace: Boolean = false,
+    factory: () -> F,
+) {
+    val existing = findFragmentByTag(tag)
+    if (forceReplace) {
+        factory().show(
+            beginTransaction()
+                .apply {
+                    if (existing != null) {
+                        remove(existing)
+                    }
+                },
+            tag,
+        )
+    } else {
+        if (existing != null) {
+            return
+        }
+        factory().show(this, tag)
     }
-    factory().show(this, tag)
 }

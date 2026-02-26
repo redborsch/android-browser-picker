@@ -2,22 +2,44 @@ package com.github.redborsch.browserpicker.chooser
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Parcelable
+import com.github.redborsch.browserpicker.common.Globals
 import com.github.redborsch.browserpicker.shared.system.createViewIntent
+import kotlinx.parcelize.Parcelize
+import androidx.core.net.toUri
 
-interface BrowserIntentFactory {
+interface BrowserIntentFactory : Parcelable {
 
     val uri: Uri
 
     fun createBrowserIntent(browserPackage: String): Intent
 }
 
-fun BrowserIntentFactory(intent: Intent, useOriginalIntent: Boolean): BrowserIntentFactory? =
-    if (useOriginalIntent) {
-        OriginalIntent(Intent(intent))
+fun BrowserIntentFactory(intent: Intent, useOriginalIntent: Boolean): BrowserIntentFactory? {
+    if (intent.action == Intent.ACTION_SEND) {
+        val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: return null
+        val uri = extractUriFromText(text) ?: return null
+        return OnlyUri(uri)
     } else {
-        intent.data?.let { OnlyUri(it) }
+        val uri = intent.data ?: return null
+        return if (useOriginalIntent) {
+            OriginalIntent(Intent(intent))
+        } else {
+            OnlyUri(uri)
+        }
+    }
+}
+
+private fun extractUriFromText(text: String): Uri? =
+    if (text.matches(Globals.urlRegex())) {
+        runCatching {
+            text.toUri()
+        }.getOrNull()
+    } else {
+        null
     }
 
+@Parcelize
 private class OnlyUri(
     override val uri: Uri,
 ) : BrowserIntentFactory {
@@ -26,13 +48,10 @@ private class OnlyUri(
         createViewIntent(uri, browserPackage)
 }
 
-private class OriginalIntent(
-    intent: Intent,
+@Parcelize
+private class OriginalIntent private constructor(
+    private val intent: Intent,
 ) : BrowserIntentFactory {
-
-    private val intent = Intent(intent).apply {
-        setComponent(null)
-    }
 
     override val uri: Uri
         get() = intent.data!!
@@ -41,5 +60,13 @@ private class OriginalIntent(
         return Intent(intent).apply {
             setPackage(browserPackage)
         }
+    }
+
+    companion object {
+        operator fun invoke(intent: Intent) = OriginalIntent(
+            Intent(intent).apply {
+                setComponent(null)
+            }
+        )
     }
 }

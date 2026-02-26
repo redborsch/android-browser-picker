@@ -10,6 +10,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import com.github.redborsch.R
 import com.github.redborsch.log.getLogger
+import com.github.redborsch.os.requireParcelable
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -22,13 +23,7 @@ class EditTextPreferenceDialogWithValidation : EditTextPreferenceDialogFragmentC
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        validator = requireNotNull(
-            BundleCompat.getParcelable(
-                requireArguments(),
-                ARG_VALIDATION_STRATEGY,
-                ValidationStrategy::class.java
-            )
-        )
+        validator = requireArguments().requireParcelable(ARG_VALIDATION_STRATEGY)
     }
 
     override fun onBindDialogView(view: View) {

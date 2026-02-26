@@ -2,14 +2,14 @@ package com.github.redborsch.browserpicker.chooser
 
 import android.content.Context
 import android.content.DialogInterface
+import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import com.github.redborsch.browserpicker.common.Globals
 import com.github.redborsch.browserpicker.common.Settings
 import com.github.redborsch.browserpicker.databinding.FragmentBrowserChooserBinding
 import com.github.redborsch.fragment.BottomSheetDialogFragment
 import com.github.redborsch.insets.applyBottomSheetPaddings
-import com.github.redborsch.log.dumpForLog
-import com.github.redborsch.log.getLogger
+import com.github.redborsch.os.requireParcelable
 import com.github.redborsch.window.currentWindowBounds
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -19,13 +19,19 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
     FragmentBrowserChooserBinding::inflate
 ) {
 
-    private val log = getLogger()
-
     private val viewModel: BrowserChooserViewModel by activityViewModels()
+
+    private lateinit var browserIntentFactory: BrowserIntentFactory
 
     private lateinit var settings: Settings
 
     private var destroyingDialog = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        browserIntentFactory = requireArguments().requireParcelable(ARG_BROWSER_INTENT_FACTORY)
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -55,13 +61,6 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
     override fun FragmentBrowserChooserBinding.setUp(dialog: BottomSheetDialog) {
         applySettings(dialog)
 
-        val intent = requireActivity().intent
-        log.d { "Activity intent: ${intent.dumpForLog()}" }
-        val browserIntentFactory = BrowserIntentFactory(
-            intent,
-            settings.useOriginalIntent,
-        ) ?: return // Should not happen
-
         link.text = browserIntentFactory.uri.toString()
 
         BrowserListHelper(viewModel)
@@ -76,13 +75,11 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
     }
 
     private fun FragmentBrowserChooserBinding.applySettings(dialog: BottomSheetDialog) {
-        val context = dialog.context
-
         if (settings.truncateLink) {
             link.maxLines = settings.maxLinkLines
         }
         with(dialog.behavior) {
-            peekHeight = settings.peekHeight.coerceAtMost(context.maxPeekHeight)
+            peekHeight = settings.peekHeight.coerceAtMost(dialog.context.maxPeekHeight)
             state = if (settings.fullScreenByDefault) {
                 BottomSheetBehavior.STATE_EXPANDED
             } else {
@@ -93,4 +90,17 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
 
     private val Context.maxPeekHeight: Int
         get() = (currentWindowBounds.height() * Globals.MAX_COLLAPSED_BOTTOM_SHEET_HEIGHT).roundToInt()
+
+    companion object {
+
+        private const val ARG_BROWSER_INTENT_FACTORY = "BrowserIntentFactory"
+
+        fun newInstance(browserIntentFactory: BrowserIntentFactory): BrowserChooserBottomSheetFragment {
+            return BrowserChooserBottomSheetFragment().apply {
+                arguments = Bundle(1).apply {
+                    putParcelable(ARG_BROWSER_INTENT_FACTORY, browserIntentFactory)
+                }
+            }
+        }
+    }
 }

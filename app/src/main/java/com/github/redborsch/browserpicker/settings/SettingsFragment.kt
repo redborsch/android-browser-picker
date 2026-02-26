@@ -133,7 +133,7 @@ class SettingsFragment :
 private class UrlValidationStrategy : ValidationStrategy {
 
     @IgnoredOnParcel
-    private val schemeRegex = "(HTTP|http)([Ss])?://.+".toRegex()
+    private val schemeRegex = Globals.urlRegex()
 
     @IgnoredOnParcel
     private val log = getLogger()

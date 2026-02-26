@@ -4,6 +4,9 @@
     <!-- Screen labels -->
     <string name="activity_label_customizer">List &amp; Action Customization</string>
 
+    <!-- Chooser Activity -->
+    <string name="send_intent_warning">No link was detected in the shared text. But no worries, here you can choose another app.</string>
+
     <!-- Chooser Fragment -->
     <string name="open">Open</string>
     <string name="open_error">Opening %s failed. Maybe try another app?</string>
@@ -15,7 +18,7 @@
     <string name="setup_intro">Did you like it? Then make Browser Picker your default browser to see this menu when opening links in other apps!</string>
 
     <!-- Setup -->
-    <string name="default_browser_motivation">If you want to choose a browser when opening links in other applications - make this application your default browser.</string>
+    <string name="default_browser_motivation">You already can choose Browser Picker when sharing links. But if you also want to choose a browser when opening links directly from other applications - make this application your default browser.</string>
     <string name="make_default_browser">Make default browser</string>
     <string name="all_set_message">You are all set!</string>
     <string name="enjoy_message">Enjoy using Browser Picker!</string>
