@@ -8,6 +8,7 @@ import com.github.redborsch.browserpicker.common.Settings
 import com.github.redborsch.browserpicker.databinding.FragmentBrowserChooserBinding
 import com.github.redborsch.fragment.BottomSheetDialogFragment
 import com.github.redborsch.insets.InsetLocation
+import com.github.redborsch.insets.applyBottomSheetPaddings
 import com.github.redborsch.insets.applyInsetsAsPaddings
 
 class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrowserChooserBinding>(
@@ -51,7 +52,7 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
                 lifecycleOwner,
                 uri,
             )
-        scrolledContent.applyInsetsAsPaddings(InsetLocation { LEFT + RIGHT + BOTTOM })
+        scrolledContent.applyBottomSheetPaddings()
     }
 
     private fun FragmentBrowserChooserBinding.applySettings() {
