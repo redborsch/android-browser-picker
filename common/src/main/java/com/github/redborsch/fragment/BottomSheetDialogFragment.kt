@@ -2,10 +2,10 @@ package com.github.redborsch.fragment
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.github.redborsch.binding.ViewBindingInflate
 import com.github.redborsch.insets.applyEdgeToEdgePatches
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -19,9 +19,14 @@ abstract class BottomSheetDialogFragment<VB : ViewBinding>(
             dismissWithAnimation = true
             setContentView(binding.root)
             applyEdgeToEdgePatches(window!!)
+            setProtections(
+                mutableListOf(
+                    BottomSheetBehavior.getDefaultBottomGradientProtection(context)
+                )
+            )
             binding.setUp(this)
         }
     }
 
-    protected abstract fun VB.setUp(lifecycleOwner: LifecycleOwner)
+    protected abstract fun VB.setUp(dialog: BottomSheetDialog)
 }

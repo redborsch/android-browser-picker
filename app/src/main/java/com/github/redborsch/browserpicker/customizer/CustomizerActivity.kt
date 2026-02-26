@@ -10,6 +10,7 @@ import com.github.redborsch.browserpicker.R
 import com.github.redborsch.browserpicker.common.tryChooser
 import com.github.redborsch.browserpicker.databinding.ActivityCustomizerBinding
 import com.github.redborsch.insets.InsetLocation
+import com.github.redborsch.insets.applyDefaults
 import com.github.redborsch.insets.applyInsetsAsMargins
 import com.github.redborsch.insets.applyInsetsAsPaddings
 import com.github.redborsch.insets.enableEdgeToEdge
@@ -62,6 +63,8 @@ class CustomizerActivity : AppCompatActivity() {
         )
         recyclerView.applyInsetsAsPaddings(InsetLocation { LEFT + RIGHT + BOTTOM })
         toolbar.applyInsetsAsMargins(InsetLocation { LEFT + RIGHT + TOP })
+
+        protectionLayout.applyDefaults()
     }
 
     private fun confirmCustomizations() {

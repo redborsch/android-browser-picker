@@ -32,7 +32,7 @@ annotation class InsetLocation {
 internal fun @InsetLocation Int.apply(
     @InsetLocation flag: Int,
     valueIfSelected: Int,
-    valueIfUnselected: Int = 0,
+    valueIfUnselected: Int,
 ): Int =
     if (this and flag == flag) {
         valueIfSelected

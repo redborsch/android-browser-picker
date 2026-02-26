@@ -14,12 +14,14 @@ internal interface InsetStrategy {
 internal class PaddingStrategy : InsetStrategy {
 
     override fun applyInsets(view: View, locations: Int, insets: Insets) {
-        view.updatePadding(
-            left = locations.apply(InsetLocation.LEFT, insets.left),
-            top = locations.apply(InsetLocation.TOP, insets.top),
-            right = locations.apply(InsetLocation.RIGHT, insets.right),
-            bottom = locations.apply(InsetLocation.BOTTOM, insets.bottom),
-        )
+        with(view) {
+            updatePadding(
+                left = locations.apply(InsetLocation.LEFT, insets.left, paddingLeft),
+                top = locations.apply(InsetLocation.TOP, insets.top, paddingTop),
+                right = locations.apply(InsetLocation.RIGHT, insets.right, paddingRight),
+                bottom = locations.apply(InsetLocation.BOTTOM, insets.bottom, paddingBottom),
+            )
+        }
     }
 }
 

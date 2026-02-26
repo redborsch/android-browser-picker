@@ -50,4 +50,9 @@
         android:layout_gravity="bottom"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         tools:menu="@menu/main_navigation" />
+
+    <androidx.core.view.insets.ProtectionLayout
+        android:id="@+id/protection_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -10,6 +10,7 @@ import com.github.redborsch.browserpicker.main.NavigationHandler
 import com.github.redborsch.browserpicker.model.SetupViewModel
 import com.github.redborsch.browserpicker.settings.SettingsFragment
 import com.github.redborsch.insets.InsetLocation
+import com.github.redborsch.insets.applyDefaults
 import com.github.redborsch.insets.applyInsetsAsMargins
 import com.github.redborsch.insets.applyInsetsAsPaddings
 import com.github.redborsch.insets.enableEdgeToEdge
@@ -51,12 +52,14 @@ class MainActivity : AppCompatActivity(), SettingsFragment.Host {
     private fun ActivityMainBinding.setUp() {
         setSupportActionBar(toolbar)
 
-        nestedScrollView.applyInsetsAsPaddings(InsetLocation { LEFT + RIGHT + BOTTOM })
+        nestedScrollView.applyInsetsAsPaddings(InsetLocation { LEFT + RIGHT })
         toolbar.applyInsetsAsMargins(InsetLocation { LEFT + RIGHT + TOP })
         fabTryIt.applyInsetsAsMargins(InsetLocation.RIGHT, keepExisting = true)
 
         fabTryIt.setOnClickListener {
             tryChooser()
         }
+
+        protectionLayout.applyDefaults()
     }
 }

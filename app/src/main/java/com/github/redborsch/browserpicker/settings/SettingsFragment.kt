@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.core.net.toUri
 import androidx.core.view.MenuProvider
 import androidx.preference.Preference
@@ -16,6 +17,8 @@ import com.github.redborsch.browserpicker.customizer.CustomizerActivity
 import com.github.redborsch.fragment.defaultFragmentTag
 import com.github.redborsch.fragment.showDialog
 import com.github.redborsch.graphics.max
+import com.github.redborsch.insets.InsetLocation
+import com.github.redborsch.insets.applyInsetsAsPaddings
 import com.github.redborsch.log.getLogger
 import com.github.redborsch.preferences.DimensionPreference
 import com.github.redborsch.preferences.EditTextPreferenceDialogWithValidation
@@ -60,6 +63,12 @@ class SettingsFragment :
         addPreferencesFromResource(R.xml.settings)
 
         setupPreferences()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.applyInsetsAsPaddings(InsetLocation.BOTTOM)
     }
 
     private fun resetPreferences() {

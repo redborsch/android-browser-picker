@@ -9,6 +9,8 @@ import com.github.redborsch.browserpicker.common.createChooserIntent
 import com.github.redborsch.browserpicker.databinding.FragmentMainTryBinding
 import com.github.redborsch.browserpicker.model.SetupViewModel
 import com.github.redborsch.binding.ViewBindingFragment
+import com.github.redborsch.insets.InsetLocation
+import com.github.redborsch.insets.applyInsetsAsPaddings
 import com.github.redborsch.lifecycle.launchOnEachStart
 
 class TryFragment : ViewBindingFragment<FragmentMainTryBinding>(
@@ -39,6 +41,7 @@ class TryFragment : ViewBindingFragment<FragmentMainTryBinding>(
                 setupInto.isVisible = isTried
             }
         }
+        root.applyInsetsAsPaddings(InsetLocation.BOTTOM)
     }
 
     private fun openChooser() {
