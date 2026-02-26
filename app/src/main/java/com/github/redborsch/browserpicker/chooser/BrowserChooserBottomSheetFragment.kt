@@ -2,13 +2,14 @@ package com.github.redborsch.browserpicker.chooser
 
 import android.content.Context
 import android.content.DialogInterface
-import android.net.Uri
 import androidx.fragment.app.activityViewModels
 import com.github.redborsch.browserpicker.common.Globals
 import com.github.redborsch.browserpicker.common.Settings
 import com.github.redborsch.browserpicker.databinding.FragmentBrowserChooserBinding
 import com.github.redborsch.fragment.BottomSheetDialogFragment
 import com.github.redborsch.insets.applyBottomSheetPaddings
+import com.github.redborsch.log.dumpForLog
+import com.github.redborsch.log.getLogger
 import com.github.redborsch.window.currentWindowBounds
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -18,9 +19,19 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
     FragmentBrowserChooserBinding::inflate
 ) {
 
+    private val log = getLogger()
+
     private val viewModel: BrowserChooserViewModel by activityViewModels()
 
+    private lateinit var settings: Settings
+
     private var destroyingDialog = false
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        settings = Settings.getInstance(context)
+    }
 
     override fun onDestroyView() {
         // DialogFragment automatically destroys the dialog when the fragment view is destroyed
@@ -42,25 +53,30 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
     }
 
     override fun FragmentBrowserChooserBinding.setUp(dialog: BottomSheetDialog) {
-        val uri = retrieveUri() ?: return // Should not happen
-
         applySettings(dialog)
 
-        link.text = uri.toString()
+        val intent = requireActivity().intent
+        log.d { "Activity intent: ${intent.dumpForLog()}" }
+        val browserIntentFactory = BrowserIntentFactory(
+            intent,
+            settings.useOriginalIntent,
+        ) ?: return // Should not happen
+
+        link.text = browserIntentFactory.uri.toString()
 
         BrowserListHelper(viewModel)
             .setUp(
                 this@BrowserChooserBottomSheetFragment,
                 browserList,
                 dialog,
-                uri,
+                browserIntentFactory,
             )
+
         scrolledContent.applyBottomSheetPaddings()
     }
 
     private fun FragmentBrowserChooserBinding.applySettings(dialog: BottomSheetDialog) {
         val context = dialog.context
-        val settings = Settings.getInstance(context)
 
         if (settings.truncateLink) {
             link.maxLines = settings.maxLinkLines
@@ -74,8 +90,6 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
             }
         }
     }
-
-    private fun retrieveUri(): Uri? = activity?.run { intent.data }
 
     private val Context.maxPeekHeight: Int
         get() = (currentWindowBounds.height() * Globals.MAX_COLLAPSED_BOTTOM_SHEET_HEIGHT).roundToInt()

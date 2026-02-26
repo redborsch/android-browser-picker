@@ -2,6 +2,7 @@
 <resources>
     <!-- Settings Keys -->
     <string name="pref_key_keep_in_recents">KeepInRecents</string>
+    <string name="pref_key_use_original_intent">UseOriginalIntent</string>
     <string name="pref_key_peek_height">PeekHeight</string>
     <string name="pref_key_full_screen_by_default">FullScreenByDefault</string>
     <string name="pref_key_truncate_link">TruncateLink</string>

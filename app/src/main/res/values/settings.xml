@@ -15,6 +15,9 @@
     <string name="pref_title_keep_in_recents">Keep in Recents</string>
     <string name="pref_summary_keep_in_recents">Leave the last used Browser Picker screen in Recents (useful for opening the same link in multiple browsers).</string>
 
+    <string name="pref_title_use_original_intent">Use original Intent</string>
+    <string name="pref_summary_use_original_intent">Uses the original data provided by the app to launch a browser, allowing original experience (for instance, lightweight "custom tabs" mode, if the browser supports it). When disabled, only the original link will be used.</string>
+
     <string name="pref_title_test_url">Customize test URL (used to try the app functionality and to retrieve a browser list in the customization screen)</string>
     <string name="pref_dialog_title_test_url">Customize test URL</string>
     <string name="pref_dialog_message_test_url">It is used to try the app functionality and to retrieve a browser list in the customization screen, not when opening links.</string>

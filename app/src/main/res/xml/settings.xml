@@ -51,6 +51,12 @@
             android:key="@string/pref_key_keep_in_recents"
             android:summary="@string/pref_summary_keep_in_recents"
             android:title="@string/pref_title_keep_in_recents" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="@bool/pref_default_use_original_intent"
+            android:key="@string/pref_key_use_original_intent"
+            android:summary="@string/pref_summary_use_original_intent"
+            android:title="@string/pref_title_use_original_intent" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_category_testing">

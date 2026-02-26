@@ -3,17 +3,14 @@ package com.github.redborsch.browserpicker.chooser
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.redborsch.browserpicker.R
 import com.github.redborsch.browserpicker.common.Settings
 import com.github.redborsch.browserpicker.shared.model.BrowserData
-import com.github.redborsch.browserpicker.shared.system.createViewIntent
 import com.github.redborsch.browserpicker.shared.ui.BrowserListAdapter
 import com.github.redborsch.lifecycle.launchOnEachStart
 import com.github.redborsch.log.getLogger
@@ -29,13 +26,13 @@ class BrowserListHelper(
         fragment: Fragment,
         browserList: RecyclerView,
         lifecycleOwner: LifecycleOwner,
-        uri: Uri,
+        intentFactory: BrowserIntentFactory,
     ) {
-        viewModel.updateBrowserList(uri)
+        viewModel.updateBrowserList(intentFactory.uri)
 
-        val adapter = BrowserListAdapter(lifecycleOwner) {
-            val intent = createViewIntent(uri, it.packageName)
-            fragment.launchAndClose(intent, it)
+        val adapter = BrowserListAdapter(lifecycleOwner) { browserData ->
+            val intent = intentFactory.createBrowserIntent(browserData.packageName)
+            fragment.launchAndClose(intent, browserData)
         }
         browserList.setVerticalLinearLayoutManager()
         browserList.adapter = adapter

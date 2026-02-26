@@ -33,7 +33,12 @@ class Settings private constructor(
 
     val keepInRecents: Boolean by booleanPref(
         R.string.pref_key_keep_in_recents,
-        R.bool.pref_default_keep_in_recents
+        R.bool.pref_default_keep_in_recents,
+    )
+
+    val useOriginalIntent: Boolean by booleanPref(
+        R.string.pref_key_use_original_intent,
+        R.bool.pref_default_use_original_intent,
     )
 
     val peekHeight: Int by dimenPref(
