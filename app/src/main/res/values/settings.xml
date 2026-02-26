@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="pref_title_full_screen_by_default">Full screen by default</string>
+    <string name="pref_summary_full_screen_by_default">Always open the picker full screen by default. Can still be collapsed to the peek height.</string>
+
+    <string name="pref_title_peek_height">Peek height</string>
+    <!-- Percentage should be aligned with Globals.MAX_COLLAPSED_BOTTOM_SHEET_HEIGHT -->
+    <string name="pref_summary_peek_height">The height of the picker in the collapsed state. Will always be limited to 80% of the current window size.</string>
+
     <string name="pref_title_truncate_link">Truncate link</string>
     <string name="pref_summary_truncate_link">Limit the number of lines used to display the opened link. If disabled and the link is long, you might need to expand the list to see some browsers.</string>
 

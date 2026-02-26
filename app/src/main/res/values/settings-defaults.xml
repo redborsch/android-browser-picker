@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <bool name="pref_default_keep_in_recents">true</bool>
+    <dimen name="pref_default_peek_height">256dp</dimen>
+    <dimen name="pref_min_peek_height">200dp</dimen>
+    <bool name="pref_default_full_screen_by_default">false</bool>
     <bool name="pref_default_truncate_link">true</bool>
     <integer name="pref_default_max_link_lines">3</integer>
     <string name="pref_default_test_url" translatable="false">https://redborsch.github.io/android-browser-picker/</string>

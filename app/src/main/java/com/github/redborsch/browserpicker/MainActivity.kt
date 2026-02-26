@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(), SettingsFragment.Host {
     private fun ActivityMainBinding.setUp() {
         setSupportActionBar(toolbar)
 
-        nestedScrollView.applyInsetsAsPaddings(InsetLocation { LEFT + RIGHT })
+        nestedScrollView.applyInsetsAsPaddings(InsetLocation { LEFT + RIGHT + BOTTOM })
         toolbar.applyInsetsAsMargins(InsetLocation { LEFT + RIGHT + TOP })
         fabTryIt.applyInsetsAsMargins(InsetLocation.RIGHT, keepExisting = true)
 

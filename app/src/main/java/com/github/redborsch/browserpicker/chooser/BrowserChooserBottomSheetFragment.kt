@@ -1,15 +1,18 @@
 package com.github.redborsch.browserpicker.chooser
 
+import android.content.Context
 import android.content.DialogInterface
 import android.net.Uri
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LifecycleOwner
+import com.github.redborsch.browserpicker.common.Globals
 import com.github.redborsch.browserpicker.common.Settings
 import com.github.redborsch.browserpicker.databinding.FragmentBrowserChooserBinding
 import com.github.redborsch.fragment.BottomSheetDialogFragment
-import com.github.redborsch.insets.InsetLocation
 import com.github.redborsch.insets.applyBottomSheetPaddings
-import com.github.redborsch.insets.applyInsetsAsPaddings
+import com.github.redborsch.window.currentWindowBounds
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlin.math.roundToInt
 
 class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrowserChooserBinding>(
     FragmentBrowserChooserBinding::inflate
@@ -38,10 +41,10 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
         }
     }
 
-    override fun FragmentBrowserChooserBinding.setUp(lifecycleOwner: LifecycleOwner) {
+    override fun FragmentBrowserChooserBinding.setUp(dialog: BottomSheetDialog) {
         val uri = retrieveUri() ?: return // Should not happen
 
-        applySettings()
+        applySettings(dialog)
 
         link.text = uri.toString()
 
@@ -49,19 +52,31 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
             .setUp(
                 this@BrowserChooserBottomSheetFragment,
                 browserList,
-                lifecycleOwner,
+                dialog,
                 uri,
             )
         scrolledContent.applyBottomSheetPaddings()
     }
 
-    private fun FragmentBrowserChooserBinding.applySettings() {
-        val settings = Settings.getInstance(requireContext())
+    private fun FragmentBrowserChooserBinding.applySettings(dialog: BottomSheetDialog) {
+        val context = dialog.context
+        val settings = Settings.getInstance(context)
 
         if (settings.truncateLink) {
             link.maxLines = settings.maxLinkLines
         }
+        with(dialog.behavior) {
+            peekHeight = settings.peekHeight.coerceAtMost(context.maxPeekHeight)
+            state = if (settings.fullScreenByDefault) {
+                BottomSheetBehavior.STATE_EXPANDED
+            } else {
+                BottomSheetBehavior.STATE_COLLAPSED
+            }
+        }
     }
 
     private fun retrieveUri(): Uri? = activity?.run { intent.data }
+
+    private val Context.maxPeekHeight: Int
+        get() = (currentWindowBounds.height() * Globals.MAX_COLLAPSED_BOTTOM_SHEET_HEIGHT).roundToInt()
 }

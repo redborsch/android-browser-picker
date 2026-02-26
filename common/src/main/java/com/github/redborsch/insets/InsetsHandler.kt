@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.InsetsType
-import com.google.android.material.internal.WindowUtils
+import com.github.redborsch.window.currentWindowBounds
 
 internal abstract class AbstractInsetsHandler(
     @param:InsetsType
@@ -44,10 +44,12 @@ internal class NonFullScreenInsetsHandler(
     @SuppressLint("RestrictedApi")
     override fun provideLocations(v: View): Int {
         var locationFlags = InsetLocation.BOTTOM
-        val bounds = WindowUtils.getCurrentWindowBounds(v.context)
-        if (bounds.width() == v.width) {
+        if (v.occupiesFullWidth) {
             locationFlags += InsetLocation { LEFT + RIGHT }
         }
         return locationFlags
     }
+
+    private inline val View.occupiesFullWidth: Boolean
+        get() = context.currentWindowBounds.width() == width
 }

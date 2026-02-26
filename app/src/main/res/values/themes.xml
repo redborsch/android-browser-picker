@@ -30,7 +30,7 @@
     </style>
 
     <style name="BrowserBottomSheet" parent="Widget.Material3.BottomSheet.Modal">
-        <item name="behavior_peekHeight">256dp</item>
+        <item name="behavior_peekHeight">@dimen/pref_default_peek_height</item>
 
         <!-- Real edge-to-edge support, also cutouts are not handled properly anyway.
          Note that we still enable top padding in order for bottom sheet to fully expand

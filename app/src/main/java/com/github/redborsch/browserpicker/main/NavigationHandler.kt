@@ -68,7 +68,6 @@ class NavigationHandler(
         }
         if (savedInstanceState == null) {
             maybeLoadDefaultTab()
-            navigateTo(selectedItemId)
         }
         updateSetupTabIcon(menu)
     }

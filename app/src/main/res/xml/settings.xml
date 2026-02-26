@@ -11,6 +11,21 @@
             android:persistent="false"
             android:title="@string/pref_title_customize_browser_list" />
 
+        <com.github.redborsch.preferences.DimensionPreference
+            android:defaultValue="@dimen/pref_default_peek_height"
+            android:key="@string/pref_key_peek_height"
+            android:max="5000"
+            android:summary="@string/pref_summary_peek_height"
+            android:title="@string/pref_title_peek_height"
+            app:min="100"
+            app:showSeekBarValue="true" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="@bool/pref_default_full_screen_by_default"
+            android:key="@string/pref_key_full_screen_by_default"
+            android:summary="@string/pref_summary_full_screen_by_default"
+            android:title="@string/pref_title_full_screen_by_default" />
+
         <SwitchPreferenceCompat
             android:defaultValue="@bool/pref_default_truncate_link"
             android:key="@string/pref_key_truncate_link"

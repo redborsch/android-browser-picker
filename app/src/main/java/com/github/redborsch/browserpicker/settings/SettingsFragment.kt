@@ -11,20 +11,24 @@ import androidx.core.view.MenuProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.github.redborsch.browserpicker.R
+import com.github.redborsch.browserpicker.common.Globals
 import com.github.redborsch.browserpicker.customizer.CustomizerActivity
 import com.github.redborsch.fragment.defaultFragmentTag
 import com.github.redborsch.fragment.showDialog
+import com.github.redborsch.graphics.max
 import com.github.redborsch.log.getLogger
+import com.github.redborsch.preferences.DimensionPreference
 import com.github.redborsch.preferences.EditTextPreferenceDialogWithValidation
 import com.github.redborsch.preferences.ValidationStrategy
+import com.github.redborsch.preferences.withPreference
+import com.github.redborsch.window.currentWindowBounds
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import kotlin.math.roundToInt
 
 class SettingsFragment :
     PreferenceFragmentCompat(),
     PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback {
-
-    private val log = getLogger()
 
     private val menuProvider = object : MenuProvider {
         override fun onCreateMenu(
@@ -55,7 +59,7 @@ class SettingsFragment :
     ) {
         addPreferencesFromResource(R.xml.settings)
 
-        handleBrowserListCustomization()
+        setupPreferences()
     }
 
     private fun resetPreferences() {
@@ -75,17 +79,17 @@ class SettingsFragment :
         return true
     }
 
-    private fun handleBrowserListCustomization() {
-        val preference = findPreference<Preference>(
-            getString(R.string.pref_key_browser_list_launcher)
-        ) ?: run {
-            log.e { "Cannot find browser list preference" }
-            return
+    private fun setupPreferences() {
+        withPreference<Preference>(R.string.pref_key_browser_list_launcher) {
+            onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                launchBrowserListCustomizer()
+                true
+            }
         }
 
-        preference.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            launchBrowserListCustomizer()
-            true
+        withPreference<DimensionPreference>(R.string.pref_key_peek_height) {
+            max = (requireContext().currentWindowBounds.max * Globals.MAX_COLLAPSED_BOTTOM_SHEET_HEIGHT).roundToInt()
+            min = resources.getDimension(R.dimen.pref_min_peek_height).roundToInt()
         }
     }
 

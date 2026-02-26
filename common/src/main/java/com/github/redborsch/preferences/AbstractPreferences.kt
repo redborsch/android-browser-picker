@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
 import androidx.annotation.BoolRes
+import androidx.annotation.DimenRes
 import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
 import androidx.core.content.edit
+import kotlin.math.roundToInt
 import kotlin.properties.ReadWriteProperty
 
 typealias PreferenceDelegate<T> = ReadWriteProperty<AbstractPreferences, T>
@@ -48,6 +50,12 @@ abstract class AbstractPreferences {
         @IntegerRes defaultValue: Int,
     ): PreferenceDelegate<Int> =
         IntegerPreference(IntegerXmlPreference(key, defaultValue))
+
+    protected fun dimenPref(
+        @StringRes key: Int,
+        @DimenRes defaultValue: Int,
+    ): PreferenceDelegate<Int> =
+        IntegerPreference(DimenXmlPreference(key, defaultValue))
 
     internal fun <T> readPreference(preference: AbstractPreference<T>): T =
         preference.run {
@@ -98,5 +106,13 @@ abstract class AbstractPreferences {
         override val defaultValueResId: Int
     ) : AbstractXmlPreferenceData<Int>() {
         override fun Resources.retrieveDefaultValue(resId: Int) = getInteger(resId)
+    }
+
+    private inner class DimenXmlPreference(
+        override val keyResId: Int,
+        @param:DimenRes
+        override val defaultValueResId: Int
+    ) : AbstractXmlPreferenceData<Int>() {
+        override fun Resources.retrieveDefaultValue(resId: Int) = getDimension(resId).roundToInt()
     }
 }

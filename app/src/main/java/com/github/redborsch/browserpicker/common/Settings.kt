@@ -8,7 +8,7 @@ import com.github.redborsch.browserpicker.shared.repository.BrowserListSettings
 import com.github.redborsch.preferences.AbstractPreference
 import com.github.redborsch.preferences.AbstractPreferences
 
-class Settings(
+class Settings private constructor(
     context: Context,
 ) : AbstractPreferences() {
 
@@ -34,6 +34,16 @@ class Settings(
     val keepInRecents: Boolean by booleanPref(
         R.string.pref_key_keep_in_recents,
         R.bool.pref_default_keep_in_recents
+    )
+
+    val peekHeight: Int by dimenPref(
+        R.string.pref_key_peek_height,
+        R.dimen.pref_default_peek_height,
+    )
+
+    val fullScreenByDefault: Boolean by booleanPref(
+        R.string.pref_key_full_screen_by_default,
+        R.bool.pref_default_full_screen_by_default,
     )
 
     var browserList: BrowserListSettings by BrowserListPreference("BrowserList")
