@@ -1,6 +1,5 @@
 package com.github.redborsch.browserpicker.shared.system
 
-import android.app.role.RoleManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager

@@ -33,12 +33,12 @@ class BrowserEntryViewHolder(
     fun bind(browserData: BrowserData, lifecycleOwner: LifecycleOwner) {
         this.browserData = browserData
 
-        binding.browserName.text = browserData.name
+        val context = binding.root.context
+
+        binding.browserName.text = browserData.getName(context)
         binding.browserIcon.setImageDrawable(null)
-        lastJob = lifecycleOwner.launchOnEachStart {
-            browserData.icon.collect {
-                binding.browserIcon.setImageDrawable(it)
-            }
+        lastJob = browserData.loadIcon(context, lifecycleOwner) {
+            binding.browserIcon.setImageDrawable(it)
         }
     }
 

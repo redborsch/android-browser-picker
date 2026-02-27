@@ -84,17 +84,3 @@ class BrowserListPreference(override val key: String) : AbstractPreference<Brows
         putStringSet(key, value.serialize())
     }
 }
-
-/*
-FIXME remove
-package=visible,order
-
-my.package|1,0
-
-com.github.redborsch.browserpicker.internal.copy
-com.github.redborsch.browserpicker.internal.share
-com.github.redborsch.browserpicker.internal.unknown-browsers
-
-new browsers?
-
- */

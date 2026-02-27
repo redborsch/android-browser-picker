@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.redborsch.browserpicker.shared.model.BrowserData
 import com.github.redborsch.browserpicker.shared.model.BrowserListRepository
+import com.github.redborsch.browserpicker.shared.repository.installed.InstalledBrowserFilter
 import com.github.redborsch.browserpicker.shared.repository.installed.InstalledBrowserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -60,7 +61,7 @@ class RepoData(
 enum class BrowserListRepoType {
     Fake {
         override fun createInstance(context: Context): BrowserListRepository =
-            FakeBrowserRepository()
+            FakeBrowserRepository(100)
     },
     Installed {
         override fun createInstance(context: Context): BrowserListRepository =
@@ -68,8 +69,29 @@ enum class BrowserListRepoType {
     },
     InstalledExcludePackage {
         override fun createInstance(context: Context): BrowserListRepository =
-            InstalledBrowserRepository(context, "com.github.redborsch.browserpicker")
+            InstalledBrowserRepository(
+                context,
+                InstalledBrowserRepository.filterOutPackage("com.github.redborsch.browserpicker"),
+            )
+    },
+    InstalledExcludeNonBrowsers {
+        override fun createInstance(context: Context): BrowserListRepository =
+            InstalledBrowserRepository(
+                context,
+                InstalledBrowserRepository.filterOutNonBrowserApps(),
+            )
+    },
+    InstalledAllFilters {
+        override fun createInstance(context: Context): BrowserListRepository =
+            InstalledBrowserRepository(
+                context,
+                InstalledBrowserRepository.filterOutPackage("com.github.redborsch.browserpicker"),
+                InstalledBrowserRepository.filterOutNonBrowserApps(),
+            )
     };
 
     abstract fun createInstance(context: Context): BrowserListRepository
 }
+
+private fun InstalledBrowserRepository(context: Context, vararg filters: InstalledBrowserFilter) =
+    InstalledBrowserRepository(context, filters.toList())

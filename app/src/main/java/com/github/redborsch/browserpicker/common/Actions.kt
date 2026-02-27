@@ -1,21 +1,20 @@
 package com.github.redborsch.browserpicker.common
 
 import android.app.Activity
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import androidx.core.net.toUri
 import com.github.redborsch.browserpicker.ChooserActivity
+import com.github.redborsch.browserpicker.shared.repository.BrowserListSettings
 
-fun createChooserIntent(
-    context: Context,
-    url: String = Settings.getInstance(context).testUrl,
-): Intent =
-    Intent(context, ChooserActivity::class.java).apply {
-        action = Intent.ACTION_VIEW
-        data = url.toUri()
-    }
-
-fun Activity.tryChooser() {
-    // TODO pass custom browser list settings?
-    startActivity(createChooserIntent(this))
+fun Activity.tryChooser(customSettings: BrowserListSettings? = null) {
+    startActivity(
+        ChooserActivity.createIntent(this, customSettings = customSettings),
+    )
 }
+
+fun Intent.toSystemChooser(context: Context): Intent =
+    Intent.createChooser(this, null).apply {
+        val excludedComponentNames = arrayOf(ComponentName(context.packageName, ChooserActivity::class.qualifiedName!!))
+        putExtra(Intent.EXTRA_EXCLUDE_COMPONENTS, excludedComponentNames)
+    }

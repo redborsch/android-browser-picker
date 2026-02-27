@@ -20,6 +20,10 @@ class CustomizerActivity : AppCompatActivity() {
 
     private val viewModel: CustomizerViewModel by viewModels()
 
+    private val listHelper by lazy {
+        CustomizerListHelper(viewModel, this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,7 +34,7 @@ class CustomizerActivity : AppCompatActivity() {
         setContentView(binding)
         binding.setUp()
 
-        CustomizerListHelper(viewModel).setUp(binding.recyclerView, this)
+        listHelper.setUp(binding.recyclerView)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -54,7 +58,7 @@ class CustomizerActivity : AppCompatActivity() {
         }
 
         fabTryIt.setOnClickListener {
-            tryChooser()
+            tryChooser(customSettings = listHelper.collectSettings())
         }
 
         fabTryIt.applyInsetsAsMargins(
@@ -68,7 +72,7 @@ class CustomizerActivity : AppCompatActivity() {
     }
 
     private fun confirmCustomizations() {
-        // FIXME
+        viewModel.saveSettings(listHelper.collectSettings())
         finish()
     }
 }

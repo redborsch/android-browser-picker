@@ -5,11 +5,17 @@
     <string name="activity_label_customizer">List &amp; Action Customization</string>
 
     <!-- Chooser Activity -->
-    <string name="send_intent_warning">No link was detected in the shared text. But no worries, here you can choose another app.</string>
+    <string name="toast_send_intent_warning">No link detected in shared text - choose another app.</string>
 
     <!-- Chooser Fragment -->
     <string name="open">Open</string>
     <string name="open_error">Opening %s failed. Maybe try another app?</string>
+
+    <!-- Actions -->
+    <string name="internal_action_copy">Copy link</string>
+    <string name="internal_action_share">Share link</string>
+    <string name="internal_entry_non_browser_apps"><i>Non-browser applications</i></string>
+    <string name="toast_link_copied_to_clipboard">Link copied to clipboard</string>
 
     <!-- Main screen -->
     <string name="try_it_out">Try it out!</string>

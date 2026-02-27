@@ -1,13 +1,17 @@
 package com.github.redborsch.browserpicker.shared.model
 
+import android.content.Context
 import android.graphics.drawable.Drawable
-import kotlinx.coroutines.flow.Flow
+import androidx.lifecycle.LifecycleOwner
+import kotlinx.coroutines.Job
 
 interface BrowserData {
 
-    val name: String
-
-    val icon: Flow<Drawable?>
-
     val packageName: String
+
+    val isNonBrowserApplication: Boolean
+
+    fun getName(context: Context): CharSequence
+
+    fun loadIcon(context: Context, lifecycleOwner: LifecycleOwner, block: (Drawable?) -> Unit): Job?
 }

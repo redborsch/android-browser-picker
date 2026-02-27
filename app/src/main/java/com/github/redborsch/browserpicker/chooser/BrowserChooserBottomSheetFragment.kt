@@ -23,20 +23,12 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
 
     private lateinit var browserIntentFactory: BrowserIntentFactory
 
-    private lateinit var settings: Settings
-
     private var destroyingDialog = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         browserIntentFactory = requireArguments().requireParcelable(ARG_BROWSER_INTENT_FACTORY)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        settings = Settings.getInstance(context)
     }
 
     override fun onDestroyView() {
@@ -59,7 +51,7 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
     }
 
     override fun FragmentBrowserChooserBinding.setUp(dialog: BottomSheetDialog) {
-        applySettings(dialog)
+        applySettings(dialog, viewModel.settings)
 
         link.text = browserIntentFactory.uri.toString()
 
@@ -74,7 +66,10 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
         scrolledContent.applyBottomSheetPaddings()
     }
 
-    private fun FragmentBrowserChooserBinding.applySettings(dialog: BottomSheetDialog) {
+    private fun FragmentBrowserChooserBinding.applySettings(
+        dialog: BottomSheetDialog,
+        settings: Settings,
+    ) {
         if (settings.truncateLink) {
             link.maxLines = settings.maxLinkLines
         }

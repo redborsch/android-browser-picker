@@ -1,14 +1,14 @@
 package com.github.redborsch.browserpicker.shared.repository
 
-class BrowserListSettings private constructor(
-    val entries: List<SettingsEntry>,
-) {
+import com.github.redborsch.browserpicker.shared.model.BrowserData
 
-    fun serialize(): Set<String> {
-        return entries.mapTo(HashSet()) {
-            it.serialize()
-        }
-    }
+interface BrowserListSettings {
+
+    fun isVisible(packageName: String): Boolean
+    fun isVisible(browserData: BrowserData): Boolean
+    fun getOrder(packageName: String): Int
+    fun getOrder(browserData: BrowserData): Int
+    fun serialize(): Set<String>
 
     class Builder(capacity: Int) {
 
@@ -18,12 +18,16 @@ class BrowserListSettings private constructor(
             entries += entry
         }
 
-        fun build() = BrowserListSettings(entries.toList())
+        fun build(): BrowserListSettings = BrowserListSettingsImpl(
+            entries.associateByTo(HashMap(entries.size)) {
+                it.appPackage
+            }
+        )
     }
 
     companion object {
 
-        fun empty() = BrowserListSettings(emptyList())
+        fun empty(): BrowserListSettings = BrowserListSettingsImpl(emptyMap())
 
         fun deserialize(serialized: Set<String>): BrowserListSettings {
             return Builder(serialized.size)
@@ -37,6 +41,29 @@ class BrowserListSettings private constructor(
                     }
                 }
                 .build()
+        }
+    }
+}
+
+private class BrowserListSettingsImpl(
+    val entries: Map<String, SettingsEntry>,
+) : BrowserListSettings {
+
+    override fun isVisible(packageName: String): Boolean =
+        entries[packageName]?.visible ?: true
+
+    override fun isVisible(browserData: BrowserData): Boolean =
+        isVisible(browserData.packageName)
+
+    override fun getOrder(packageName: String): Int =
+        entries[packageName]?.order ?: 0
+
+    override fun getOrder(browserData: BrowserData): Int =
+        getOrder(browserData.packageName)
+
+    override fun serialize(): Set<String> {
+        return entries.values.mapTo(HashSet()) {
+            it.serialize()
         }
     }
 }

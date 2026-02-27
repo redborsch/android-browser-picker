@@ -1,17 +1,20 @@
 package com.github.redborsch.browserpicker.playground
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import androidx.lifecycle.LifecycleOwner
 import com.github.redborsch.browserpicker.shared.model.BrowserData
-import com.github.redborsch.browserpicker.shared.model.BrowserListRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import com.github.redborsch.browserpicker.shared.repository.common.AbstractBrowserListRepository
+import kotlinx.coroutines.Job
 
-class FakeBrowserRepository : BrowserListRepository {
+class FakeBrowserRepository(
+    private val itemCount: Int,
+) : AbstractBrowserListRepository() {
 
-    override suspend fun queryBrowserList(uri: Uri): List<BrowserData> = buildList {
-        repeat(10) {
-            add(newFakeBrowser(it))
+    override suspend fun queryIntermediate(uri: Uri): Sequence<BrowserData> = sequence {
+        repeat(itemCount) {
+            yield(newFakeBrowser(it))
         }
     }
 
@@ -21,9 +24,20 @@ class FakeBrowserRepository : BrowserListRepository {
 }
 
 private class FakeBrowserData(
-    override val name: String
+    private val name: String
 ) : BrowserData {
-    override val icon: Flow<Drawable?> = flowOf(null)
+
     override val packageName: String
         get() = "com.github.redborsch.browserpicker"
+
+    override val isNonBrowserApplication: Boolean
+        get() = false
+
+    override fun getName(context: Context): CharSequence = name
+
+    override fun loadIcon(
+        context: Context,
+        lifecycleOwner: LifecycleOwner,
+        block: (Drawable?) -> Unit
+    ): Job? = null
 }

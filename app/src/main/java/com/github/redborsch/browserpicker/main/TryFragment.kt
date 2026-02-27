@@ -5,10 +5,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.github.redborsch.browserpicker.common.createChooserIntent
+import com.github.redborsch.binding.ViewBindingFragment
+import com.github.redborsch.browserpicker.ChooserActivity
 import com.github.redborsch.browserpicker.databinding.FragmentMainTryBinding
 import com.github.redborsch.browserpicker.model.SetupViewModel
-import com.github.redborsch.binding.ViewBindingFragment
 import com.github.redborsch.insets.InsetLocation
 import com.github.redborsch.insets.applyInsetsAsPaddings
 import com.github.redborsch.lifecycle.launchOnEachStart
@@ -46,6 +46,6 @@ class TryFragment : ViewBindingFragment<FragmentMainTryBinding>(
 
     private fun openChooser() {
         val context = context ?: return
-        openChooser.launch(createChooserIntent(context))
+        openChooser.launch(ChooserActivity.createIntent(context))
     }
 }

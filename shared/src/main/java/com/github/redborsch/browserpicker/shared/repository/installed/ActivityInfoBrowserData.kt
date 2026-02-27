@@ -1,41 +1,38 @@
 package com.github.redborsch.browserpicker.shared.repository.installed
 
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import androidx.lifecycle.LifecycleOwner
 import com.github.redborsch.browserpicker.shared.model.BrowserData
+import com.github.redborsch.lifecycle.launchOnEachStart
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.withContext
 
 internal class ActivityInfoBrowserData(
-    private val packageManager: PackageManager,
+    packageManager: PackageManager,
     private val activityInfo: ActivityInfo,
+    override val isNonBrowserApplication: Boolean,
 ) : BrowserData {
 
-    @Volatile
-    private var cachedIcon: Drawable? = null
+    private val name: CharSequence = activityInfo.loadLabel(packageManager)
 
-    override val name: String by lazy {
-        activityInfo.loadLabel(packageManager).toString()
-    }
-    override val icon: Flow<Drawable?>
-        get() = cachedIcon?.let {
-            flowOf(it)
-        } ?: loadIconFlow().onEach {
-            if (it != null) {
-                cachedIcon = it
-            }
-        }
     override val packageName: String
         get() = activityInfo.packageName
 
-    private fun loadIconFlow() = flow<Drawable?> {
-        emit(
-            activityInfo.loadIcon(packageManager)
-        )
-    }.flowOn(Dispatchers.Default)
+    override fun getName(context: Context): CharSequence = name
+
+    override fun loadIcon(
+        context: Context,
+        lifecycleOwner: LifecycleOwner,
+        block: (Drawable?) -> Unit
+    ): Job = lifecycleOwner.launchOnEachStart {
+        block(context.loadIcon())
+    }
+
+    private suspend fun Context.loadIcon() = withContext(Dispatchers.Default) {
+        activityInfo.loadIcon(packageManager)
+    }
 }
