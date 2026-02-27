@@ -22,7 +22,9 @@ class TryFragment : ViewBindingFragment<FragmentMainTryBinding>(
         TryViewModel.createFactory(setupViewModel.isDefault)
     }
 
-    private val openChooser = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+    private val openChooser = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+    ) {
         viewModel.registerTryAttempt()
     }
 

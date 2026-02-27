@@ -6,6 +6,10 @@ import android.view.ViewGroup
 import androidx.core.graphics.Insets
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
+import com.github.redborsch.insets.InsetLocation.Companion.BOTTOM
+import com.github.redborsch.insets.InsetLocation.Companion.LEFT
+import com.github.redborsch.insets.InsetLocation.Companion.RIGHT
+import com.github.redborsch.insets.InsetLocation.Companion.TOP
 
 internal interface InsetStrategy {
     fun applyInsets(view: View, @InsetLocation locations: Int, insets: Insets)
@@ -16,10 +20,10 @@ internal class PaddingStrategy : InsetStrategy {
     override fun applyInsets(view: View, locations: Int, insets: Insets) {
         with(view) {
             updatePadding(
-                left = locations.apply(InsetLocation.LEFT, insets.left, paddingLeft),
-                top = locations.apply(InsetLocation.TOP, insets.top, paddingTop),
-                right = locations.apply(InsetLocation.RIGHT, insets.right, paddingRight),
-                bottom = locations.apply(InsetLocation.BOTTOM, insets.bottom, paddingBottom),
+                left = locations.apply(LEFT, insets.left, paddingLeft),
+                top = locations.apply(TOP, insets.top, paddingTop),
+                right = locations.apply(RIGHT, insets.right, paddingRight),
+                bottom = locations.apply(BOTTOM, insets.bottom, paddingBottom),
             )
         }
     }
@@ -41,10 +45,10 @@ internal class MarginStrategy(
 
     override fun applyInsets(view: View, locations: Int, insets: Insets) {
         view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-            leftMargin = locations.apply(InsetLocation.LEFT, existing.left + insets.left, leftMargin)
-            topMargin = locations.apply(InsetLocation.TOP, existing.top + insets.top, topMargin)
-            rightMargin = locations.apply(InsetLocation.RIGHT, existing.right + insets.right, rightMargin)
-            bottomMargin = locations.apply(InsetLocation.BOTTOM, existing.bottom + insets.bottom, bottomMargin)
+            leftMargin = locations.apply(LEFT, existing.left + insets.left, leftMargin)
+            topMargin = locations.apply(TOP, existing.top + insets.top, topMargin)
+            rightMargin = locations.apply(RIGHT, existing.right + insets.right, rightMargin)
+            bottomMargin = locations.apply(BOTTOM, existing.bottom + insets.bottom, bottomMargin)
         }
     }
 }

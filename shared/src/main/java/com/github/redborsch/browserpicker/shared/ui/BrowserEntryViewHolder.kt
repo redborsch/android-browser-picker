@@ -4,7 +4,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.github.redborsch.browserpicker.shared.databinding.ItemBrowserEntryBinding
 import com.github.redborsch.browserpicker.shared.model.BrowserData
-import com.github.redborsch.lifecycle.launchOnEachStart
 import kotlinx.coroutines.Job
 
 class BrowserEntryViewHolder(

@@ -97,10 +97,13 @@ class SettingsFragment :
         }
 
         withPreference<DimensionPreference>(R.string.pref_key_peek_height) {
-            max = (requireContext().currentWindowBounds.max * Globals.MAX_COLLAPSED_BOTTOM_SHEET_HEIGHT).roundToInt()
+            max = requireContext().calculateMaximumPeekHeight()
             min = resources.getDimension(R.dimen.pref_min_peek_height).roundToInt()
         }
     }
+
+    private fun Context.calculateMaximumPeekHeight(): Int =
+        (currentWindowBounds.max * Globals.MAX_COLLAPSED_BOTTOM_SHEET_HEIGHT).roundToInt()
 
     private fun launchBrowserListCustomizer() {
         val context = context ?: return

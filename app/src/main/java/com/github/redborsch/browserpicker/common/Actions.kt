@@ -15,6 +15,8 @@ fun Activity.tryChooser(customSettings: BrowserListSettings? = null) {
 
 fun Intent.toSystemChooser(context: Context): Intent =
     Intent.createChooser(this, null).apply {
-        val excludedComponentNames = arrayOf(ComponentName(context.packageName, ChooserActivity::class.qualifiedName!!))
+        val excludedComponentNames = arrayOf(
+            ComponentName(context.packageName, ChooserActivity::class.qualifiedName!!),
+        )
         putExtra(Intent.EXTRA_EXCLUDE_COMPONENTS, excludedComponentNames)
     }

@@ -89,7 +89,9 @@ private class RoleManagerStrategy(
 
     private val log = getLogger()
 
-    private val defaultBrowserRequest = fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+    private val defaultBrowserRequest = fragment.registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+    ) {
         log.v { "Activity result: $it" }
         if (it.resultCode == Activity.RESULT_CANCELED) {
             val hasAppeared = appearanceMonitor.consumeHasAppeared()

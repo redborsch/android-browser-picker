@@ -45,7 +45,7 @@ class InstalledBrowserRepository(
         }
 
     companion object {
-        fun filterOutPackage(packageToFilterOut: String) : InstalledBrowserFilter = {
+        fun filterOutPackage(packageToFilterOut: String): InstalledBrowserFilter = {
             it.activityInfo.packageName == packageToFilterOut
         }
 

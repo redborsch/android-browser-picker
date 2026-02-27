@@ -93,7 +93,7 @@ class ChooserActivity : FragmentActivity() {
             context: Context,
             url: String = Settings.getInstance(context).testUrl,
             customSettings: BrowserListSettings? = null,
-        ) =Intent(context, ChooserActivity::class.java).apply {
+        ) = Intent(context, ChooserActivity::class.java).apply {
             action = Intent.ACTION_VIEW
             data = url.toUri()
             if (customSettings != null) {

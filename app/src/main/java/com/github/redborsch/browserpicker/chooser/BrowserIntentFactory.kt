@@ -3,10 +3,10 @@ package com.github.redborsch.browserpicker.chooser
 import android.content.Intent
 import android.net.Uri
 import android.os.Parcelable
+import androidx.core.net.toUri
 import com.github.redborsch.browserpicker.common.Globals
 import com.github.redborsch.browserpicker.shared.system.createViewIntent
 import kotlinx.parcelize.Parcelize
-import androidx.core.net.toUri
 
 interface BrowserIntentFactory : Parcelable {
 

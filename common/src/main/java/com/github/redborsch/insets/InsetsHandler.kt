@@ -13,7 +13,10 @@ internal abstract class AbstractInsetsHandler(
     private val strategy: InsetStrategy,
 ) : OnApplyWindowInsetsListener {
 
-    override fun onApplyWindowInsets(v: View, windowInsets: WindowInsetsCompat): WindowInsetsCompat {
+    override fun onApplyWindowInsets(
+        v: View,
+        windowInsets: WindowInsetsCompat
+    ): WindowInsetsCompat {
         val locations = provideLocations(v)
         val insets = windowInsets.getInsets(typeMask)
         strategy.applyInsets(v, locations, insets)

@@ -46,6 +46,6 @@
         <item name="paddingRightSystemWindowInsets">false</item>
 
         <!-- For testing -->
-<!--        <item name="android:maxWidth">1000dp</item>-->
+        <!--<item name="android:maxWidth">1000dp</item>-->
     </style>
 </resources>

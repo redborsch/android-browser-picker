@@ -5,7 +5,6 @@ import android.os.Parcelable
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.BundleCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import com.github.redborsch.R
@@ -31,8 +30,8 @@ class EditTextPreferenceDialogWithValidation : EditTextPreferenceDialogFragmentC
 
         val inputLayout = view.findViewById<TextInputLayout>(R.id.input_layout) ?: run {
             log.e {
-                "Cannot find the required view. Make sure you supply ${resources.getResourceName(
-                    R.layout.preference_dialog_edittext_with_errors)
+                "Cannot find the required view. Make sure you supply ${
+                    resources.getResourceName(R.layout.preference_dialog_edittext_with_errors)
                 } as preference dialogLayout property"
             }
             return

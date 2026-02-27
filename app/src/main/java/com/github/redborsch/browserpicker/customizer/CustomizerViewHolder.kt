@@ -71,7 +71,7 @@ class CustomizerViewHolder(
             )
             contentDescription = context.getString(contentDescriptionResId)
         }
-        with (binding.browserEntry) {
+        with(binding.browserEntry) {
             browserIcon.alpha = alpha
             browserName.isEnabled = data.isVisible
         }

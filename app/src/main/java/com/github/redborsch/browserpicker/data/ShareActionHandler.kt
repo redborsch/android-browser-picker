@@ -21,6 +21,6 @@ class ShareActionHandler : AbstractSingleActionHandler(
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, uri.toString())
         }.toSystemChooser(context)
-        fragment.startActivity(Intent.createChooser(intent,null))
+        fragment.startActivity(Intent.createChooser(intent, null))
     }
 }

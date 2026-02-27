@@ -14,7 +14,9 @@ class SimplePreferenceData<T>(
     override val defaultValue: T
 ) : SharedPreferenceData<T>
 
-abstract class AbstractPreference<T> : ReadWriteProperty<AbstractPreferences, T>, SharedPreferenceData<T> {
+abstract class AbstractPreference<T> :
+    ReadWriteProperty<AbstractPreferences, T>,
+    SharedPreferenceData<T> {
 
     abstract fun SharedPreferences.read(): T
     abstract fun SharedPreferences.Editor.write(value: T)

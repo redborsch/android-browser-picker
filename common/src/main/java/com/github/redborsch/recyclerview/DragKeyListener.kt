@@ -26,6 +26,7 @@ class DragKeyListener(
                 onKeyboardDragToggle(viewHolder)
                 return true
             }
+
             KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_DOWN ->
                 return onKeyboardMoved(keyCode)
 

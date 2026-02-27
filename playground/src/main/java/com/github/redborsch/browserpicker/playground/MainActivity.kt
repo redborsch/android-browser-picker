@@ -3,8 +3,8 @@ package com.github.redborsch.browserpicker.playground
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.github.redborsch.browserpicker.playground.databinding.ActivityMainBinding
 import com.github.redborsch.binding.setContentView
+import com.github.redborsch.browserpicker.playground.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

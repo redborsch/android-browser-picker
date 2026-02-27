@@ -6,8 +6,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commitNow
-import androidx.fragment.app.transaction
-import kotlin.math.exp
 import kotlin.reflect.KClass
 
 /**
