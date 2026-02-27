@@ -1,6 +1,6 @@
 # Android Browser Picker
 
-[![System browser picker on Android 8.1 "Oreo", API 27](img/google-play.png)](https://play.google.com/store/apps/details?id=com.github.redborsch.browserpicker)
+[![Download on Google Play](docs/img/google-play.png)](https://play.google.com/store/apps/details?id=com.github.redborsch.browserpicker)
 
 ## Why this project
 
@@ -16,9 +16,9 @@ So, because of this need for choice this application was born. At first as a ver
 
 ## Features
 
-![Picker](img/screenshot_picker.png)
-![Settings](img/screenshot_settings.png)
-![Customization](img/screenshot_customization.png)
+![Picker](docs/img/screenshot_picker.png)
+![Settings](docs/img/screenshot_settings.png)
+![Customization](docs/img/screenshot_customization.png)
 
 - Can be used 2 modes:
   - as the default browser: will handle the incoming links and display the picker with the list of browsers and actions that can open it.
