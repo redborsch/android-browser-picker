@@ -7,8 +7,9 @@ import android.net.Uri
 import android.os.Build
 import androidx.core.net.toUri
 
-fun createViewIntent(uri: Uri): Intent = Intent(Intent.ACTION_VIEW).apply {
-    data = uri
+fun createViewIntent(uri: Uri): Intent = Intent(Intent.ACTION_VIEW, uri).apply {
+    // This appears to be required for API 36+
+    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_ACTIVITY_NEW_DOCUMENT)
 }
 
 fun createViewIntent(uri: Uri, packageName: String): Intent = createViewIntent(uri).apply {

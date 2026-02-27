@@ -10,6 +10,7 @@ import com.github.redborsch.browserpicker.R
 import com.github.redborsch.browserpicker.chooser.BrowserIntentFactory
 import com.github.redborsch.browserpicker.common.Settings
 import com.github.redborsch.browserpicker.shared.model.BrowserData
+import com.github.redborsch.log.dumpForLog
 import com.github.redborsch.log.getLogger
 
 class InstalledBrowserHandler : BrowserDataHandler {
@@ -30,6 +31,9 @@ class InstalledBrowserHandler : BrowserDataHandler {
         fragment: Fragment
     ) {
         val intent = intentFactory.createBrowserIntent(browserData.packageName)
+
+        log.d { "Intent to launch browser: ${intent.dumpForLog()}" }
+
         fragment.launchAndClose(intent, browserData)
     }
 
