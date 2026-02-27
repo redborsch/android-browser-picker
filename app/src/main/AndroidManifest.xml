@@ -24,6 +24,9 @@
         <activity
             android:name=".ChooserActivity"
             android:exported="true"
+            android:autoRemoveFromRecents="false"
+            android:documentLaunchMode="intoExisting"
+            android:excludeFromRecents="false"
             android:launchMode="singleTop"
             android:theme="@style/Theme.BrowserPicker.Transparent">
 

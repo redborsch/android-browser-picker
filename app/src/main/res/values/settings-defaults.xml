@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <bool name="pref_default_keep_in_recents">true</bool>
+    <bool name="pref_default_keep_in_recents">false</bool>
     <bool name="pref_default_use_original_intent">true</bool>
     <dimen name="pref_default_peek_height">256dp</dimen>
     <dimen name="pref_min_peek_height">200dp</dimen>
