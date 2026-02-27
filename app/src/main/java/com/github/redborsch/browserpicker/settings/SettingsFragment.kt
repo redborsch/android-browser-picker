@@ -136,7 +136,7 @@ class SettingsFragment :
 private class UrlValidationStrategy : ValidationStrategy {
 
     @IgnoredOnParcel
-    private val schemeRegex = Globals.urlRegex()
+    private val schemeRegex = Globals.urlMatchRegex()
 
     @IgnoredOnParcel
     private val log = getLogger()

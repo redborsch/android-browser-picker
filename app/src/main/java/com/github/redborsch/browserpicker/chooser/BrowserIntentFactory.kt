@@ -30,14 +30,12 @@ fun BrowserIntentFactory(intent: Intent, useOriginalIntent: Boolean): BrowserInt
     }
 }
 
-private fun extractUriFromText(text: String): Uri? =
-    if (text.matches(Globals.urlRegex())) {
-        runCatching {
-            text.toUri()
-        }.getOrNull()
-    } else {
-        null
-    }
+private fun extractUriFromText(text: String): Uri? {
+    val result = Globals.urlFindRegex().find(text) ?: return null
+    return runCatching {
+        result.value.toUri()
+    }.getOrNull()
+}
 
 @Parcelize
 private class OnlyUri(

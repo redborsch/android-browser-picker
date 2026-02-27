@@ -8,9 +8,11 @@ object Globals {
      */
     const val MAX_COLLAPSED_BOTTOM_SHEET_HEIGHT = 0.8f
 
-    val ownPackageName: String = BuildConfig.APPLICATION_ID
+    val ownPackageName: String get() = BuildConfig.APPLICATION_ID
 
-    fun urlRegex(): Regex = "(HTTP|http)([Ss])?://.+".toRegex()
+    fun urlMatchRegex(): Regex = "(HTTP|http)([Ss])?://.+".toRegex()
+
+    fun urlFindRegex(): Regex = """(HTTP|http)([Ss])?://.+[^\s$]""".toRegex()
 
     fun internalAction(name: String): String =
         "$ownPackageName.$name"
