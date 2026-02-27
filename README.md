@@ -22,9 +22,12 @@ So, because of this need for choice this application was born. At first as a ver
 
 - Can be used 2 modes:
   - as the default browser: will handle the incoming links and display the picker with the list of browsers and actions that can open it.
-    [Screen_recording_20260227_150538.webm](https://github.com/user-attachments/assets/6c16a82b-f153-4c51-926a-1e4941f27752)
+
+    https://github.com/user-attachments/assets/6c16a82b-f153-4c51-926a-1e4941f27752
   - as a share target. Same principle, but the app is also able to detect links in the text and doesn't require the app being set as default browser.
-    [Screen_recording_20260227_150032.webm](https://github.com/user-attachments/assets/e052d783-480b-4b96-8122-9c56fca642dc)
+
+    https://github.com/user-attachments/assets/e052d783-480b-4b96-8122-9c56fca642dc
+
 - Extensive customization capabilities:
   - Reordering/hiding displayed browsers. Reordering is also possible via the attached keyboard.
   - Custom actions (Copy link, Share link)
