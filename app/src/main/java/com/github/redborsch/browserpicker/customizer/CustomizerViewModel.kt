@@ -6,7 +6,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.redborsch.browserpicker.common.Settings
-import com.github.redborsch.browserpicker.data.BrowserPickerRepository
+import com.github.redborsch.browserpicker.data.BrowserListRepositoryFactory
 import com.github.redborsch.browserpicker.shared.repository.BrowserListSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -31,7 +31,7 @@ class CustomizerViewModel(application: Application) : AndroidViewModel(applicati
 
     private fun CoroutineScope.fetchBrowserList(uri: Uri) = launch {
         val browserListSettings = settings.browserList
-        val repo = BrowserPickerRepository(
+        val repo = BrowserListRepositoryFactory(
             getApplication(),
         ).createListRepositoryForCustomizing(settings.browserList)
         _items.value = repo.queryBrowserList(uri).map {

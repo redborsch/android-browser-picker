@@ -6,12 +6,11 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.github.redborsch.browserpicker.R
-import com.github.redborsch.browserpicker.common.Globals
 import com.github.redborsch.os.requireSystemService
 
-class CopyActionHandler : AbstractSingleActionHandler(
+class CopyActionHandler(id: String) : AbstractSingleActionHandler(
     InternalBrowserData(
-        Globals.internalAction("copy"),
+        id,
         R.string.internal_action_copy,
         R.drawable.outline_content_copy_24,
     )

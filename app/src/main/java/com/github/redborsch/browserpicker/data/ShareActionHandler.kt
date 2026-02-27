@@ -4,12 +4,11 @@ import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.github.redborsch.browserpicker.R
-import com.github.redborsch.browserpicker.common.Globals
 import com.github.redborsch.browserpicker.common.toSystemChooser
 
-class ShareActionHandler : AbstractSingleActionHandler(
+class ShareActionHandler(id: String) : AbstractSingleActionHandler(
     InternalBrowserData(
-        Globals.internalAction("share"),
+        id,
         R.string.internal_action_share,
         R.drawable.outline_share_24,
     )

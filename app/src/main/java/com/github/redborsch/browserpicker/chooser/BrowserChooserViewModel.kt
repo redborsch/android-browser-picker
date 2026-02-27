@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.redborsch.browserpicker.common.Settings
-import com.github.redborsch.browserpicker.data.BrowserPickerRepository
+import com.github.redborsch.browserpicker.data.BrowserListRepositoryFactory
 import com.github.redborsch.browserpicker.shared.model.BrowserData
 import com.github.redborsch.browserpicker.shared.repository.BrowserListSettings
 import com.github.redborsch.log.getLogger
@@ -22,8 +22,8 @@ class BrowserChooserViewModel(application: Application) : AndroidViewModel(appli
     private val _uriActions = MutableStateFlow(emptyList<BrowserData>())
     val uriActions: Flow<List<BrowserData>> = _uriActions.asStateFlow()
 
-    private val repo = BrowserPickerRepository(getApplication())
-    val handlers get() = repo.handlers
+    private val repo = BrowserListRepositoryFactory(getApplication())
+    val handlers get() = repo.data.handlers
 
     val settings = Settings.getInstance(application)
 

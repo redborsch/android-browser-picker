@@ -27,8 +27,6 @@ interface BrowserListSettings {
 
     companion object {
 
-        fun empty(): BrowserListSettings = BrowserListSettingsImpl(emptyMap())
-
         fun deserialize(serialized: Set<String>): BrowserListSettings {
             return Builder(serialized.size)
                 .apply {
@@ -47,6 +45,12 @@ interface BrowserListSettings {
 
 private class BrowserListSettingsImpl(
     val entries: Map<String, SettingsEntry>,
+    /**
+     * We reserve 0 for potentially higher priority entries, for instance non-browser apps entry.
+     * Also when new browsers are installed and not configured, they will appear on top, but
+     * not on the very top.
+     */
+    private val defaultOrder: Int = 1,
 ) : BrowserListSettings {
 
     override fun isVisible(packageName: String): Boolean =
@@ -56,7 +60,7 @@ private class BrowserListSettingsImpl(
         isVisible(browserData.packageName)
 
     override fun getOrder(packageName: String): Int =
-        entries[packageName]?.order ?: 0
+        entries[packageName]?.order ?: defaultOrder
 
     override fun getOrder(browserData: BrowserData): Int =
         getOrder(browserData.packageName)

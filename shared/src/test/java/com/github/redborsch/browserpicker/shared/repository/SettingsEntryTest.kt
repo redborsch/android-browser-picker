@@ -13,8 +13,8 @@ class SettingsEntryTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `cannot use order bigger than MAX_INT - 1`() {
-        createTestEntry(order = Int.MAX_VALUE)
+    fun `cannot use order bigger than MAX_ORDER`() {
+        createTestEntry(order = SettingsEntry.MAX_ORDER + 1)
     }
 
     @Test
@@ -43,13 +43,13 @@ class SettingsEntryTest {
         val invisibleEntry = createTestEntry(visible = false)
         val visibleEntryWith0Order = createTestEntry(visible = true, order = 0)
         val invisibleEntryWith0Order = createTestEntry(visible = false, order = 0)
-        val maxOrder = createTestEntry(visible = false, order = Int.MAX_VALUE - 1)
+        val maxOrder = createTestEntry(visible = false, order = SettingsEntry.MAX_ORDER)
         assertEquals(
-            "some.test.package|1235",
+            "some.test.package|yb",
             visibleEntry.serialize(),
         )
         assertEquals(
-            "some.test.package|-1235",
+            "some.test.package|-yb",
             invisibleEntry.serialize(),
         )
         assertEquals(
@@ -61,7 +61,7 @@ class SettingsEntryTest {
             invisibleEntryWith0Order.serialize(),
         )
         assertEquals(
-            "some.test.package|-2147483647",
+            "some.test.package|-zik0zj",
             maxOrder.serialize(),
         )
     }
@@ -72,15 +72,15 @@ class SettingsEntryTest {
         val invisibleEntry = createTestEntry(visible = false)
         val visibleEntryWith0Order = createTestEntry(visible = true, order = 0)
         val invisibleEntryWith0Order = createTestEntry(visible = false, order = 0)
-        val maxOrder = createTestEntry(visible = false, order = Int.MAX_VALUE - 1)
+        val maxOrder = createTestEntry(visible = false, order = SettingsEntry.MAX_ORDER)
         val minimalPackage = SettingsEntry("a", true, 0)
         assertEquals(
             visibleEntry,
-            SettingsEntry.deserialize("some.test.package|1235"),
+            SettingsEntry.deserialize("some.test.package|yb"),
         )
         assertEquals(
             invisibleEntry,
-            SettingsEntry.deserialize("some.test.package|-1235"),
+            SettingsEntry.deserialize("some.test.package|-yb"),
         )
         assertEquals(
             visibleEntryWith0Order,
@@ -92,7 +92,7 @@ class SettingsEntryTest {
         )
         assertEquals(
             maxOrder,
-            SettingsEntry.deserialize("some.test.package|-2147483647"),
+            SettingsEntry.deserialize("some.test.package|-zik0zj"),
         )
         assertEquals(
             minimalPackage,

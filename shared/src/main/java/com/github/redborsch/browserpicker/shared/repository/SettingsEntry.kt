@@ -12,8 +12,8 @@ class SettingsEntry(
         require(order >= 0) {
             "The order cannot be negative as it will break the serialization logic"
         }
-        require(order < Int.MAX_VALUE) {
-            "The order cannot exceed ${Int.MAX_VALUE - 1}"
+        require(order <= MAX_ORDER) {
+            "The order cannot exceed $MAX_ORDER"
         }
     }
 
@@ -23,14 +23,21 @@ class SettingsEntry(
         // Avoid 0, which is unsigned
         val orderToSerializer = order + 1
         if (visible) {
-            append(orderToSerializer)
+            append(orderToSerializer.toString(NUMBER_FORMAT_RADIX))
         } else {
-            append(-orderToSerializer)
+            append((-orderToSerializer).toString(NUMBER_FORMAT_RADIX))
         }
     }
 
     companion object {
         private const val PACKAGE_SEPARATOR = '|'
+
+        /**
+         * Save with the maximum radix to save some space
+         */
+        private const val NUMBER_FORMAT_RADIX = Character.MAX_RADIX
+
+        val MAX_ORDER = Int.MAX_VALUE - 1
 
         fun deserialize(serialized: String): SettingsEntry? {
             val packageSeparatorIndex = serialized.indexOf(PACKAGE_SEPARATOR)
@@ -56,7 +63,7 @@ class SettingsEntry(
         }
 
         private fun String.deserializeIntSafe(): Int = runCatching {
-            toInt()
+            toInt(NUMBER_FORMAT_RADIX)
         }.getOrElse {
             // Note: should not be 0 as it will be decreased by 1
             1

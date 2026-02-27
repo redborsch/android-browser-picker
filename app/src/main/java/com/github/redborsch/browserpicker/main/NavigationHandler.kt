@@ -67,15 +67,18 @@ class NavigationHandler(
             navigateTo(it.itemId)
         }
         if (savedInstanceState == null) {
-            maybeLoadDefaultTab()
+            if (!tryLoadDefaultTab()) {
+                navigateTo(selectedItemId)
+            }
         }
         updateSetupTabIcon(menu)
     }
 
-    private fun BottomNavigationView.maybeLoadDefaultTab() {
-        val screenSettingsId = uiPreferences.defaultScreen ?: return
-        val navigationItem = navigationModel.findItem(screenSettingsId) ?: return
+    private fun BottomNavigationView.tryLoadDefaultTab(): Boolean {
+        val screenSettingsId = uiPreferences.defaultScreen ?: return false
+        val navigationItem = navigationModel.findItem(screenSettingsId) ?: return false
         selectedItemId = navigationItem.menuItemId
+        return true
     }
 
     private fun updateSetupTabIcon(menu: Menu) {

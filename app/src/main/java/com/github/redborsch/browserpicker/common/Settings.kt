@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.github.redborsch.browserpicker.R
+import com.github.redborsch.browserpicker.data.BrowserPickerRepository
 import com.github.redborsch.browserpicker.shared.repository.BrowserListSettings
+import com.github.redborsch.browserpicker.shared.repository.SettingsEntry
 import com.github.redborsch.preferences.AbstractPreference
 import com.github.redborsch.preferences.AbstractPreferences
 
@@ -67,10 +69,12 @@ class Settings private constructor(
     }
 }
 
-class BrowserListPreference(override val key: String) : AbstractPreference<BrowserListSettings>() {
+class BrowserListPreference(
+    override val key: String,
+) : AbstractPreference<BrowserListSettings>() {
 
     override val defaultValue: BrowserListSettings
-        get() = BrowserListSettings.empty()
+        get() = generateDefault()
 
     override fun SharedPreferences.read(): BrowserListSettings {
         return getStringSet(key, null)?.let {
@@ -82,5 +86,32 @@ class BrowserListPreference(override val key: String) : AbstractPreference<Brows
         value: BrowserListSettings
     ) {
         putStringSet(key, value.serialize())
+    }
+
+    /**
+     * Trying to keep the maximum backward compatibility and minimize potential inconvenience
+     * while still showcasing new features.
+     */
+    private fun generateDefault(): BrowserListSettings {
+        val repo = BrowserPickerRepository()
+        return BrowserListSettings.Builder(3).apply {
+            // Usually default apps handling URLs were always on top of the list
+            addEntry(
+                SettingsEntry(
+                    repo.nonBrowserAppEntry.packageName,
+                    visible = true,
+                    order = 0,
+                )
+            )
+            repo.handlersActions.forEach {
+                addEntry(
+                    SettingsEntry(
+                        it.packageName,
+                        visible = true,
+                        order = SettingsEntry.MAX_ORDER,
+                    )
+                )
+            }
+        }.build()
     }
 }

@@ -6,16 +6,19 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.LifecycleOwner
+import com.github.redborsch.browserpicker.common.Globals
 import com.github.redborsch.browserpicker.shared.model.BrowserData
 import kotlinx.coroutines.Job
 
 class InternalBrowserData(
-    override val packageName: String,
+    id: String,
     @param:StringRes
     private val nameResId: Int,
     @param:DrawableRes
     private val iconResId: Int,
 ) : BrowserData {
+
+    override val packageName: String = Globals.internalAction(id)
 
     override val isNonBrowserApplication: Boolean
         get() = false
