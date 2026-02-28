@@ -11,6 +11,7 @@ import com.github.redborsch.browserpicker.chooser.BrowserChooserBottomSheetFragm
 import com.github.redborsch.browserpicker.chooser.BrowserChooserViewModel
 import com.github.redborsch.browserpicker.chooser.BrowserIntentFactory
 import com.github.redborsch.browserpicker.common.Settings
+import com.github.redborsch.browserpicker.common.makeCopyWithoutComponent
 import com.github.redborsch.browserpicker.common.toSystemChooser
 import com.github.redborsch.browserpicker.shared.repository.BrowserListSettings
 import com.github.redborsch.fragment.defaultFragmentTag
@@ -78,9 +79,9 @@ class ChooserActivity : FragmentActivity() {
 
         Toast.makeText(this, R.string.toast_send_intent_warning, Toast.LENGTH_LONG).show()
 
-        val newShareIntent = Intent(intent).apply {
-            setComponent(null)
-        }.toSystemChooser(this)
+        val newShareIntent = intent
+            .makeCopyWithoutComponent()
+            .toSystemChooser(this)
         startActivity(newShareIntent)
         finish()
     }

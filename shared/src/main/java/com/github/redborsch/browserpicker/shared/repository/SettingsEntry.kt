@@ -37,7 +37,7 @@ class SettingsEntry(
          */
         private const val NUMBER_FORMAT_RADIX = Character.MAX_RADIX
 
-        val MAX_ORDER = Int.MAX_VALUE - 1
+        const val MAX_ORDER = Int.MAX_VALUE - 1
 
         fun deserialize(serialized: String): SettingsEntry? {
             val packageSeparatorIndex = serialized.indexOf(PACKAGE_SEPARATOR)

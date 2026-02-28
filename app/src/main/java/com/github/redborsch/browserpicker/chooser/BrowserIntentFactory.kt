@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Parcelable
 import androidx.core.net.toUri
 import com.github.redborsch.browserpicker.common.Globals
+import com.github.redborsch.browserpicker.common.makeCopyWithoutComponent
 import com.github.redborsch.browserpicker.shared.system.createViewIntent
 import kotlinx.parcelize.Parcelize
 
@@ -15,20 +16,18 @@ interface BrowserIntentFactory : Parcelable {
     fun createBrowserIntent(browserPackage: String): Intent
 }
 
-fun BrowserIntentFactory(intent: Intent, useOriginalIntent: Boolean): BrowserIntentFactory? {
+fun BrowserIntentFactory(intent: Intent, useOriginalIntent: Boolean): BrowserIntentFactory? =
     if (intent.action == Intent.ACTION_SEND) {
         val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: return null
         val uri = extractUriFromText(text) ?: return null
-        return OnlyUri(uri)
+        OnlyUri(uri)
     } else {
-        val uri = intent.data ?: return null
-        return if (useOriginalIntent) {
-            OriginalIntent(Intent(intent))
+        if (useOriginalIntent) {
+            OriginalIntent(intent)
         } else {
-            OnlyUri(uri)
+            OnlyUri(intent.data ?: return null)
         }
     }
-}
 
 private fun extractUriFromText(text: String): Uri? {
     val result = Globals.urlFindRegex().find(text) ?: return null
@@ -61,10 +60,11 @@ private class OriginalIntent private constructor(
     }
 
     companion object {
-        operator fun invoke(intent: Intent) = OriginalIntent(
-            Intent(intent).apply {
-                setComponent(null)
+        operator fun invoke(intent: Intent): OriginalIntent? =
+            if (intent.data == null) {
+                null
+            } else {
+                OriginalIntent(intent.makeCopyWithoutComponent())
             }
-        )
     }
 }
