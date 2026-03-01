@@ -16,11 +16,16 @@ fun DefaultBrowserAction(fragment: Fragment): DefaultBrowserAction {
     return DefaultBrowserAction(strategy)
 }
 
-typealias OnBrowserRequestSucceeded = () -> Unit
+/**
+ * Used by [RoleManagerStrategy] to inform that the request has succeeded.
+ * The fragment using [DefaultBrowserAction] must implement it (enforced in runtime).
+ */
+interface BrowserRequestSucceededListener {
+    fun onBrowserRequestSucceeded()
+}
 typealias OnSettingsLaunchFailed = (e: ActivityNotFoundException) -> Unit
 
 interface DefaultBrowserActionStrategy {
-    fun launchDefaultBrowserSettings()
-    fun onBrowserRequestSucceeded(block: OnBrowserRequestSucceeded)
+    fun launchDefaultBrowserSettings(force: Boolean)
     fun onSettingsLaunchFailed(block: OnSettingsLaunchFailed)
 }

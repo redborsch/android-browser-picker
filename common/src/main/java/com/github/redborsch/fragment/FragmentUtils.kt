@@ -26,7 +26,14 @@ fun FragmentManager.replaceCurrentFragment(
     tag: String,
     fragmentClass: KClass<out Fragment>,
     container: View,
+    force: Boolean = false,
 ) {
+    if (!force) {
+        val existing = findFragmentByTag(tag)
+        if (fragmentClass.isInstance(existing)) {
+            return
+        }
+    }
     commitNow(allowStateLoss = true) {
         replace(
             container.id,
@@ -42,7 +49,7 @@ fun FragmentManager.replaceCurrentFragment(
  */
 fun FragmentManager.resetCurrentFragment(tag: String, container: View) {
     val fragment = findFragmentByTag(tag) ?: return
-    replaceCurrentFragment(tag, fragment::class, container)
+    replaceCurrentFragment(tag, fragment::class, container, force = true)
 }
 
 /**

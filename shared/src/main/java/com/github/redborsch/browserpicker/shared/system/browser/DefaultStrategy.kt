@@ -18,7 +18,7 @@ internal class DefaultStrategy(
 
     private var onSettingsLaunchFailed: OnSettingsLaunchFailed? = null
 
-    override fun launchDefaultBrowserSettings() {
+    override fun launchDefaultBrowserSettings(force: Boolean) {
         // The following logic was adapted from Firefox Focus: https://github.com/mozilla-mobile/focus-android
         // Not sure directing specifically to the browser settings (still) actually still works...
         val intent = Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS).apply {
@@ -38,10 +38,6 @@ internal class DefaultStrategy(
             log.e(e) { "Error opening settings" }
             onSettingsLaunchFailed?.invoke(e)
         }
-    }
-
-    override fun onBrowserRequestSucceeded(block: () -> Unit) {
-        // We cannot determine in this strategy whether the request has succeeded
     }
 
     override fun onSettingsLaunchFailed(block: OnSettingsLaunchFailed) {

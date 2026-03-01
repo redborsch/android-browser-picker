@@ -21,12 +21,23 @@ import com.github.redborsch.BuildConfig
  * ```
  * Will not work for anonymous classes or when calling within custom receivers.
  */
-fun Any.getLogger(): Logger {
+@Suppress("NOTHING_TO_INLINE")
+inline fun Any.getLogger(): Logger = getLogger {
+    requireNotNull(this::class.simpleName) {
+        "Cannot automatically create class logging tag: $this"
+    }
+}
+
+inline fun <reified T> getLogger(): Logger = getLogger {
+    requireNotNull(T::class.simpleName) {
+        "Cannot automatically create class logging tag: ${T::class.qualifiedName}"
+    }
+}
+
+@PublishedApi
+internal fun getLogger(lazyTag: () -> String): Logger {
     return if (BuildConfig.DEBUG) {
-        val tag = requireNotNull(this::class.simpleName) {
-            "Cannot automatically create class logging tag: $this"
-        }
-        Logger(tag)
+        Logger(lazyTag())
     } else {
         // Logging disabled
         Logger(null)

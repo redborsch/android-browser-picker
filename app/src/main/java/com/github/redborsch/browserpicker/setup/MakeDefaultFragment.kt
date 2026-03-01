@@ -4,30 +4,22 @@ import androidx.fragment.app.activityViewModels
 import com.github.redborsch.binding.ViewBindingFragment
 import com.github.redborsch.browserpicker.databinding.FragmentSetupActionRequiredBinding
 import com.github.redborsch.browserpicker.model.SetupViewModel
-import com.github.redborsch.browserpicker.shared.system.DefaultBrowserAction
-import com.github.redborsch.fragment.defaultFragmentTag
-import com.github.redborsch.fragment.showDialog
+import com.github.redborsch.browserpicker.shared.system.browser.BrowserRequestSucceededListener
 
 class MakeDefaultFragment : ViewBindingFragment<FragmentSetupActionRequiredBinding>(
     FragmentSetupActionRequiredBinding::inflate
-) {
+), BrowserRequestSucceededListener {
 
     private val viewModel: SetupViewModel by activityViewModels()
-
-    private val defaultBrowserAction = DefaultBrowserAction(this).apply {
-        onBrowserRequestSucceeded {
-            viewModel.refreshDefaultState()
-        }
-        onSettingsLaunchFailed {
-            childFragmentManager.showDialog(defaultFragmentTag) {
-                OpenSettingsErrorDialogFragment()
-            }
-        }
-    }
+    private val defaultBrowserActionHandler = DefaultBrowserActionHandler(this)
 
     override fun FragmentSetupActionRequiredBinding.setUp() {
         makeDefault.setOnClickListener {
-            defaultBrowserAction.launchDefaultBrowserSettings()
+            defaultBrowserActionHandler.launchDefaultBrowserSettings()
         }
+    }
+
+    override fun onBrowserRequestSucceeded() {
+        viewModel.refreshDefaultState()
     }
 }

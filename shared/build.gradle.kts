@@ -43,6 +43,7 @@ kotlin {
 dependencies {
     implementation(project(":common"))
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.fragment.ktx)
     implementation(libs.material)
     testImplementation(libs.junit)
     // For equality comparison as a test-only alternative to data classes.
