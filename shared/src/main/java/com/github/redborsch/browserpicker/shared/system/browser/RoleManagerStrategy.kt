@@ -1,88 +1,17 @@
-package com.github.redborsch.browserpicker.shared.system
+package com.github.redborsch.browserpicker.shared.system.browser
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.os.Build
 import android.os.SystemClock
-import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import com.github.redborsch.browserpicker.shared.system.createBrowserRoleIntent
+import com.github.redborsch.browserpicker.shared.system.roleManager
 import com.github.redborsch.log.getLogger
 
-class DefaultBrowserAction(
-    strategy: DefaultBrowserActionStrategy,
-) : DefaultBrowserActionStrategy by strategy
-
-fun DefaultBrowserAction(fragment: Fragment): DefaultBrowserAction {
-    var strategy: DefaultBrowserActionStrategy = DefaultStrategy(fragment)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        strategy = RoleManagerStrategy(fragment, strategy)
-    }
-    return DefaultBrowserAction(strategy)
-}
-
-typealias OnBrowserRequestSucceeded = () -> Unit
-typealias OnSettingsLaunchFailed = (e: ActivityNotFoundException) -> Unit
-
-interface DefaultBrowserActionStrategy {
-    fun launchDefaultBrowserSettings()
-    fun onBrowserRequestSucceeded(block: OnBrowserRequestSucceeded)
-    fun onSettingsLaunchFailed(block: OnSettingsLaunchFailed)
-}
-
-/**
- * Open default apps settings and allow the user to choose the browser.
- */
-private class DefaultStrategy(
-    private val fragment: Fragment,
-) : DefaultBrowserActionStrategy {
-
-    private val log = getLogger()
-
-    private var onSettingsLaunchFailed: OnSettingsLaunchFailed? = null
-
-    override fun launchDefaultBrowserSettings() {
-        // The following logic was adapted from Firefox Focus: https://github.com/mozilla-mobile/focus-android
-        // Not sure directing specifically to the browser settings (still) actually still works...
-        val intent = Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS).apply {
-            putExtra(
-                SETTINGS_SELECT_OPTION_KEY,
-                DEFAULT_BROWSER_APP_OPTION,
-            )
-            putExtra(
-                SETTINGS_SHOW_FRAGMENT_ARGS,
-                bundleOf(SETTINGS_SELECT_OPTION_KEY to DEFAULT_BROWSER_APP_OPTION),
-            )
-        }
-
-        try {
-            fragment.startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            log.e(e) { "Error opening settings" }
-            onSettingsLaunchFailed?.invoke(e)
-        }
-    }
-
-    override fun onBrowserRequestSucceeded(block: () -> Unit) {
-        // We cannot determine in this strategy whether the request has succeeded
-    }
-
-    override fun onSettingsLaunchFailed(block: OnSettingsLaunchFailed) {
-        onSettingsLaunchFailed = block
-    }
-
-    companion object {
-        private const val SETTINGS_SELECT_OPTION_KEY = ":settings:fragment_args_key"
-        private const val SETTINGS_SHOW_FRAGMENT_ARGS = ":settings:show_fragment_args"
-        private const val DEFAULT_BROWSER_APP_OPTION = "default_browser"
-    }
-}
-
 @RequiresApi(Build.VERSION_CODES.Q)
-private class RoleManagerStrategy(
+internal class RoleManagerStrategy(
     private val fragment: Fragment,
     private val backupStrategy: DefaultBrowserActionStrategy,
 ) : DefaultBrowserActionStrategy {
