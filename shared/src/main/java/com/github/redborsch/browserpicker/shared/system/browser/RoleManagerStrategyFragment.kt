@@ -11,6 +11,7 @@ import androidx.fragment.app.commit
 import com.github.redborsch.browserpicker.shared.system.createBrowserRoleIntent
 import com.github.redborsch.browserpicker.shared.system.roleManager
 import com.github.redborsch.log.getLogger
+import com.github.redborsch.log.createLogger
 
 /**
  * Invisible fragment for [RoleManagerStrategy]. It handles Activity results in a robust way so
@@ -28,18 +29,12 @@ internal class RoleManagerStrategyFragment : Fragment() {
         ActivityResultContracts.StartActivityForResult(),
     ) {
         log.v { "Activity result: $it, forcedRequest: $forcedRequest" }
-        if (it.resultCode == Activity.RESULT_CANCELED) {
-            val hasAppeared = appearanceMonitor.consumeHasAppeared()
-            if (!hasAppeared) {
-                // Role Manager UI was not shown, which indicates that the user has probably checked
-                // "Don't ask again" checkbox. However, as we are taking an explicit action here -
-                // let's open the default apps settings and allow the user to choose the browser.
-                backupStrategy?.launchDefaultBrowserSettings(false)
+
+        when (it.resultCode) {
+            Activity.RESULT_CANCELED -> maybeCallBackupStrategy(resultWasOk = false)
+            Activity.RESULT_OK -> if (!maybeCallBackupStrategy(resultWasOk = true)) {
+                notifySucceeded()
             }
-        } else if (forcedRequest) {
-            backupStrategy?.launchDefaultBrowserSettings(true)
-        } else {
-            notifySucceeded()
         }
     }
 
@@ -71,6 +66,24 @@ internal class RoleManagerStrategyFragment : Fragment() {
         log.v { "Requested browser role" }
     }
 
+    private fun maybeCallBackupStrategy(resultWasOk: Boolean): Boolean {
+        val hasAppeared = appearanceMonitor.consumeHasAppeared()
+        log.v { "maybeCallBackupStrategy, hasAppeared = $hasAppeared, resultWasOk: $resultWasOk" }
+        if (hasAppeared) {
+            return false
+        }
+        // Role Manager UI was not shown, which indicates that the user has probably checked
+        // "Don't ask again" checkbox OR the current app is already default (up to API 36).
+        // However, as we are taking an explicit action here -
+        // let's open the default apps settings and allow the user to choose a browser.
+
+        if (!resultWasOk || forcedRequest) {
+            backupStrategy?.launchDefaultBrowserSettings(forcedRequest)
+            return true
+        }
+        return false
+    }
+
     private fun notifySucceeded() {
         fragmentManagerToUse.setFragmentResult(keyOnSuccessResult, Bundle.EMPTY)
     }
@@ -92,7 +105,7 @@ internal class RoleManagerStrategyFragment : Fragment() {
         private val Fragment.fragmentManagerToUse get() = parentFragmentManager
 
         fun getOrCreateInstance(fragment: Fragment): RoleManagerStrategyFragment {
-            val log = getLogger<RoleManagerStrategyFragment>()
+            val log = createLogger<RoleManagerStrategyFragment>()
             val fm = fragment.fragmentManagerToUse
             var helperFragment = fm.findFragmentByTag(tag) as? RoleManagerStrategyFragment
             log.v { "Existing fragment: $helperFragment" }

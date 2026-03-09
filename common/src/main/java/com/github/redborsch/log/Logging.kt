@@ -28,7 +28,7 @@ inline fun Any.getLogger(): Logger = getLogger {
     }
 }
 
-inline fun <reified T> getLogger(): Logger = getLogger {
+inline fun <reified T> createLogger(): Logger = getLogger {
     requireNotNull(T::class.simpleName) {
         "Cannot automatically create class logging tag: ${T::class.qualifiedName}"
     }

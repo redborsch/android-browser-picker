@@ -9,6 +9,7 @@ import com.github.redborsch.browserpicker.shared.repository.BrowserListSettings
 import com.github.redborsch.browserpicker.shared.repository.SettingsEntry
 import com.github.redborsch.preferences.AbstractPreference
 import com.github.redborsch.preferences.AbstractPreferences
+import kotlin.concurrent.Volatile
 
 class Settings private constructor(
     context: Context,
@@ -57,6 +58,7 @@ class Settings private constructor(
 
     companion object {
 
+        @Volatile
         private var instance: Settings? = null
 
         fun getInstance(context: Context): Settings {
