@@ -55,6 +55,8 @@ private class OriginalIntent private constructor(
 
     override fun createBrowserIntent(browserPackage: String): Intent {
         return Intent(intent).apply {
+            // Reset selector to prevent crashes when setting a specific package
+            selector = null
             setPackage(browserPackage)
         }
     }
