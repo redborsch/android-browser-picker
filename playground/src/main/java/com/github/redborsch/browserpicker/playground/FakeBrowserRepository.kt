@@ -3,10 +3,8 @@ package com.github.redborsch.browserpicker.playground
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import androidx.lifecycle.LifecycleOwner
 import com.github.redborsch.browserpicker.shared.model.BrowserData
 import com.github.redborsch.browserpicker.shared.repository.common.AbstractBrowserListRepository
-import kotlinx.coroutines.Job
 
 class FakeBrowserRepository(
     private val itemCount: Int,
