@@ -28,7 +28,6 @@ class InstalledBrowserRepository(
             .applyFilters()
             .map {
                 ActivityInfoBrowserData(
-                    packageManager,
                     it.activityInfo,
                     it.isNonBrowserApp(),
                 )

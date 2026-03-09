@@ -5,10 +5,10 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.lifecycle.LifecycleOwner
 import com.github.redborsch.browserpicker.common.Globals
 import com.github.redborsch.browserpicker.shared.model.BrowserData
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class InternalBrowserData(
     id: String,
@@ -23,15 +23,11 @@ class InternalBrowserData(
     override val isNonBrowserApplication: Boolean
         get() = false
 
-    override fun getName(context: Context): CharSequence =
+    override suspend fun getName(context: Context): CharSequence = withContext(Dispatchers.Default) {
         context.getText(nameResId)
+    }
 
-    override fun loadIcon(
-        context: Context,
-        lifecycleOwner: LifecycleOwner,
-        block: (Drawable?) -> Unit
-    ): Job? {
-        block(AppCompatResources.getDrawable(context, iconResId))
-        return null
+    override suspend fun loadIcon(context: Context): Drawable? = withContext(Dispatchers.IO) {
+        AppCompatResources.getDrawable(context, iconResId)
     }
 }

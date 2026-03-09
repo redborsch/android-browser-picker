@@ -10,6 +10,7 @@ import com.github.redborsch.browserpicker.R
 import com.github.redborsch.browserpicker.chooser.BrowserIntentFactory
 import com.github.redborsch.browserpicker.common.Settings
 import com.github.redborsch.browserpicker.shared.model.BrowserData
+import com.github.redborsch.browserpicker.shared.model.getNameWithTimeout
 import com.github.redborsch.log.dumpForLog
 import com.github.redborsch.log.getLogger
 
@@ -46,7 +47,7 @@ class InstalledBrowserHandler : BrowserDataHandler {
             log.e(e) { "Error opening $intent, browser $browserData" }
             Toast.makeText(
                 activity,
-                getString(R.string.open_error, browserData.getName(activity)),
+                getString(R.string.open_error, browserData.getNameWithTimeout(activity)),
                 Toast.LENGTH_LONG
             ).show()
             return

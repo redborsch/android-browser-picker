@@ -33,11 +33,7 @@ private class FakeBrowserData(
     override val isNonBrowserApplication: Boolean
         get() = false
 
-    override fun getName(context: Context): CharSequence = name
+    override suspend fun getName(context: Context): CharSequence = name
 
-    override fun loadIcon(
-        context: Context,
-        lifecycleOwner: LifecycleOwner,
-        block: (Drawable?) -> Unit
-    ): Job? = null
+    override suspend fun loadIcon(context: Context): Drawable? = null
 }
