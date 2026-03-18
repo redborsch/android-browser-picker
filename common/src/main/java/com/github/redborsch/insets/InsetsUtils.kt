@@ -13,7 +13,7 @@ fun Activity.enableEdgeToEdge() {
     applyEdgeToEdgePatches(window)
 }
 
-@SuppressLint("RestrictedApi", "WrongConstant")
+@SuppressLint("RestrictedApi")
 fun applyEdgeToEdgePatches(window: Window) {
     // WindowCompat.enableEdgeToEdge(window) - Has issues on different Android versions!
     EdgeToEdgeUtils.applyEdgeToEdge(window, true)
@@ -25,8 +25,7 @@ fun applyEdgeToEdgePatches(window: Window) {
 
 private val insetsTypes
     get() = WindowInsetsCompat.Type.systemBars() or
-            WindowInsetsCompat.Type.displayCutout() or
-            WindowInsetsCompat.Type.mandatorySystemGestures()
+            WindowInsetsCompat.Type.displayCutout()
 
 fun View.applyInsetsAsPaddings(@InsetLocation locations: Int) {
     applyInsetsHandler(
