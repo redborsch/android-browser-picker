@@ -2,34 +2,25 @@ package com.github.redborsch.browserpicker.chooser
 
 import android.content.Context
 import android.content.DialogInterface
-import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import com.github.redborsch.browserpicker.common.Globals
 import com.github.redborsch.browserpicker.common.Settings
-import com.github.redborsch.browserpicker.databinding.FragmentBrowserChooserBinding
+import com.github.redborsch.browserpicker.databinding.FragmentBrowserChooserBottomSheetBinding
 import com.github.redborsch.fragment.BottomSheetDialogFragment
 import com.github.redborsch.insets.applyBottomSheetPaddings
-import com.github.redborsch.os.requireParcelable
 import com.github.redborsch.window.currentWindowBounds
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlin.math.roundToInt
 
-class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrowserChooserBinding>(
-    FragmentBrowserChooserBinding::inflate
-) {
+class BrowserChooserBottomSheetFragment :
+    BottomSheetDialogFragment<FragmentBrowserChooserBottomSheetBinding>(
+        FragmentBrowserChooserBottomSheetBinding::inflate
+    ) {
 
     private val viewModel: BrowserChooserViewModel by activityViewModels()
 
-    private lateinit var browserIntentFactory: BrowserIntentFactory
-
     private var destroyingDialog = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        browserIntentFactory = requireArguments().requireParcelable(ARG_BROWSER_INTENT_FACTORY)
-    }
 
     override fun onDestroyView() {
         // DialogFragment automatically destroys the dialog when the fragment view is destroyed
@@ -50,52 +41,28 @@ class BrowserChooserBottomSheetFragment : BottomSheetDialogFragment<FragmentBrow
         }
     }
 
-    override fun FragmentBrowserChooserBinding.setUp(dialog: BottomSheetDialog) {
-        applySettings(dialog, viewModel.settings)
-
-        link.text = browserIntentFactory.uri.toString()
-
-        BrowserListHelper(viewModel)
-            .setUp(
-                this@BrowserChooserBottomSheetFragment,
-                browserList,
-                dialog,
-                browserIntentFactory,
-            )
-
+    override fun FragmentBrowserChooserBottomSheetBinding.setUp(dialog: BottomSheetDialog) {
+        dialog.behavior.applySettings(viewModel.settings, dialog.context)
         scrolledContent.applyBottomSheetPaddings()
+
+        BrowserListHelper(
+            viewModel,
+            this@BrowserChooserBottomSheetFragment,
+            dialog,
+            browserList,
+            link,
+        )
     }
 
-    private fun FragmentBrowserChooserBinding.applySettings(
-        dialog: BottomSheetDialog,
-        settings: Settings,
-    ) {
-        if (settings.truncateLink) {
-            link.maxLines = settings.maxLinkLines
-        }
-        with(dialog.behavior) {
-            peekHeight = settings.peekHeight.coerceAtMost(dialog.context.maxPeekHeight)
-            state = if (settings.fullScreenByDefault) {
-                BottomSheetBehavior.STATE_EXPANDED
-            } else {
-                BottomSheetBehavior.STATE_COLLAPSED
-            }
+    private fun BottomSheetBehavior<*>.applySettings(settings: Settings, context: Context) {
+        peekHeight = settings.peekHeight.coerceAtMost(context.maxPeekHeight)
+        state = if (settings.fullScreenByDefault) {
+            BottomSheetBehavior.STATE_EXPANDED
+        } else {
+            BottomSheetBehavior.STATE_COLLAPSED
         }
     }
 
     private val Context.maxPeekHeight: Int
         get() = (currentWindowBounds.height() * Globals.MAX_COLLAPSED_BOTTOM_SHEET_HEIGHT).roundToInt()
-
-    companion object {
-
-        private const val ARG_BROWSER_INTENT_FACTORY = "BrowserIntentFactory"
-
-        fun newInstance(browserIntentFactory: BrowserIntentFactory): BrowserChooserBottomSheetFragment {
-            return BrowserChooserBottomSheetFragment().apply {
-                arguments = Bundle(1).apply {
-                    putParcelable(ARG_BROWSER_INTENT_FACTORY, browserIntentFactory)
-                }
-            }
-        }
-    }
 }

@@ -2,20 +2,21 @@ package com.github.redborsch.browserpicker
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
-import com.github.redborsch.browserpicker.chooser.BrowserChooserBottomSheetFragment
+import com.github.redborsch.binding.setContentView
 import com.github.redborsch.browserpicker.chooser.BrowserChooserViewModel
 import com.github.redborsch.browserpicker.chooser.BrowserIntentFactory
+import com.github.redborsch.browserpicker.chooser.ChooserActivityPresenter
 import com.github.redborsch.browserpicker.common.Settings
 import com.github.redborsch.browserpicker.common.makeCopyWithoutComponent
 import com.github.redborsch.browserpicker.common.toSystemChooser
+import com.github.redborsch.browserpicker.databinding.ActivityChooserBinding
 import com.github.redborsch.browserpicker.shared.repository.BrowserListSettings
-import com.github.redborsch.fragment.defaultFragmentTag
-import com.github.redborsch.fragment.showDialog
 import com.github.redborsch.insets.enableEdgeToEdge
 import com.github.redborsch.log.dumpForLog
 import com.github.redborsch.log.getLogger
@@ -26,15 +27,26 @@ class ChooserActivity : FragmentActivity() {
 
     private val viewModel: BrowserChooserViewModel by viewModels()
 
+    private lateinit var presenter: ChooserActivityPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val binding = ActivityChooserBinding.inflate(layoutInflater)
+        setContentView(binding)
+        presenter = ChooserActivityPresenter(this, binding).apply {
+            updateUI()
+        }
 
         processIntent(intent)
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+
+        // Update intent for the case if this Activity gets killed and recreated
+        this.intent = intent
 
         processIntent(intent)
     }
@@ -53,10 +65,13 @@ class ChooserActivity : FragmentActivity() {
             maybeReshare(intent)
             return
         }
+        viewModel.setBrowserIntentFactory(browserIntentFactory)
+    }
 
-        supportFragmentManager.showDialog(defaultFragmentTag, forceReplace = true) {
-            BrowserChooserBottomSheetFragment.newInstance(browserIntentFactory)
-        }
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        presenter.updateUI()
     }
 
     private fun maybeConsumeCustomSettings(intent: Intent): Intent {

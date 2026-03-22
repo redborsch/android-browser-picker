@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 class BrowserChooserViewModel(application: Application) : AndroidViewModel(application) {
@@ -33,11 +34,19 @@ class BrowserChooserViewModel(application: Application) : AndroidViewModel(appli
             updateActions()
         }
 
-    var uri: Uri? = null
+    private var uri: Uri? = null
         set(value) {
             field = value
             updateActions()
         }
+
+    private val _browserIntentFactory = MutableStateFlow<BrowserIntentFactory?>(null)
+    val browserIntentFactory: Flow<BrowserIntentFactory> get() = _browserIntentFactory.filterNotNull()
+
+    fun setBrowserIntentFactory(browserIntentFactory: BrowserIntentFactory) {
+        _browserIntentFactory.value = browserIntentFactory
+        uri = browserIntentFactory.uri
+    }
 
     private fun updateActions() {
         val uri = uri ?: return

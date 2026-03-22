@@ -44,6 +44,28 @@ fun FragmentManager.replaceCurrentFragment(
 }
 
 /**
+ * In contrast to a simple [androidx.fragment.app.FragmentTransaction.replace], removes ANY fragment
+ * with the given tag, even if it was not attached to the [container] (like [DialogFragment]).
+ */
+fun <F : Fragment> FragmentManager.forceReplaceCurrentFragment(
+    tag: String,
+    container: View,
+    factory: () -> F,
+) {
+    val existing = findFragmentByTag(tag)
+    commitNow(allowStateLoss = true) {
+        if (existing != null) {
+            remove(existing)
+        }
+        add(
+            container.id,
+            factory(),
+            tag
+        )
+    }
+}
+
+/**
  * Replaces the current fragment with the new instance of itself. Is useful after resetting the
  * preference fragment's preferences.
  */

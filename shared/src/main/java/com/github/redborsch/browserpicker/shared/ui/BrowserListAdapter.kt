@@ -10,8 +10,13 @@ import com.github.redborsch.browserpicker.shared.model.BrowserData
 
 class BrowserListAdapter(
     private val lifecycleOwner: LifecycleOwner,
-    private val onBrowserSelectedListener: OnBrowserSelectedListener,
 ) : RecyclerView.Adapter<BrowserEntryViewHolder>() {
+
+    var onBrowserSelectedListener: OnBrowserSelectedListener? = null
+
+    private val browserSelectedListenerWrapper = OnBrowserSelectedListener {
+        onBrowserSelectedListener?.onBrowserSelected(it)
+    }
 
     var browserList: List<BrowserData> = emptyList()
         @SuppressLint("NotifyDataSetChanged")
@@ -23,7 +28,7 @@ class BrowserListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrowserEntryViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemBrowserEntryBinding.inflate(layoutInflater, parent, false)
-        return BrowserEntryViewHolder(binding, onBrowserSelectedListener)
+        return BrowserEntryViewHolder(binding, browserSelectedListenerWrapper)
     }
 
     override fun getItemCount(): Int = browserList.size

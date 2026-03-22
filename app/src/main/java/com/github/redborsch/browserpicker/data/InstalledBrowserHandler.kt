@@ -40,19 +40,27 @@ class InstalledBrowserHandler : BrowserDataHandler {
 
     private fun Fragment.launchAndClose(intent: Intent, browserData: BrowserData) {
         val activity = activity ?: return
-        activity.disablePendingTransitions()
+
+        if (!activity.isInMultiWindowMode) {
+            activity.disablePendingTransitions()
+        }
+
+        activity.launch(intent, browserData)
+        activity.close()
+    }
+
+    private fun Activity.launch(intent: Intent, browserData: BrowserData) {
         try {
-            activity.startActivity(intent)
+            startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             log.e(e) { "Error opening $intent, browser $browserData" }
             Toast.makeText(
-                activity,
-                getString(R.string.open_error, browserData.getNameWithTimeout(activity)),
+                this,
+                getString(R.string.open_error, browserData.getNameWithTimeout(this)),
                 Toast.LENGTH_LONG
             ).show()
             return
         }
-        activity.close()
     }
 
     private fun Activity.disablePendingTransitions() {
