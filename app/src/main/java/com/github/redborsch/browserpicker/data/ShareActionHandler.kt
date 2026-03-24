@@ -3,6 +3,7 @@ package com.github.redborsch.browserpicker.data
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
+import com.github.redborsch.browserpicker.ChooserActivity
 import com.github.redborsch.browserpicker.R
 import com.github.redborsch.browserpicker.common.toSystemChooser
 
@@ -19,7 +20,10 @@ class ShareActionHandler(id: String) : AbstractSingleActionHandler(
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, uri.toString())
-        }.toSystemChooser(context)
-        fragment.startActivity(Intent.createChooser(intent, null))
+        }.toSystemChooser(
+            context,
+            callback = ChooserActivity.createAutoCloseIntent(context).intentSender,
+        )
+        fragment.startActivity(intent)
     }
 }

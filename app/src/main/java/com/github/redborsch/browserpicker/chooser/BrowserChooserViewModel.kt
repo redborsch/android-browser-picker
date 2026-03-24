@@ -28,29 +28,19 @@ class BrowserChooserViewModel(application: Application) : AndroidViewModel(appli
 
     val settings = Settings.getInstance(application)
 
-    var browserListSettings: BrowserListSettings = settings.browserList
-        set(value) {
-            field = value
-            updateActions()
-        }
-
-    private var uri: Uri? = null
-        set(value) {
-            field = value
-            updateActions()
-        }
+    var customBrowserListSettings: BrowserListSettings? = null
 
     private val _browserIntentFactory = MutableStateFlow<BrowserIntentFactory?>(null)
     val browserIntentFactory: Flow<BrowserIntentFactory> get() = _browserIntentFactory.filterNotNull()
 
     fun setBrowserIntentFactory(browserIntentFactory: BrowserIntentFactory) {
         _browserIntentFactory.value = browserIntentFactory
-        uri = browserIntentFactory.uri
+        updateActions(browserIntentFactory.uri)
     }
 
-    private fun updateActions() {
-        val uri = uri ?: return
-        log.d { "updateActions uri = $uri, settings = $browserListSettings" }
+    private fun updateActions(uri: Uri) {
+        log.d { "updateActions uri = $uri, custom settings = $customBrowserListSettings" }
+        val browserListSettings = customBrowserListSettings ?: settings.browserList
         viewModelScope.fetchBrowserList(uri, browserListSettings)
     }
 

@@ -17,7 +17,7 @@ class BrowserChooserFragment : ViewBindingFragment<FragmentBrowserChooserBinding
         scrolledContent.applyInsetsAsPaddings(InsetLocation { LEFT + RIGHT + BOTTOM })
 
         toolbar.setNavigationOnClickListener {
-            activity?.finish()
+            activity?.finishAndRemoveTask()
         }
 
         BrowserListHelper(

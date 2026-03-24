@@ -6,9 +6,9 @@ fragmentKtx = "1.5.4"
 gson = "2.13.2"
 junit = "4.13.2"
 junitVersion = "1.3.0"
-material = "1.14.0-alpha09"
+material = "1.14.0-alpha10"
 androidGradlePlugin = "9.1.0"
-kotlin = "2.3.10"
+kotlin = "2.3.20"
 preferenceKtx = "1.2.1"
 
 [libraries]

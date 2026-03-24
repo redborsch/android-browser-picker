@@ -7,7 +7,11 @@ plugins {
 
 android {
     namespace = "com.github.redborsch.browserpicker"
-    compileSdk = 36
+    compileSdk {
+        version = release(36) {
+            minorApiLevel = 1
+        }
+    }
 
     buildFeatures {
         buildConfig = true

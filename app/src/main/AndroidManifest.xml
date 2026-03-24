@@ -24,11 +24,20 @@
         <activity
             android:name=".ChooserActivity"
             android:exported="true"
+            android:allowTaskReparenting="true"
+            android:taskAffinity="com.github.redborsch.browserpicker.BrowserChooser"
             android:autoRemoveFromRecents="false"
             android:documentLaunchMode="intoExisting"
             android:excludeFromRecents="false"
-            android:launchMode="singleTop"
+            android:launchMode="singleInstance"
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
+            android:resizeableActivity="true"
             android:theme="@style/Theme.BrowserPicker.Transparent">
+
+            <layout
+                android:defaultHeight="600dp"
+                android:defaultWidth="350dp"
+                android:gravity="center" />
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

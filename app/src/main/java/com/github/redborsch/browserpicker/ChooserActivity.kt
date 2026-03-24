@@ -1,8 +1,8 @@
 package com.github.redborsch.browserpicker
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -13,6 +13,7 @@ import com.github.redborsch.browserpicker.chooser.BrowserChooserViewModel
 import com.github.redborsch.browserpicker.chooser.BrowserIntentFactory
 import com.github.redborsch.browserpicker.chooser.ChooserActivityPresenter
 import com.github.redborsch.browserpicker.common.Settings
+import com.github.redborsch.browserpicker.common.closeChooser
 import com.github.redborsch.browserpicker.common.makeCopyWithoutComponent
 import com.github.redborsch.browserpicker.common.toSystemChooser
 import com.github.redborsch.browserpicker.databinding.ActivityChooserBinding
@@ -27,16 +28,20 @@ class ChooserActivity : FragmentActivity() {
 
     private val viewModel: BrowserChooserViewModel by viewModels()
 
-    private lateinit var presenter: ChooserActivityPresenter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         val binding = ActivityChooserBinding.inflate(layoutInflater)
         setContentView(binding)
-        presenter = ChooserActivityPresenter(this, binding).apply {
+        val presenter = ChooserActivityPresenter(this, binding).apply {
             updateUI()
+        }
+
+        addOnMultiWindowModeChangedListener {
+            log.d { "Multi window mode changed: $it" }
+
+            presenter.updateUI()
         }
 
         processIntent(intent)
@@ -56,6 +61,12 @@ class ChooserActivity : FragmentActivity() {
 
         log.d { "Activity intent: ${intent.dumpForLog()}" }
 
+        if (processInternalIntent(newIntent)) {
+            return
+        }
+
+        log.d { "Processing normally" }
+
         intent = maybeConsumeCustomSettings(intent)
 
         val browserIntentFactory = BrowserIntentFactory(
@@ -68,15 +79,21 @@ class ChooserActivity : FragmentActivity() {
         viewModel.setBrowserIntentFactory(browserIntentFactory)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
-        presenter.updateUI()
+    private fun processInternalIntent(intent: Intent): Boolean {
+        if (intent.action?.startsWith(ACTION_INTERNAL_PREFIX) != true) {
+            return false
+        }
+        log.d { "Internal action: ${intent.action}" }
+        if (intent.action == ACTION_INTERNAL_AUTO_CLOSE) {
+            log.d { "Finishing..." }
+            closeChooser()
+        }
+        return true
     }
 
     private fun maybeConsumeCustomSettings(intent: Intent): Intent {
         return if (intent.hasExtra(EXTRA_CUSTOM_SETTINGS)) {
-            viewModel.browserListSettings = BrowserListSettings.deserialize(
+            viewModel.customBrowserListSettings = BrowserListSettings.deserialize(
                 intent.getStringArrayExtra(EXTRA_CUSTOM_SETTINGS)
                     ?.toSet() ?: emptySet()
             )
@@ -85,6 +102,7 @@ class ChooserActivity : FragmentActivity() {
                 removeExtra(EXTRA_CUSTOM_SETTINGS)
             }
         } else {
+            viewModel.customBrowserListSettings = null
             intent
         }
     }
@@ -98,12 +116,17 @@ class ChooserActivity : FragmentActivity() {
             .makeCopyWithoutComponent()
             .toSystemChooser(this)
         startActivity(newShareIntent)
-        finish()
+        finishAndRemoveTask()
     }
 
     companion object {
 
-        private val EXTRA_CUSTOM_SETTINGS get() = ChooserActivity::class.qualifiedName + ".CustomSettings"
+        private val PREFIX get() = ChooserActivity::class.qualifiedName
+        private val ACTION_INTERNAL_PREFIX get() = "$PREFIX.internal"
+
+        private val ACTION_INTERNAL_AUTO_CLOSE = "$ACTION_INTERNAL_PREFIX.auto-close"
+
+        private val EXTRA_CUSTOM_SETTINGS get() = "$PREFIX.CustomSettings"
 
         fun createIntent(
             context: Context,
@@ -115,6 +138,13 @@ class ChooserActivity : FragmentActivity() {
             if (customSettings != null) {
                 putExtra(EXTRA_CUSTOM_SETTINGS, customSettings.serialize().toTypedArray())
             }
+        }
+
+        fun createAutoCloseIntent(context: Context): PendingIntent {
+            val intent = Intent(context, ChooserActivity::class.java).apply {
+                action = ACTION_INTERNAL_AUTO_CLOSE
+            }
+            return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE + PendingIntent.FLAG_ONE_SHOT)
         }
     }
 }

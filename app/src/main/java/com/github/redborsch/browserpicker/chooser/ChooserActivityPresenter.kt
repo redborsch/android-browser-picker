@@ -11,7 +11,6 @@ import com.github.redborsch.fragment.defaultFragmentTag
 import com.github.redborsch.fragment.forceReplaceCurrentFragment
 import com.github.redborsch.fragment.showDialog
 import com.github.redborsch.log.getLogger
-import com.github.redborsch.window.currentWindowBounds
 
 class ChooserActivityPresenter(
     private val activity: FragmentActivity,
@@ -40,14 +39,8 @@ class ChooserActivityPresenter(
         }
 
     fun updateUI() {
-        showMultiWindowUI = activity.isInMultiWindowMode && isNotInSplitView
+        showMultiWindowUI = activity.isInMultiWindowMode
     }
-
-    /**
-     * Maybe not 100% reliable, but allows in most of the cases to differentiate between real
-     * "window" mode and split view.
-     */
-    private val isNotInSplitView: Boolean get() = activity.currentWindowBounds.left > 0
 
     private fun replaceFragment(multiWindow: Boolean, wasInMultiWindowMode: Boolean) {
         fragmentContainer.isVisible = multiWindow
