@@ -3,6 +3,7 @@ package com.github.redborsch.browserpicker.customizer
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
+import com.github.redborsch.browserpicker.customizer.model.CustomizerData
 import com.github.redborsch.browserpicker.databinding.ItemCustomizerEntryBinding
 import com.github.redborsch.recyclerview.DragRecyclerViewAdapter
 
@@ -23,7 +24,7 @@ class CustomizerAdapter(
         holder: CustomizerViewHolder,
         position: Int
     ) {
-        holder.bind(items[position], lifecycleOwner)
+        holder.bind(data!![position], lifecycleOwner)
     }
 
     override fun onViewRecycled(holder: CustomizerViewHolder) {

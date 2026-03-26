@@ -7,6 +7,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.github.redborsch.browserpicker.R
+import com.github.redborsch.browserpicker.customizer.model.CustomizerItem
 import com.github.redborsch.browserpicker.databinding.ItemCustomizerEntryBinding
 import com.github.redborsch.browserpicker.shared.ui.BrowserEntryViewHolder
 import com.github.redborsch.recyclerview.DragController
@@ -22,7 +23,7 @@ class CustomizerViewHolder(
 
     private val wrappedViewHolder = BrowserEntryViewHolder(binding.browserEntry, null)
 
-    private var data: CustomizerData? = null
+    private var item: CustomizerItem? = null
 
     init {
         binding.setUp()
@@ -34,14 +35,14 @@ class CustomizerViewHolder(
         binding.cardView.setOnKeyListener(DragKeyListener(this, dragController))
     }
 
-    fun bind(data: CustomizerData, lifecycleOwner: LifecycleOwner) {
-        this.data = data
-        wrappedViewHolder.bind(data.browserData, lifecycleOwner)
-        bindVisibility(data)
+    fun bind(item: CustomizerItem, lifecycleOwner: LifecycleOwner) {
+        this.item = item
+        wrappedViewHolder.bind(item.browserData, lifecycleOwner)
+        bindVisibility(item)
     }
 
     fun recycle() {
-        data = null
+        item = null
         wrappedViewHolder.recycle()
     }
 
@@ -52,11 +53,11 @@ class CustomizerViewHolder(
         }
     }
 
-    private fun bindVisibility(data: CustomizerData) {
+    private fun bindVisibility(item: CustomizerItem) {
         @DrawableRes val drawableResId: Int
         @StringRes val contentDescriptionResId: Int
         val alpha: Float
-        if (data.isVisible) {
+        if (item.isVisible) {
             drawableResId = R.drawable.outline_visibility_24
             contentDescriptionResId = R.string.customizer_entry_hide
             alpha = 1.0f
@@ -73,12 +74,12 @@ class CustomizerViewHolder(
         }
         with(binding.browserEntry) {
             browserIcon.alpha = alpha
-            browserName.isEnabled = data.isVisible
+            browserName.isEnabled = item.isVisible
         }
     }
 
     private fun toggleVisibility() {
-        val data = data ?: return
+        val data = item ?: return
         data.toggleVisibility()
         bindVisibility(data)
     }

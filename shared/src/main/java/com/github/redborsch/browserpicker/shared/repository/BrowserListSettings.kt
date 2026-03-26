@@ -1,5 +1,7 @@
 package com.github.redborsch.browserpicker.shared.repository
 
+import android.content.Intent
+import android.os.Bundle
 import com.github.redborsch.browserpicker.shared.model.BrowserData
 
 interface BrowserListSettings {
@@ -41,6 +43,29 @@ interface BrowserListSettings {
                 .build()
         }
     }
+}
+
+private fun BrowserListSettings.serializeForBundle() = serialize().toTypedArray()
+
+private inline fun deserializeFromBundle(retrieveRaw: () -> Array<String>?): BrowserListSettings =
+    BrowserListSettings.deserialize(
+        retrieveRaw()?.toSet() ?: emptySet()
+    )
+
+fun Bundle.putBrowserListSettings(key: String, value: BrowserListSettings) {
+    putStringArray(key, value.serializeForBundle())
+}
+
+fun Intent.putExtra(key: String, value: BrowserListSettings) {
+    putExtra(key, value.serializeForBundle())
+}
+
+fun Bundle.getBrowserListSettings(key: String): BrowserListSettings = deserializeFromBundle {
+    getStringArray(key)
+}
+
+fun Intent.getBrowserListSettingsExtra(key: String): BrowserListSettings = deserializeFromBundle {
+    getStringArrayExtra(key)
 }
 
 private class BrowserListSettingsImpl(

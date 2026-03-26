@@ -12,6 +12,8 @@ import com.github.redborsch.browserpicker.R
 import com.github.redborsch.browserpicker.common.makeCopyWithoutComponent
 import com.github.redborsch.browserpicker.common.toSystemChooser
 import com.github.redborsch.browserpicker.shared.repository.BrowserListSettings
+import com.github.redborsch.browserpicker.shared.repository.getBrowserListSettingsExtra
+import com.github.redborsch.browserpicker.shared.repository.putExtra
 import com.github.redborsch.insets.enableEdgeToEdge
 import com.github.redborsch.log.dumpForLog
 import com.github.redborsch.log.getLogger
@@ -83,10 +85,8 @@ abstract class AbstractChooserActivity : AppCompatActivity {
         if (intent.hasExtra(EXTRA_CUSTOM_SETTINGS)) {
             log.v { "Consuming custom settings" }
 
-            viewModel.customBrowserListSettings = BrowserListSettings.deserialize(
-                intent.getStringArrayExtra(EXTRA_CUSTOM_SETTINGS)
-                    ?.toSet() ?: emptySet()
-            )
+            viewModel.customBrowserListSettings =
+                intent.getBrowserListSettingsExtra(EXTRA_CUSTOM_SETTINGS)
 
             Intent(intent).apply {
                 removeExtra(EXTRA_CUSTOM_SETTINGS)
@@ -112,7 +112,7 @@ abstract class AbstractChooserActivity : AppCompatActivity {
             intent: Intent,
             customSettings: BrowserListSettings,
         ) {
-            intent.putExtra(EXTRA_CUSTOM_SETTINGS, customSettings.serialize().toTypedArray())
+            intent.putExtra(EXTRA_CUSTOM_SETTINGS, customSettings)
         }
 
         fun <T : AbstractChooserActivity> createIntent(context: Context, activityClass: Class<T>, originalIntent: Intent) = Intent(context, activityClass).apply {

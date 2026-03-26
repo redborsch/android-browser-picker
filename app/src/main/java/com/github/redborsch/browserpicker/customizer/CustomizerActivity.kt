@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.redborsch.binding.setContentView
 import com.github.redborsch.browserpicker.R
 import com.github.redborsch.browserpicker.common.tryChooser
+import com.github.redborsch.browserpicker.customizer.model.CustomizerViewModel
 import com.github.redborsch.browserpicker.databinding.ActivityCustomizerBinding
 import com.github.redborsch.insets.InsetLocation
 import com.github.redborsch.insets.applyDefaults
@@ -58,7 +59,7 @@ class CustomizerActivity : AppCompatActivity() {
         }
 
         fabTryIt.setOnClickListener {
-            tryChooser(customSettings = listHelper.collectSettings())
+            tryChooser(customSettings = viewModel.currentData?.toBrowserListSettings())
         }
 
         fabTryIt.applyInsetsAsMargins(
@@ -72,7 +73,7 @@ class CustomizerActivity : AppCompatActivity() {
     }
 
     private fun confirmCustomizations() {
-        viewModel.saveSettings(listHelper.collectSettings())
+        viewModel.saveSettings()
         finish()
     }
 }
