@@ -19,7 +19,6 @@ class BottomSheetChooserActivity : AbstractChooserActivity() {
                 supportFragmentManager.showDialog(defaultFragmentTag) {
                     BrowserChooserBottomSheetFragment()
                 }
-
             }
         }
     }

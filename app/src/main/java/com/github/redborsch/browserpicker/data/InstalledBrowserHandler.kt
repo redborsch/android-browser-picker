@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.github.redborsch.browserpicker.R
 import com.github.redborsch.browserpicker.chooser.BrowserIntentFactory
+import com.github.redborsch.browserpicker.common.Settings
 import com.github.redborsch.browserpicker.common.closeChooser
 import com.github.redborsch.browserpicker.shared.model.BrowserData
 import com.github.redborsch.browserpicker.shared.model.getNameWithTimeout
@@ -40,6 +41,11 @@ class InstalledBrowserHandler : BrowserDataHandler {
 
     private fun Fragment.launchAndClose(intent: Intent, browserData: BrowserData) {
         val activity = activity ?: return
+
+        if (!Settings.getInstance(activity).keepInRecents) {
+            // This task will be removed, so we need to make sure we start a new one
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
 
         if (!activity.isInMultiWindowMode) {
             activity.disablePendingTransitions()
