@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.viewbinding.ViewBinding
 import com.github.redborsch.binding.ViewBindingInflate
 import com.github.redborsch.insets.applyEdgeToEdgePatches
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.github.redborsch.insets.getDefaultProtectionLayoutProtections
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -20,9 +20,7 @@ abstract class BottomSheetDialogFragment<VB : ViewBinding>(
             setContentView(binding.root)
             applyEdgeToEdgePatches(window!!)
             setProtections(
-                mutableListOf(
-                    BottomSheetBehavior.getDefaultBottomGradientProtection(context)
-                )
+                getDefaultProtectionLayoutProtections(context)
             )
             binding.setUp(this)
         }

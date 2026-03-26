@@ -15,7 +15,7 @@ class BrowserListRepositoryFactory(
     val data: BrowserPickerRepository = BrowserPickerRepository(),
 ) {
 
-    private val ownPackageFilter = InstalledBrowserRepository.filterOutPackage(
+    private val ownPackageFilter get() = InstalledBrowserRepository.filterOutPackage(
         Globals.ownPackageName
     )
 

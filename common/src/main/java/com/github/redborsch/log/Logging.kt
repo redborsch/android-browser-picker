@@ -38,40 +38,57 @@ inline fun <reified T> createLogger(): Logger = getLogger {
 }
 
 @PublishedApi
-internal fun getLogger(lazyTag: () -> String): Logger {
-    return if (BuildConfig.DEBUG) {
-        Logger(lazyTag())
+internal inline val LOGGING_ENABLED get() = BuildConfig.DEBUG
+
+@PublishedApi
+internal inline fun getLogger(lazyTag: () -> String): Logger {
+    val tag = if (LOGGING_ENABLED) {
+        lazyTag()
     } else {
-        // Logging disabled
-        Logger(null)
+        // Don't bother evaluating the tag if the logging is disabled.
+        null
     }
+    return Logger(tag)
 }
 
 @JvmInline
 value class Logger(
-    private val tag: String?
+    @PublishedApi
+    internal val tag: String?
 ) {
-    fun d(exception: Throwable? = null, lazyMessage: () -> Any) {
-        if (tag != null) {
-            Log.d(tag, lazyMessage().toString(), exception)
-        }
+
+    inline fun d(exception: Throwable? = null, lazyMessage: () -> Any) {
+        log(exception, lazyMessage, Log::d)
     }
 
-    fun v(exception: Throwable? = null, lazyMessage: () -> Any) {
-        if (tag != null) {
-            Log.v(tag, lazyMessage().toString(), exception)
-        }
+    inline fun i(exception: Throwable? = null, lazyMessage: () -> Any) {
+        log(exception, lazyMessage, Log::i)
     }
 
-    fun w(exception: Throwable? = null, lazyMessage: () -> Any) {
-        if (tag != null) {
-            Log.w(tag, lazyMessage().toString(), exception)
-        }
+    inline fun v(exception: Throwable? = null, lazyMessage: () -> Any) {
+        log(exception, lazyMessage, Log::v)
     }
 
-    fun e(exception: Throwable? = null, lazyMessage: () -> Any) {
-        if (tag != null) {
-            Log.e(tag, lazyMessage().toString(), exception)
+    inline fun w(exception: Throwable? = null, lazyMessage: () -> Any) {
+        log(exception, lazyMessage, Log::w)
+    }
+
+    inline fun e(exception: Throwable? = null, lazyMessage: () -> Any) {
+        log(exception, lazyMessage, Log::e)
+    }
+
+    inline fun wtf(exception: Throwable? = null, lazyMessage: () -> Any) {
+        log(exception, lazyMessage, Log::wtf)
+    }
+
+    @PublishedApi
+    internal inline fun log(
+        exception: Throwable? = null,
+        lazyMessage: () -> Any,
+        block: (tag: String?, message: String, exception: Throwable?) -> Unit,
+    ) {
+        if (LOGGING_ENABLED) {
+            block(tag, lazyMessage().toString(), exception)
         }
     }
 }

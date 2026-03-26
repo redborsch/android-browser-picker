@@ -4,7 +4,7 @@ import androidx.fragment.app.activityViewModels
 import com.github.redborsch.binding.ViewBindingFragment
 import com.github.redborsch.browserpicker.databinding.FragmentBrowserChooserBinding
 import com.github.redborsch.insets.InsetLocation
-import com.github.redborsch.insets.applyInsetsAsMargins
+import com.github.redborsch.insets.applyDefaults
 import com.github.redborsch.insets.applyInsetsAsPaddings
 
 class BrowserChooserFragment : ViewBindingFragment<FragmentBrowserChooserBinding>(
@@ -13,8 +13,8 @@ class BrowserChooserFragment : ViewBindingFragment<FragmentBrowserChooserBinding
     private val viewModel: BrowserChooserViewModel by activityViewModels()
 
     override fun FragmentBrowserChooserBinding.setUp() {
-        toolbar.applyInsetsAsMargins(InsetLocation { LEFT + RIGHT + TOP })
-        scrolledContent.applyInsetsAsPaddings(InsetLocation { LEFT + RIGHT + BOTTOM })
+        browserList.applyInsetsAsPaddings(InsetLocation { LEFT + RIGHT + BOTTOM })
+        protectionLayout.applyDefaults()
 
         toolbar.setNavigationOnClickListener {
             activity?.finishAndRemoveTask()

@@ -3,8 +3,8 @@ package com.github.redborsch.browserpicker.data
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
-import com.github.redborsch.browserpicker.ChooserActivity
 import com.github.redborsch.browserpicker.R
+import com.github.redborsch.browserpicker.common.ActivityDismisser
 import com.github.redborsch.browserpicker.common.toSystemChooser
 
 class ShareActionHandler(id: String) : AbstractSingleActionHandler(
@@ -16,13 +16,14 @@ class ShareActionHandler(id: String) : AbstractSingleActionHandler(
 ) {
 
     override fun handle(fragment: Fragment, uri: Uri) {
-        val context = fragment.context ?: return
+        val activity = fragment.activity ?: return
+
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, uri.toString())
         }.toSystemChooser(
-            context,
-            callback = ChooserActivity.createAutoCloseIntent(context).intentSender,
+            activity,
+            callback = ActivityDismisser(activity).callback,
         )
         fragment.startActivity(intent)
     }

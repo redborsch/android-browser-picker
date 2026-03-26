@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BrowserPicker"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -23,21 +24,10 @@
         </activity>
         <activity
             android:name=".ChooserActivity"
+            android:excludeFromRecents="true"
             android:exported="true"
-            android:allowTaskReparenting="true"
-            android:taskAffinity="com.github.redborsch.browserpicker.BrowserChooser"
-            android:autoRemoveFromRecents="false"
-            android:documentLaunchMode="intoExisting"
-            android:excludeFromRecents="false"
-            android:launchMode="singleInstance"
-            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
-            android:resizeableActivity="true"
+            android:stateNotNeeded="true"
             android:theme="@style/Theme.BrowserPicker.Transparent">
-
-            <layout
-                android:defaultHeight="600dp"
-                android:defaultWidth="350dp"
-                android:gravity="center" />
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -56,7 +46,32 @@
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
+
+            <!-- We need to duplicate the layout specs, at least for now, as this activity is opened
+                 first and essentially dictates the window size in the desktop mode. -->
+            <layout
+                android:defaultWidth="350dp"
+                android:defaultHeight="600dp"
+                android:gravity="center" />
         </activity>
+        <activity
+            android:name=".chooser.MultiWindowChooserActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
+            android:excludeFromRecents="false"
+            android:resizeableActivity="true"
+            android:taskAffinity="com.github.redborsch.browserpicker.BrowserChooser">
+            <layout
+                android:defaultWidth="350dp"
+                android:defaultHeight="600dp"
+                android:gravity="center" />
+        </activity>
+        <activity
+            android:name=".chooser.BottomSheetChooserActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
+            android:excludeFromRecents="false"
+            android:resizeableActivity="true"
+            android:taskAffinity="com.github.redborsch.browserpicker.BrowserChooser"
+            android:theme="@style/Theme.BrowserPicker.Transparent" />
         <activity
             android:name=".customizer.CustomizerActivity"
             android:label="@string/activity_label_customizer" />
